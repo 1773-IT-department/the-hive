@@ -415,7 +415,7 @@ class Component extends DCLogic {
 
     const lines = document.querySelectorAll('[data-hero-line]'), loads = document.querySelectorAll('[data-load]');
     if (reduced) { lines.forEach((l) => { l.style.transform = 'none'; }); loads.forEach((l) => { l.style.opacity = '1'; l.style.transform = 'none'; }); }
-    else requestAnimationFrame(() => requestAnimationFrame(() => {
+    else (window.__hiveAfter || requestAnimationFrame)(() => requestAnimationFrame(() => {
       lines.forEach((l, i) => { l.style.transition = `transform 1.1s ${ease} ${0.15 + i * 0.12}s`; l.style.transform = 'translateY(0)'; });
       loads.forEach((l) => { const n = parseInt(l.dataset.load, 10); l.style.transition = `opacity .8s ${ease} ${0.5 + n * 0.12}s,transform 1s ${ease} ${0.5 + n * 0.12}s`; l.style.opacity = '1'; l.style.transform = 'translateY(0)'; });
     }));

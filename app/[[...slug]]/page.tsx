@@ -6,6 +6,9 @@ import { PAGES } from '../pages';
 
 export const dynamicParams = false;
 
+// Kept inside the raw HTML block so React never hydrates (or re-creates) the preloader the script animates.
+const PRELOADER = '<div id="hive-pre" aria-hidden="true"></div><script src="/preloader.js"></script>';
+
 function find(slug?: string[]) {
   const key = (slug ?? []).join('/');
   return PAGES.find((p) => p.slug === key);
@@ -27,10 +30,7 @@ export default function Page({ params }: { params: { slug?: string[] } }) {
   const html = fs.readFileSync(path.join(process.cwd(), 'content', page.file + '.html'), 'utf8');
   return (
     <>
-      <div id="dc-boot" aria-hidden="true">
-        <img src="https://images.squarespace-cdn.com/content/v1/688633ab5eb7735480a9622d/6c140487-9cba-4324-9f2c-23180ca56305/The+Hive_Primary+Identity_Reverse.png?format=750w" alt="" />
-      </div>
-      <div id="dc-mount" dangerouslySetInnerHTML={{ __html: html }} />
+      <div id="dc-mount" dangerouslySetInnerHTML={{ __html: PRELOADER + html }} />
     </>
   );
 }

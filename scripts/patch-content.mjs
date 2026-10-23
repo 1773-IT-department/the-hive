@@ -69,3 +69,49 @@ patch('content/manager-dashboard.html', [
   ],
 ]);
 console.log('patched manager-dashboard');
+
+// Hero load-in waits for the global preloader (public/preloader.js) so the animation is seen, on every page.
+for (const f of fs.readdirSync('content')) {
+  if (!f.endsWith('.html')) continue;
+  const file = 'content/' + f;
+  let s = fs.readFileSync(file, 'utf8');
+  const from = 'else requestAnimationFrame(() => requestAnimationFrame(() => {';
+  if (s.includes(from)) {
+    s = s.split(from).join('else (window.__hiveAfter || requestAnimationFrame)(() => requestAnimationFrame(() => {');
+    fs.writeFileSync(file, s);
+    console.log('hero load-in waits for preloader:', f);
+  }
+}
+
+// Home: the preloader replaces the once-per-session intro; hero videos use direct Pexels files and autoplay at once.
+const VIDEO_FILES = {
+  '8685430': '8685430-sd_640_360_25fps.mp4',
+  '8731297': '8731297-sd_360_640_25fps.mp4',
+  '9365167': '9365167-sd_640_360_25fps.mp4',
+  '9365386': '9365386-sd_640_360_25fps.mp4',
+  '9365445': '9365445-sd_640_360_25fps.mp4',
+  '9365450': '9365450-sd_640_360_25fps.mp4',
+  '9365653': '9365653-sd_640_360_25fps.mp4',
+  '9464643': '9464643-sd_960_506_30fps.mp4',
+  '9464653': '9464653-sd_960_506_30fps.mp4',
+  '9464877': '9464877-sd_506_960_30fps.mp4',
+};
+{
+  const file = 'content/home.html';
+  let s = fs.readFileSync(file, 'utf8');
+  let n = 0;
+  s = s.replace(/<video data-src="https:\/\/www\.pexels\.com\/download\/video\/(\d+)\/\?[wh]=\d+"([^>]*?) preload="none"/g, (m, id, rest) => {
+    const fileName = VIDEO_FILES[id];
+    if (!fileName) throw new Error('No direct file for video ' + id);
+    n++;
+    const url = `https://videos.pexels.com/video-files/${id}/${fileName}`;
+    return `<video src="${url}" data-src="${url}" autoplay${rest} preload="auto"`;
+  });
+  if (n === 0 && !s.includes('videos.pexels.com/video-files')) throw new Error('Home videos not found');
+  const loader = 'next(); next(); // two in flight';
+  if (s.includes(loader)) s = s.replace(loader, "vids.forEach((v) => { v.muted = true; v.defaultMuted = true; v.setAttribute('muted', ''); v.playsInline = true; const p = () => v.play().catch(() => {}); if (v.readyState >= 2) p(); else v.addEventListener('canplay', p, { once: true }); p(); });");
+  const intro = "if (reduced || seen || this.props.showIntro === false) heroIn(); else this.intro(heroIn);";
+  if (s.includes(intro)) s = s.replace(intro, 'if (window.__hiveAfter) window.__hiveAfter(heroIn); else heroIn();');
+  fs.writeFileSync(file, s);
+  console.log('home videos switched:', n);
+}
