@@ -1,0 +1,465 @@
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@500;700&family=Pontano+Sans:wght@400;700&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;padding:0;background:#F5F5F5;color:#2B2D42;font-family:'Pontano Sans',sans-serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+a{color:#2B2D42;text-decoration:none}a:hover{color:#9B6A6C}
+button{font:inherit}
+:focus-visible{outline:3px solid #D49516;outline-offset:3px;border-radius:4px}
+input::placeholder{color:#8A8C9C}
+[data-drag]::-webkit-scrollbar{display:none}
+@keyframes hive-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+@media (max-width:900px){[data-desk-only]{display:none!important}[data-honey]{--hw:min(240px,calc(100vw - 72px))!important;container-type:normal!important}[data-honey-row]{flex-direction:column!important;align-items:center!important;transform:none!important;margin-top:var(--hg)!important}[data-panels]{flex-direction:column!important;height:auto!important}[data-panel]{flex:none!important;min-height:340px}[data-panel-img],[data-panel-detail]{opacity:1!important;transform:none!important}[data-sticky-bar]~*{padding-bottom:0}main{padding-bottom:0}}
+@media (min-width:901px){[data-mob-only]{display:none!important}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.001s!important;transition-duration:.001s!important}}
+</style>
+</helmet>
+
+<div ref="{{ progressRef }}" data-progress="true" style="position:fixed;top:0;left:0;height:3px;width:0;background:#D49516;z-index:1000;pointer-events:none"></div>
+<div ref="{{ wipeRef }}" data-wipe="true" style="position:fixed;inset:0;background:#D49516;z-index:900;transform:translateX(-101%);display:flex;align-items:center;justify-content:center;pointer-events:none">
+  <img src="https://images.squarespace-cdn.com/content/v1/688633ab5eb7735480a9622d/6c140487-9cba-4324-9f2c-23180ca56305/The+Hive_Primary+Identity_Reverse.png?format=1500w" alt="" aria-hidden="true" style="height:72px;width:auto;max-width:70vw;animation:hive-pulse 1.4s ease-in-out infinite">
+</div>
+
+<!-- HEADER -->
+<header ref="{{ headerRef }}" style="position:fixed;top:0;left:0;right:0;z-index:800;transition:transform .45s cubic-bezier(.2,.7,.2,1)" onMouseLeave="{{ closeMega }}">
+  <div ref="{{ headerBarRef }}" style="background:rgba(43,45,66,.78);backdrop-filter:blur(18px) saturate(1.3);-webkit-backdrop-filter:blur(18px) saturate(1.3);border-bottom:1px solid rgba(255,255,255,.08);transition:padding .35s ease">
+    <div style="max-width:1320px;margin:0 auto;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;gap:24px;transition:padding .35s ease" ref="{{ headerInnerRef }}">
+      <a href="/" data-nav="true" aria-label="The Hive home" style="display:flex;align-items:center">
+        <img ref="{{ logoRef }}" src="https://images.squarespace-cdn.com/content/v1/688633ab5eb7735480a9622d/6c140487-9cba-4324-9f2c-23180ca56305/The+Hive_Primary+Identity_Reverse.png?format=1500w" alt="The Hive" style="height:42px;width:auto;transition:height .35s ease;display:block">
+      </a>
+      <nav data-desk-only="true" aria-label="Primary" style="display:flex;align-items:center;gap:6px">
+        <button type="button" onClick="{{ toggleMega }}" onMouseEnter="{{ openMega }}" aria-expanded="{{ megaOpen }}" style="background:transparent;border:0;color:#F5F5F5;padding:10px 14px;border-radius:10px;font-size:16px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:background .2s" style-hover="background:rgba(255,255,255,.1)">Workspaces <span style="display:inline-block;width:7px;height:7px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-2px)"></span></button>
+        <a href="/plans" data-nav="true" onMouseEnter="{{ closeMega }}" style="color:#F5F5F5;padding:10px 14px;border-radius:10px;font-size:16px;transition:background .2s" style-hover="background:rgba(255,255,255,.1);color:#F5F5F5">Plans</a>
+        <a href="/events" data-nav="true" style="color:#F5F5F5;padding:10px 14px;border-radius:10px;font-size:16px;transition:background .2s" style-hover="background:rgba(255,255,255,.1);color:#F5F5F5">Events</a>
+        <a href="/gallery" data-nav="true" style="color:#F5F5F5;padding:10px 14px;border-radius:10px;font-size:16px;transition:background .2s" style-hover="background:rgba(255,255,255,.1);color:#F5F5F5">Gallery</a>
+        <a href="/about" data-nav="true" style="color:#F5F5F5;padding:10px 14px;border-radius:10px;font-size:16px;transition:background .2s" style-hover="background:rgba(255,255,255,.1);color:#F5F5F5">About</a>
+        <a href="/contact" data-nav="true" style="color:#F5F5F5;padding:10px 14px;border-radius:10px;font-size:16px;transition:background .2s" style-hover="background:rgba(255,255,255,.1);color:#F5F5F5">Contact</a>
+      </nav>
+      <div style="display:flex;align-items:center;gap:18px">
+        <a data-desk-only="true" href="/member-portal" data-nav="true" style="color:#F5F5F5;font-size:16px;border-bottom:1px solid transparent;transition:border-color .2s" style-hover="color:#F5F5F5;border-color:#D49516">Member login</a>
+        <a data-desk-only="true" href="/book" data-nav="true" style="background:#9B6A6C;color:#FFFFFF;padding:12px 22px;border-radius:12px;font-weight:700;font-size:16px;display:inline-block;transition:background .2s" style-hover="background:#7E5456;color:#FFFFFF">Reserve a spot</a>
+        <button data-mob-only="true" type="button" onClick="{{ openMobile }}" aria-label="Open menu" style="background:transparent;border:0;color:#F5F5F5;width:44px;height:44px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;cursor:pointer;border-radius:10px">
+          <span style="display:block;width:24px;height:2px;background:currentColor"></span><span style="display:block;width:24px;height:2px;background:currentColor"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div aria-hidden="{{ megaClosed }}" style="position:absolute;left:0;right:0;top:100%;padding:14px 28px 0;opacity:{{ megaOp }};transform:translateY({{ megaY }}px);pointer-events:{{ megaPe }};transition:opacity .35s ease,transform .45s cubic-bezier(.2,.7,.2,1)">
+    <div style="max-width:1320px;margin:0 auto;background:#FFFFFF;border-radius:16px;box-shadow:0 2px 6px rgba(43,45,66,.06),0 24px 60px rgba(43,45,66,.18);padding:24px;display:grid;grid-template-columns:minmax(0,3fr) minmax(220px,1fr);gap:24px">
+      <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px">
+        <a href="/coworking-desks" data-nav="true" style="display:block;border-radius:12px;overflow:hidden;background:#F5F5F5;color:#2B2D42;transition:transform .3s ease,box-shadow .3s ease" style-hover="transform:translateY(-4px);box-shadow:0 12px 30px rgba(43,45,66,.14);color:#2B2D42"><img src="https://img.magnific.com/free-photo/group-afro-americans-working-together_1303-8970.jpg?w=1400&q=80" alt="" style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block"><div style="padding:14px 16px 16px"><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:17px;letter-spacing:-.02em">Coworking Desks</div><div style="font-size:14px;color:#5A5C72;margin:4px 0 8px">Open desks, fast internet, steady power.</div><div style="font-size:13px;font-weight:700;color:#9B6A6C">From GHS 180/day</div></div></a>
+        <a href="/private-pods" data-nav="true" style="display:block;border-radius:12px;overflow:hidden;background:#F5F5F5;color:#2B2D42;transition:transform .3s ease,box-shadow .3s ease" style-hover="transform:translateY(-4px);box-shadow:0 12px 30px rgba(43,45,66,.14);color:#2B2D42"><img src="https://img.magnific.com/free-photo/african-american-businessman-having-remote-conversation-with-team-discussing-marketing-strategy-online-videocall-meeting-diverse-coworkers-working-company-growth-report-office_482257-66320.jpg?w=1400&q=80" alt="" style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block"><div style="padding:14px 16px 16px"><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:17px;letter-spacing:-.02em">Private Pods</div><div style="font-size:14px;color:#5A5C72;margin:4px 0 8px">Quiet pods for calls and deep focus.</div><div style="font-size:13px;font-weight:700;color:#9B6A6C">From GHS 60/hr</div></div></a>
+        <a href="/meeting-rooms" data-nav="true" style="display:block;border-radius:12px;overflow:hidden;background:#F5F5F5;color:#2B2D42;transition:transform .3s ease,box-shadow .3s ease" style-hover="transform:translateY(-4px);box-shadow:0 12px 30px rgba(43,45,66,.14);color:#2B2D42"><img src="https://img.magnific.com/free-photo/african-american-team-collaborates-financial-project-business-space_482257-119790.jpg?w=1400&q=80" alt="" style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block"><div style="padding:14px 16px 16px"><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:17px;letter-spacing:-.02em">Meeting Rooms</div><div style="font-size:14px;color:#5A5C72;margin:4px 0 8px">Air-conditioned rooms for your team.</div><div style="font-size:13px;font-weight:700;color:#9B6A6C">From GHS 250/hr</div></div></a>
+        <a href="/private-offices" data-nav="true" style="display:block;border-radius:12px;overflow:hidden;background:#F5F5F5;color:#2B2D42;transition:transform .3s ease,box-shadow .3s ease" style-hover="transform:translateY(-4px);box-shadow:0 12px 30px rgba(43,45,66,.14);color:#2B2D42"><img src="https://img.magnific.com/free-photo/black-corporate-team-collaborate-global-investment-strategy_482257-119871.jpg?w=1400&q=80" alt="" style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block"><div style="padding:14px 16px 16px"><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:17px;letter-spacing:-.02em">Private Offices</div><div style="font-size:14px;color:#5A5C72;margin:4px 0 8px">Lockable offices for growing teams.</div><div style="font-size:13px;font-weight:700;color:#9B6A6C">From GHS 6,500/month</div></div></a>
+      </div>
+      <div style="position:relative;border-radius:12px;overflow:hidden;background:#2B2D42;color:#F5F5F5;display:flex;flex-direction:column;min-height:300px">
+        <a href="/gallery" data-nav="true" style="position:relative;flex:1;display:flex;flex-direction:column;justify-content:space-between;padding:16px;min-height:210px;color:#F5F5F5;overflow:hidden;background-image:linear-gradient(180deg,rgba(43,45,66,.05) 0%,rgba(43,45,66,.35) 45%,rgba(43,45,66,.92) 100%),url('/assets/photos/chesterfield-lounge.webp');background-size:100% 100%,cover;background-position:center,center;transition:background-size .6s ease" style-hover="color:#F5F5F5;background-size:100% 100%,112%">
+          <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px">
+            <span style="display:inline-flex;align-items:center;gap:8px;white-space:nowrap;padding:6px 11px;border-radius:999px;background:rgba(43,45,66,.62);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#F5F5F5"><span style="flex:none;width:7px;height:7px;border-radius:50%;background:#D49516"></span>See it for yourself</span>
+            <span style="padding:6px 10px;border-radius:999px;border:1px solid rgba(245,245,245,.55);font-size:12px;font-weight:700;letter-spacing:.04em">360°</span>
+          </div>
+          <div style="display:flex;align-items:flex-end;gap:14px">
+            <span aria-hidden="true" style="flex:none;width:48px;height:48px;border-radius:50%;background:#D49516;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 6px rgba(212,149,22,.25)"><span style="width:0;height:0;border-top:8px solid transparent;border-bottom:8px solid transparent;border-left:13px solid #2B2D42;margin-left:3px"></span></span>
+            <span style="display:flex;flex-direction:column;gap:3px"><span style="font-family:Epilogue,sans-serif;font-weight:700;font-size:21px;line-height:1.1;letter-spacing:-.02em">Take the virtual tour</span><span style="font-size:13px;color:#DADAE0">Walk the whole floor in 2 minutes</span></span>
+          </div>
+        </a>
+        <div style="padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px">
+          <a href="/contact" data-nav="true" style="color:#F5F5F5;font-family:Epilogue,sans-serif;font-weight:500;font-size:17px;letter-spacing:-.02em;display:flex;justify-content:space-between;align-items:center;padding:4px 0" style-hover="color:#D49516">Book a free visit <span aria-hidden="true">→</span></a>
+          <div style="font-size:13px;color:#B9BAC6">Mon–Fri, 8am–5pm · Tse Addo, Accra</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- MOBILE MENU -->
+<div role="dialog" aria-modal="true" aria-hidden="{{ mobileClosed }}" style="position:fixed;inset:0;z-index:850;background:#D49516;color:#2B2D42;display:flex;flex-direction:column;padding:20px 28px 32px;opacity:{{ mobOp }};pointer-events:{{ mobPe }};transform:translateY({{ mobY }}px);transition:opacity .4s ease,transform .5s cubic-bezier(.2,.7,.2,1);overflow:auto">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <img src="https://images.squarespace-cdn.com/content/v1/688633ab5eb7735480a9622d/6c140487-9cba-4324-9f2c-23180ca56305/The+Hive_Primary+Identity_Reverse.png?format=1500w" alt="The Hive" style="height:40px">
+    <button type="button" onClick="{{ closeMobile }}" aria-label="Close menu" style="background:rgba(43,45,66,.12);border:0;color:#2B2D42;width:44px;height:44px;border-radius:50%;cursor:pointer;font-size:22px;line-height:1">×</button>
+  </div>
+  <nav aria-label="Mobile" style="display:flex;flex-direction:column;gap:4px;margin:40px 0 auto">
+    <a href="/workspaces" data-nav="true" style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(34px,8vw,48px);letter-spacing:-.02em;color:#2B2D42;padding:6px 0;opacity:{{ mobOp }};transform:translateY({{ mobLinkY }}px);transition:opacity .5s ease .05s,transform .6s cubic-bezier(.2,.7,.2,1) .05s">Workspaces</a>
+    <a href="/plans" data-nav="true" style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(34px,8vw,48px);letter-spacing:-.02em;color:#2B2D42;padding:6px 0;opacity:{{ mobOp }};transform:translateY({{ mobLinkY }}px);transition:opacity .5s ease .1s,transform .6s cubic-bezier(.2,.7,.2,1) .1s">Plans</a>
+    <a href="/events" data-nav="true" style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(34px,8vw,48px);letter-spacing:-.02em;color:#2B2D42;padding:6px 0;opacity:{{ mobOp }};transform:translateY({{ mobLinkY }}px);transition:opacity .5s ease .15s,transform .6s cubic-bezier(.2,.7,.2,1) .15s">Events</a>
+    <a href="/gallery" data-nav="true" style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(34px,8vw,48px);letter-spacing:-.02em;color:#2B2D42;padding:6px 0;opacity:{{ mobOp }};transform:translateY({{ mobLinkY }}px);transition:opacity .5s ease .2s,transform .6s cubic-bezier(.2,.7,.2,1) .2s">Gallery</a>
+    <a href="/about" data-nav="true" style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(34px,8vw,48px);letter-spacing:-.02em;color:#2B2D42;padding:6px 0;opacity:{{ mobOp }};transform:translateY({{ mobLinkY }}px);transition:opacity .5s ease .25s,transform .6s cubic-bezier(.2,.7,.2,1) .25s">About</a>
+    <a href="/contact" data-nav="true" style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(34px,8vw,48px);letter-spacing:-.02em;color:#2B2D42;padding:6px 0;opacity:{{ mobOp }};transform:translateY({{ mobLinkY }}px);transition:opacity .5s ease .3s,transform .6s cubic-bezier(.2,.7,.2,1) .3s">Contact</a>
+  </nav>
+  <div style="display:flex;flex-direction:column;gap:12px;margin-top:40px">
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <a href="/book" data-nav="true" style="background:#2B2D42;color:#FFFFFF;padding:14px 22px;border-radius:12px;font-weight:700;flex:1;text-align:center" style-hover="color:#FFFFFF;background:#1E2030">Reserve a spot</a>
+      <a href="/member-portal" data-nav="true" style="border:1.5px solid #2B2D42;color:#2B2D42;padding:14px 22px;border-radius:12px;font-weight:700;flex:1;text-align:center">Member login</a>
+    </div>
+    <div style="font-size:15px;line-height:1.7;border-top:1px solid rgba(43,45,66,.2);padding-top:16px">
+      ICGC Christ Temple East, Teshie Rasta Rd, Tse Addo, Accra<br>Mon–Fri, 8am–5pm<br>
+      <a href="tel:+233256071000" style="font-weight:700">+233 25 607 1000</a> · <a href="mailto:info@thehivegh.com" style="font-weight:700">info@thehivegh.com</a> · <a href="https://www.instagram.com/thehive.gh" target="_blank" rel="noreferrer" style="font-weight:700">@thehive.gh</a>
+    </div>
+  </div>
+</div>
+
+
+<main data-screen-label="Coworking Desks">
+
+  <!-- HERO -->
+  <section data-screen-label="Hero" style="position:relative;overflow:hidden;min-height:100vh;display:flex;align-items:flex-end;background:#2B2D42;color:#F5F5F5">
+    <img data-zoom="true" src="/assets/photos/open-floor.webp" alt="A member working on the open floor" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.04);transform-origin:50% 40%;will-change:transform">
+    <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(43,45,66,.96) 0%,rgba(43,45,66,.55) 45%,rgba(43,45,66,.15) 100%)"></div>
+    <div style="max-width:1320px;width:100%;margin:0 auto;padding:180px 28px 88px;position:relative">
+      <nav data-load="0" aria-label="Breadcrumb" style="display:flex;gap:10px;align-items:center;font-size:14px;font-weight:700;margin-bottom:28px;opacity:0;transform:translateY(16px);flex-wrap:wrap"><a href="/" data-nav="true" style="color:#F5F5F5;opacity:.7" style-hover="color:#F5F5F5;opacity:1">Home</a><span aria-hidden="true" style="opacity:.5">›</span><a href="/workspaces" data-nav="true" style="color:#F5F5F5;opacity:.7" style-hover="color:#F5F5F5;opacity:1">Workspaces</a><span aria-hidden="true" style="opacity:.5">›</span><span aria-current="page" style="color:#D49516">Coworking Desks</span></nav>
+      <h1 style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(48px,8vw,112px);line-height:.94;letter-spacing:-.03em;margin:0 0 28px;max-width:12ch;text-wrap:balance">
+        <span style="display:block;overflow:hidden;padding-bottom:.06em"><span data-hero-line="true" style="display:block;transform:translateY(110%)">Your desk,</span></span>
+        <span style="display:block;overflow:hidden;padding-bottom:.06em"><span data-hero-line="true" style="display:block;transform:translateY(110%)">your rhythm.</span></span>
+      </h1>
+      <div data-load="1" style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;opacity:0;transform:translateY(16px)">
+        <a href="/book?space=desk" data-nav="true" style="background:#D49516;color:#2B2D42;padding:15px 28px;border-radius:12px;font-weight:700;font-size:17px;display:inline-flex;align-items:center;gap:10px;transition:background .2s" style-hover="background:#E5B45A;color:#2B2D42">Reserve a spot <span aria-hidden="true">→</span></a>
+        <span style="font-weight:700;font-size:17px">From GHS 180/day</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTRO -->
+  <section data-screen-label="Intro" style="background:#F5F5F5">
+    <div style="max-width:1320px;margin:0 auto;padding:112px 28px 96px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:40px 72px;align-items:start">
+      <div><div data-reveal="rise" style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#9B6A6C;margin-bottom:20px">Coworking desks</div><h2 data-reveal="rise" style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(30px,3.4vw,48px);line-height:1.08;letter-spacing:-.02em;margin:0;text-wrap:pretty">Flexible open desks in a calm, air-conditioned room.</h2></div>
+      <div><p data-reveal="rise" style="font-size:19px;color:#5A5C72;margin:0 0 20px;max-width:52ch;line-height:1.6">Pick any free desk, plug in and start. Fast internet and steady power are the point, not a promise: when the lights go out in Tse Addo, ours stay on.</p><p data-reveal="rise" style="font-size:19px;color:#5A5C72;margin:0;max-width:52ch;line-height:1.6">Come for a single day, spread a flex pass across the month, or make The Hive your base every weekday.</p></div>
+    </div>
+  </section>
+
+  <!-- PASSES -->
+  <section data-screen-label="Passes" style="background:#FFFFFF">
+    <div style="max-width:1320px;margin:0 auto;padding:112px 28px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:48px">
+        <div><div data-reveal="rise" style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#9B6A6C;margin-bottom:14px">Pass options</div><h2 data-reveal="rise" style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(34px,4.2vw,56px);line-height:1.04;letter-spacing:-.02em;margin:0;max-width:18ch;text-wrap:balance">Pay for the days you work.</h2></div>
+        <p data-reveal="rise" style="margin:0;color:#5A5C72;max-width:36ch">Prices in Ghana cedis. Every pass includes internet, power, AC and coffee.</p>
+      </div>
+      <div data-reveal="stagger" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:20px;align-items:stretch">
+        <div data-reveal-item="true" data-tilt="true" style="background:#F5F5F5;border-radius:16px;padding:32px 28px;display:flex;flex-direction:column;gap:22px;transition:transform .4s ease">
+          <div><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:22px;letter-spacing:-.02em">Single Day Pass</div><div style="font-size:14px;color:#5A5C72;margin-top:4px">Try us for a day</div></div>
+          <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:44px;letter-spacing:-.03em;line-height:1"><span style="font-size:18px;letter-spacing:0;vertical-align:top;margin-right:4px">GHS</span>180</div>
+          <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;font-size:15px"><li style="display:flex;gap:12px;align-items:flex-start"><span style="flex:none;width:12px;height:14px;margin-top:6px;background:#D49516;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span>Any open desk, 8am to 5pm</li><li style="display:flex;gap:12px;align-items:flex-start"><span style="flex:none;width:12px;height:14px;margin-top:6px;background:#D49516;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span>Pay on the day, no account needed</li></ul>
+          <a href="/book?plan=day" data-nav="true" style="margin-top:auto;border:1.5px solid #2B2D42;color:#2B2D42;padding:13px 24px;border-radius:12px;font-weight:700;text-align:center;display:block;transition:background .2s,color .2s" style-hover="background:#2B2D42;color:#F5F5F5">Choose</a>
+        </div>
+        <div data-reveal-item="true" data-tilt="true" style="background:#F5F5F5;border-radius:16px;padding:32px 28px;display:flex;flex-direction:column;gap:22px;transition:transform .4s ease">
+          <div><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:22px;letter-spacing:-.02em">5-Day Flex Pass</div><div style="font-size:14px;color:#5A5C72;margin-top:4px">Any 5 days within 30</div></div>
+          <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:44px;letter-spacing:-.03em;line-height:1"><span style="font-size:18px;letter-spacing:0;vertical-align:top;margin-right:4px">GHS</span>700</div>
+          <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;font-size:15px"><li style="display:flex;gap:12px;align-items:flex-start"><span style="flex:none;width:12px;height:14px;margin-top:6px;background:#D49516;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span>Save GHS 200 against day passes</li><li style="display:flex;gap:12px;align-items:flex-start"><span style="flex:none;width:12px;height:14px;margin-top:6px;background:#D49516;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span>Come in on the days you choose</li></ul>
+          <a href="/book?plan=flex5" data-nav="true" style="margin-top:auto;border:1.5px solid #2B2D42;color:#2B2D42;padding:13px 24px;border-radius:12px;font-weight:700;text-align:center;display:block;transition:background .2s,color .2s" style-hover="background:#2B2D42;color:#F5F5F5">Choose</a>
+        </div>
+        <div data-reveal-item="true" data-tilt="true" style="background:#FFFFFF;border:1.5px solid #D49516;border-radius:16px;padding:32px 28px;display:flex;flex-direction:column;gap:22px;transition:transform .4s ease;position:relative;box-shadow:0 1px 2px rgba(43,45,66,.06),0 12px 32px rgba(43,45,66,.08)">
+          <div><div style="display:inline-block;background:#FBF1DC;color:#A8750F;font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;padding:6px 12px;border-radius:999px;margin-bottom:14px">Most flexible</div><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:22px;letter-spacing:-.02em">10-Day Flex Pass</div><div style="font-size:14px;color:#5A5C72;margin-top:4px">Any 10 days within 30</div></div>
+          <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:44px;letter-spacing:-.03em;line-height:1"><span style="font-size:18px;letter-spacing:0;vertical-align:top;margin-right:4px">GHS</span>1,350</div>
+          <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;font-size:15px"><li style="display:flex;gap:12px;align-items:flex-start"><span style="flex:none;width:12px;height:14px;margin-top:6px;background:#D49516;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span>Save GHS 450 against day passes</li><li style="display:flex;gap:12px;align-items:flex-start"><span style="flex:none;width:12px;height:14px;margin-top:6px;background:#D49516;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span>Member rates on meeting rooms</li></ul>
+          <a href="/book?plan=flex10" data-nav="true" style="margin-top:auto;background:#9B6A6C;color:#FFFFFF;padding:14px 24px;border-radius:12px;font-weight:700;text-align:center;display:block;transition:background .2s" style-hover="background:#7E5456;color:#FFFFFF">Choose</a>
+        </div>
+        <div data-reveal-item="true" data-tilt="true" style="background:#2B2D42;color:#F5F5F5;border-radius:16px;padding:32px 28px;display:flex;flex-direction:column;gap:22px;transition:transform .4s ease;position:relative">
+          <div><div style="display:inline-block;background:#D49516;color:#2B2D42;font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;padding:6px 12px;border-radius:999px;margin-bottom:14px">Best value</div><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:22px;letter-spacing:-.02em">All-Access Pass</div><div style="font-size:14px;color:#B9BAC6;margin-top:4px">Your desk, every weekday</div></div>
+          <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:44px;letter-spacing:-.03em;line-height:1"><span style="font-size:18px;letter-spacing:0;vertical-align:top;margin-right:4px">GHS</span>2,650<span style="font-size:16px;letter-spacing:0;color:#B9BAC6;font-weight:400;font-family:'Pontano Sans',sans-serif">/month</span></div>
+          <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px;font-size:15px"><li style="display:flex;gap:12px;align-items:flex-start"><span style="flex:none;width:12px;height:14px;margin-top:6px;background:#D49516;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span>Unlimited weekdays, 8am to 5pm</li><li style="display:flex;gap:12px;align-items:flex-start"><span style="flex:none;width:12px;height:14px;margin-top:6px;background:#D49516;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span>Priority booking for pods and rooms</li></ul>
+          <a href="/book?plan=all" data-nav="true" style="margin-top:auto;background:#D49516;color:#2B2D42;padding:14px 24px;border-radius:12px;font-weight:700;text-align:center;display:block;transition:background .2s" style-hover="background:#E5B45A;color:#2B2D42">Choose</a>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:center;margin-top:36px"><a href="/plans" data-nav="true" style="color:#2B2D42;font-weight:700;display:inline-flex;align-items:center;gap:10px;padding:12px 0;border-bottom:2px solid #D49516;transition:gap .2s,color .2s" style-hover="gap:16px;color:#9B6A6C">Compare all plans <span aria-hidden="true">→</span></a></div>
+    </div>
+  </section>
+
+  <!-- INCLUDED -->
+  <section data-screen-label="What's included" style="background:#2B2D42;color:#F5F5F5;position:relative;overflow:hidden">
+    <div style="position:absolute;inset:0;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 66L0 50L0 16L28 0L56 16L56 50Z' fill='none' stroke='%23F5F5F5' stroke-opacity='.1'/%3E%3Cpath d='M28 0L28 34L0 50L0 84L28 100L56 84L56 50L28 34' fill='none' stroke='%23F5F5F5' stroke-opacity='.1'/%3E%3C/svg%3E&quot;);mask-image:radial-gradient(ellipse at 0% 100%,rgba(0,0,0,1),rgba(0,0,0,0) 60%);-webkit-mask-image:radial-gradient(ellipse at 0% 100%,rgba(0,0,0,1),rgba(0,0,0,0) 60%)"></div>
+    <div style="max-width:1320px;margin:0 auto;padding:120px 28px;position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:64px 56px;align-items:center">
+      <div style="min-width:0">
+        <div data-reveal="rise" style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#D49516;margin-bottom:20px">What's included</div>
+        <h2 data-reveal="rise" style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(34px,4.2vw,56px);line-height:1.04;letter-spacing:-.02em;margin:0 0 24px;max-width:14ch;text-wrap:balance">Everything a good day needs.</h2>
+        <p data-reveal="rise" style="font-size:18px;color:#B9BAC6;max-width:42ch;margin:0 0 32px">Every pass, every desk. No add-ons, no surprise charges at the door.</p>
+        <a data-reveal="rise" href="/book?space=desk" data-nav="true" style="border:1.5px solid #F5F5F5;color:#F5F5F5;padding:13px 26px;border-radius:12px;font-weight:700;display:inline-flex;align-items:center;gap:10px;transition:background .2s,color .2s" style-hover="background:#F5F5F5;color:#2B2D42">Reserve a spot <span aria-hidden="true">→</span></a>
+      </div>
+      <div data-reveal="honey" data-honey="true" style="--hg:12px;--hw:min(212px,calc((100cqw - 2*var(--hg) - 8px)/3.5));container-type:inline-size;display:flex;flex-direction:column;align-items:center;justify-self:center;width:100%;min-width:0;max-width:700px;padding:4px;overflow:visible">
+        <div data-honey-row="true" style="display:flex;gap:var(--hg);justify-content:center;width:100%;transform:translateX(calc((var(--hw) + var(--hg)) / 4))"><div data-honey-item="true" data-float="0.06" style="width:var(--hw);aspect-ratio:1/1.12;flex:none;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);background:rgba(255,255,255,.07);color:#F5F5F5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:0 30px;line-height:1.3;cursor:default;will-change:transform;transition:background .35s,color .35s,clip-path 1.2s cubic-bezier(.2,.7,.2,1),opacity .8s ease" style-hover="background:#D49516;color:#2B2D42"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="3" rx="1"></rect><line x1="6" y1="9" x2="6" y2="19"></line><line x1="18" y1="9" x2="18" y2="19"></line><path d="M10 19v-4h4v4"></path></svg><div style="font-weight:700;font-size:16px">Desk and ergonomic chair</div><div style="font-size:13px;opacity:.78">Built for a full day</div></div><div data-honey-item="true" data-float="-0.06" style="width:var(--hw);aspect-ratio:1/1.12;flex:none;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);background:rgba(255,255,255,.07);color:#F5F5F5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:0 30px;line-height:1.3;cursor:default;will-change:transform;transition:background .35s,color .35s,clip-path 1.2s cubic-bezier(.2,.7,.2,1),opacity .8s ease" style-hover="background:#D49516;color:#2B2D42"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a16 16 0 0 1 20 0"></path><path d="M5.5 12.5a11 11 0 0 1 13 0"></path><path d="M9 16a5.5 5.5 0 0 1 6 0"></path><circle cx="12" cy="19.5" r="1"></circle></svg><div style="font-weight:700;font-size:16px">High-speed Wi-Fi</div><div style="font-size:13px;opacity:.78">Video calls and big uploads</div></div><div data-honey-item="true" data-float="0.06" style="width:var(--hw);aspect-ratio:1/1.12;flex:none;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);background:#D49516;color:#2B2D42;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:0 30px;line-height:1.3;cursor:default;will-change:transform;transition:background .35s,color .35s,clip-path 1.2s cubic-bezier(.2,.7,.2,1),opacity .8s ease" style-hover="background:#D49516;color:#2B2D42"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 5 14 12 14 11 22 19 10 12 10"></polygon></svg><div style="font-weight:700;font-size:16px">Steady power</div><div style="font-size:13px;opacity:.78">Backup before you notice</div></div></div>
+        <div data-honey-row="true" style="margin-top:calc(var(--hw)*-0.27);display:flex;gap:var(--hg);justify-content:center;width:100%;transform:translateX(calc((var(--hw) + var(--hg)) / -4))"><div data-honey-item="true" data-float="-0.06" style="width:var(--hw);aspect-ratio:1/1.12;flex:none;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);background:rgba(255,255,255,.07);color:#F5F5F5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:0 30px;line-height:1.3;cursor:default;will-change:transform;transition:background .35s,color .35s,clip-path 1.2s cubic-bezier(.2,.7,.2,1),opacity .8s ease" style-hover="background:#D49516;color:#2B2D42"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"></path><circle cx="12" cy="12" r="3"></circle></svg><div style="font-weight:700;font-size:16px">Air conditioning</div><div style="font-size:13px;opacity:.78">Cool and quiet, all day</div></div><div data-honey-item="true" data-float="0.06" style="width:var(--hw);aspect-ratio:1/1.12;flex:none;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);background:rgba(255,255,255,.07);color:#F5F5F5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:0 30px;line-height:1.3;cursor:default;will-change:transform;transition:background .35s,color .35s,clip-path 1.2s cubic-bezier(.2,.7,.2,1),opacity .8s ease" style-hover="background:#D49516;color:#2B2D42"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="9" width="12" height="10" rx="3"></rect><circle cx="17.5" cy="13" r="2.5"></circle><line x1="8" y1="3" x2="8" y2="6"></line><line x1="12" y1="3" x2="12" y2="6"></line></svg><div style="font-weight:700;font-size:16px">Free coffee</div><div style="font-size:13px;opacity:.78">Tea and water too</div></div><div data-honey-item="true" data-float="-0.06" style="width:var(--hw);aspect-ratio:1/1.12;flex:none;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);background:rgba(255,255,255,.07);color:#F5F5F5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:0 30px;line-height:1.3;cursor:default;will-change:transform;transition:background .35s,color .35s,clip-path 1.2s cubic-bezier(.2,.7,.2,1),opacity .8s ease" style-hover="background:#D49516;color:#2B2D42"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="3"></circle><circle cx="16" cy="8" r="3"></circle><path d="M2 20c0-3.3 2.7-6 6-6M22 20c0-3.3-2.7-6-6-6M8 14h8"></path></svg><div style="font-weight:700;font-size:16px">Community events</div><div style="font-size:13px;opacity:.78">Members come free</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- A DAY AT THE HIVE -->
+  <section data-screen-label="A day at The Hive" style="background:#F5F5F5">
+    <div style="max-width:1320px;margin:0 auto;padding:112px 28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,360px),1fr));gap:56px 80px;align-items:start">
+      <div style="position:sticky;top:120px">
+        <div data-reveal="rise" style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#9B6A6C;margin-bottom:14px">A day at The Hive</div>
+        <h2 data-reveal="rise" style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(34px,4.2vw,56px);line-height:1.04;letter-spacing:-.02em;margin:0 0 20px;text-wrap:balance">Scan in, settle down, get it done.</h2>
+        <p data-reveal="rise" style="font-size:18px;color:#5A5C72;max-width:40ch;margin:0">One illustrative day. Yours will look different, and that's the point of a flexible desk.</p>
+      </div>
+      <div data-timeline="true" style="position:relative;padding-left:44px">
+        <div style="position:absolute;left:11px;top:0;bottom:0;width:2px;background:#E6E6EA"></div>
+        <div data-tl-line="true" style="position:absolute;left:11px;top:0;bottom:0;width:2px;background:#D49516;transform:scaleY(0);transform-origin:top"></div>
+        <div style="display:flex;flex-direction:column;gap:40px">
+          <div data-tl-item="true" style="position:relative;opacity:.25;transform:translateX(14px);transition:opacity .5s ease,transform .6s cubic-bezier(.2,.7,.2,1)"><span data-tl-dot="true" style="position:absolute;left:-44px;top:4px;width:24px;height:28px;background:#E6E6EA;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);transition:background .4s,transform .4s"></span><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:14px;letter-spacing:.1em;color:#9B6A6C">8:00</div><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:24px;letter-spacing:-.02em;margin:4px 0 8px">Arrive and check in</div><p style="margin:0;color:#5A5C72;max-width:44ch">Scan your pass at the desk. Doreen points you to a free spot; coffee's already on.</p></div>
+          <div data-tl-item="true" style="position:relative;opacity:.25;transform:translateX(14px);transition:opacity .5s ease,transform .6s cubic-bezier(.2,.7,.2,1)"><span data-tl-dot="true" style="position:absolute;left:-44px;top:4px;width:24px;height:28px;background:#E6E6EA;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);transition:background .4s,transform .4s"></span><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:14px;letter-spacing:.1em;color:#9B6A6C">9:00</div><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:24px;letter-spacing:-.02em;margin:4px 0 8px">Deep work</div><p style="margin:0;color:#5A5C72;max-width:44ch">Headphones on. The room is quiet by habit, not by rule.</p></div>
+          <div data-tl-item="true" style="position:relative;opacity:.25;transform:translateX(14px);transition:opacity .5s ease,transform .6s cubic-bezier(.2,.7,.2,1)"><span data-tl-dot="true" style="position:absolute;left:-44px;top:4px;width:24px;height:28px;background:#E6E6EA;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);transition:background .4s,transform .4s"></span><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:14px;letter-spacing:.1em;color:#9B6A6C">12:30</div><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:24px;letter-spacing:-.02em;margin:4px 0 8px">Lunch break</div><p style="margin:0;color:#5A5C72;max-width:44ch">Eat in the lounge or step out to Teshie Rasta Road. Your desk stays yours.</p></div>
+          <div data-tl-item="true" style="position:relative;opacity:.25;transform:translateX(14px);transition:opacity .5s ease,transform .6s cubic-bezier(.2,.7,.2,1)"><span data-tl-dot="true" style="position:absolute;left:-44px;top:4px;width:24px;height:28px;background:#E6E6EA;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);transition:background .4s,transform .4s"></span><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:14px;letter-spacing:.1em;color:#9B6A6C">14:00</div><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:24px;letter-spacing:-.02em;margin:4px 0 8px">Meeting room, one hour</div><p style="margin:0;color:#5A5C72;max-width:44ch">Booked that morning from your phone. Screen, whiteboard, door that closes. <a href="/meeting-rooms" data-nav="true" style="font-weight:700;border-bottom:2px solid #D49516">Meeting rooms →</a></p></div>
+          <div data-tl-item="true" style="position:relative;opacity:.25;transform:translateX(14px);transition:opacity .5s ease,transform .6s cubic-bezier(.2,.7,.2,1)"><span data-tl-dot="true" style="position:absolute;left:-44px;top:4px;width:24px;height:28px;background:#E6E6EA;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);transition:background .4s,transform .4s"></span><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:14px;letter-spacing:.1em;color:#9B6A6C">17:00</div><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:24px;letter-spacing:-.02em;margin:4px 0 8px">Head home</div><p style="margin:0;color:#5A5C72;max-width:44ch">Pack up, say goodnight. Everything's exactly where you left it tomorrow.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY STRIP -->
+  <section data-screen-label="Gallery strip" style="background:#FFFFFF;overflow:hidden">
+    <div style="max-width:1320px;margin:0 auto;padding:112px 28px 0;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:36px">
+      <div><div data-reveal="rise" style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#9B6A6C;margin-bottom:14px">The floor</div><h2 data-reveal="rise" style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(34px,4.2vw,56px);line-height:1.04;letter-spacing:-.02em;margin:0">A look around the floor.</h2></div>
+      <a data-reveal="rise" href="/gallery" data-nav="true" style="color:#2B2D42;font-weight:700;display:inline-flex;align-items:center;gap:10px;padding:12px 0;border-bottom:2px solid #D49516;transition:gap .2s,color .2s" style-hover="gap:16px;color:#9B6A6C">Full gallery <span aria-hidden="true">→</span></a>
+    </div>
+    <div data-gallery="true" style="overflow:hidden;padding:0 0 112px;mask-image:linear-gradient(to right,transparent,#000 6%,#000 94%,transparent);-webkit-mask-image:linear-gradient(to right,transparent,#000 6%,#000 94%,transparent)">
+      <div data-gallery-track="true" style="display:flex;gap:16px;width:max-content;will-change:transform"><img src="https://img.magnific.com/free-photo/group-afro-americans-working-together_1303-8970.jpg?w=1200&q=80" alt="Members working at the open desks" draggable="false" style="flex:none;height:min(420px,56vw);width:auto;border-radius:16px;object-fit:cover;pointer-events:none"><img src="https://img.magnific.com/free-photo/couple-black-guys-work-modern-office_641386-717.jpg?w=1200&q=80" alt="Two members comparing notes" draggable="false" style="flex:none;height:min(420px,56vw);width:auto;border-radius:16px;object-fit:cover;pointer-events:none"><img src="https://img.magnific.com/free-photo/happy-afro-american-businessman-sitting-his-desk-typing_171337-7278.jpg?w=1200&q=80" alt="A member at his desk" draggable="false" style="flex:none;height:min(420px,56vw);width:auto;border-radius:16px;object-fit:cover;pointer-events:none"><img src="https://img.magnific.com/free-photo/african-american-team-collaborates-financial-project-business-space_482257-119790.jpg?w=1200&q=80" alt="A team working together" draggable="false" style="flex:none;height:min(420px,56vw);width:auto;border-radius:16px;object-fit:cover;pointer-events:none"><img src="https://img.magnific.com/free-photo/black-corporate-team-collaborate-global-investment-strategy_482257-119871.jpg?w=1200&q=80" alt="Members in discussion" draggable="false" style="flex:none;height:min(420px,56vw);width:auto;border-radius:16px;object-fit:cover;pointer-events:none"><img src="https://img.magnific.com/free-photo/group-afro-americans-working-together_1303-8970.jpg?w=1200&q=80" alt="" aria-hidden="true" draggable="false" style="flex:none;height:min(420px,56vw);width:auto;border-radius:16px;object-fit:cover;pointer-events:none"><img src="https://img.magnific.com/free-photo/couple-black-guys-work-modern-office_641386-717.jpg?w=1200&q=80" alt="" aria-hidden="true" draggable="false" style="flex:none;height:min(420px,56vw);width:auto;border-radius:16px;object-fit:cover;pointer-events:none"><img src="https://img.magnific.com/free-photo/happy-afro-american-businessman-sitting-his-desk-typing_171337-7278.jpg?w=1200&q=80" alt="" aria-hidden="true" draggable="false" style="flex:none;height:min(420px,56vw);width:auto;border-radius:16px;object-fit:cover;pointer-events:none"><img src="https://img.magnific.com/free-photo/african-american-team-collaborates-financial-project-business-space_482257-119790.jpg?w=1200&q=80" alt="" aria-hidden="true" draggable="false" style="flex:none;height:min(420px,56vw);width:auto;border-radius:16px;object-fit:cover;pointer-events:none"><img src="https://img.magnific.com/free-photo/black-corporate-team-collaborate-global-investment-strategy_482257-119871.jpg?w=1200&q=80" alt="" aria-hidden="true" draggable="false" style="flex:none;height:min(420px,56vw);width:auto;border-radius:16px;object-fit:cover;pointer-events:none"></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section data-screen-label="FAQ" style="background:#F5F5F5">
+    <div style="max-width:1320px;margin:0 auto;padding:112px 28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:40px 80px;align-items:start">
+      <div><div data-reveal="rise" style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#9B6A6C;margin-bottom:14px">Good to know</div><h2 data-reveal="rise" style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(34px,4.2vw,56px);line-height:1.04;letter-spacing:-.02em;margin:0 0 20px">Questions, answered.</h2><p data-reveal="rise" style="color:#5A5C72;margin:0;max-width:36ch">Anything else? <a href="https://wa.me/233256071000" target="_blank" rel="noreferrer" style="font-weight:700;border-bottom:2px solid #D49516">Message us on WhatsApp</a>.</p></div>
+      <div data-reveal="rise" style="display:flex;flex-direction:column;border-top:1px solid #E6E6EA">
+        <div style="border-bottom:1px solid #E6E6EA"><button type="button" onClick="{{ faqT0 }}" aria-expanded="{{ faqOpen0 }}" style="width:100%;background:transparent;border:0;padding:22px 0;display:flex;justify-content:space-between;align-items:center;gap:16px;text-align:left;cursor:pointer;color:#2B2D42;font-family:Epilogue,sans-serif;font-weight:700;font-size:20px;letter-spacing:-.02em"><span>Do I need to book ahead?</span><span aria-hidden="true" style="flex:none;width:32px;height:32px;border-radius:50%;border:1.5px solid #2B2D42;display:grid;place-items:center;font-size:20px;line-height:1;transform:{{ faqRot0 }};transition:transform .4s cubic-bezier(.2,.7,.2,1)">+</span></button><div style="max-height:{{ faqH0 }};opacity:{{ faqOp0 }};overflow:hidden;transition:max-height .5s cubic-bezier(.2,.7,.2,1),opacity .4s ease"><p style="margin:0 0 22px;color:#5A5C72;max-width:56ch">No. Walk in any weekday and take a free desk. Booking online guarantees a spot on busy days and saves you time at the door.</p></div></div>
+        <div style="border-bottom:1px solid #E6E6EA"><button type="button" onClick="{{ faqT1 }}" aria-expanded="{{ faqOpen1 }}" style="width:100%;background:transparent;border:0;padding:22px 0;display:flex;justify-content:space-between;align-items:center;gap:16px;text-align:left;cursor:pointer;color:#2B2D42;font-family:Epilogue,sans-serif;font-weight:700;font-size:20px;letter-spacing:-.02em"><span>Can I pay with mobile money?</span><span aria-hidden="true" style="flex:none;width:32px;height:32px;border-radius:50%;border:1.5px solid #2B2D42;display:grid;place-items:center;font-size:20px;line-height:1;transform:{{ faqRot1 }};transition:transform .4s cubic-bezier(.2,.7,.2,1)">+</span></button><div style="max-height:{{ faqH1 }};opacity:{{ faqOp1 }};overflow:hidden;transition:max-height .5s cubic-bezier(.2,.7,.2,1),opacity .4s ease"><p style="margin:0 0 22px;color:#5A5C72;max-width:56ch">Yes. MTN MoMo, Telecel Cash and AT Money, plus cards and cash at the front desk.</p></div></div>
+        <div style="border-bottom:1px solid #E6E6EA"><button type="button" onClick="{{ faqT2 }}" aria-expanded="{{ faqOpen2 }}" style="width:100%;background:transparent;border:0;padding:22px 0;display:flex;justify-content:space-between;align-items:center;gap:16px;text-align:left;cursor:pointer;color:#2B2D42;font-family:Epilogue,sans-serif;font-weight:700;font-size:20px;letter-spacing:-.02em"><span>What are your hours?</span><span aria-hidden="true" style="flex:none;width:32px;height:32px;border-radius:50%;border:1.5px solid #2B2D42;display:grid;place-items:center;font-size:20px;line-height:1;transform:{{ faqRot2 }};transition:transform .4s cubic-bezier(.2,.7,.2,1)">+</span></button><div style="max-height:{{ faqH2 }};opacity:{{ faqOp2 }};overflow:hidden;transition:max-height .5s cubic-bezier(.2,.7,.2,1),opacity .4s ease"><p style="margin:0 0 22px;color:#5A5C72;max-width:56ch">Monday to Friday, 8am to 5pm. We're closed on weekends and public holidays.</p></div></div>
+        <div style="border-bottom:1px solid #E6E6EA"><button type="button" onClick="{{ faqT3 }}" aria-expanded="{{ faqOpen3 }}" style="width:100%;background:transparent;border:0;padding:22px 0;display:flex;justify-content:space-between;align-items:center;gap:16px;text-align:left;cursor:pointer;color:#2B2D42;font-family:Epilogue,sans-serif;font-weight:700;font-size:20px;letter-spacing:-.02em"><span>Is there parking?</span><span aria-hidden="true" style="flex:none;width:32px;height:32px;border-radius:50%;border:1.5px solid #2B2D42;display:grid;place-items:center;font-size:20px;line-height:1;transform:{{ faqRot3 }};transition:transform .4s cubic-bezier(.2,.7,.2,1)">+</span></button><div style="max-height:{{ faqH3 }};opacity:{{ faqOp3 }};overflow:hidden;transition:max-height .5s cubic-bezier(.2,.7,.2,1),opacity .4s ease"><p style="margin:0 0 22px;color:#5A5C72;max-width:56ch">Yes, free secure parking on the ICGC Christ Temple East campus. Tell security you're here for The Hive.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OTHER SPACES + CTA -->
+  <section data-screen-label="CTA" style="background:#D49516;color:#2B2D42;position:relative;overflow:hidden">
+    <div style="position:absolute;inset:-30% 0;pointer-events:none"><div data-px="0.18" style="position:absolute;inset:0;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='84' height='150' viewBox='0 0 56 100'%3E%3Cpath d='M28 66L0 50L0 16L28 0L56 16L56 50Z' fill='none' stroke='%232B2D42' stroke-opacity='.16'/%3E%3Cpath d='M28 0L28 34L0 50L0 84L28 100L56 84L56 50L28 34' fill='none' stroke='%232B2D42' stroke-opacity='.16'/%3E%3C/svg%3E&quot;);mask-image:radial-gradient(ellipse at 100% 50%,rgba(0,0,0,1),rgba(0,0,0,0) 70%);-webkit-mask-image:radial-gradient(ellipse at 100% 50%,rgba(0,0,0,1),rgba(0,0,0,0) 70%);will-change:transform"></div></div>
+    <div style="max-width:1320px;margin:0 auto;padding:112px 28px;position:relative;display:flex;justify-content:space-between;align-items:center;gap:40px;flex-wrap:wrap">
+      <div>
+        <h2 data-reveal="rise" style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(34px,4.6vw,64px);line-height:1.02;letter-spacing:-.025em;margin:0 0 16px;max-width:16ch;text-wrap:balance">Take a desk today.</h2>
+        <p data-reveal="rise" style="margin:0;font-size:18px;max-width:42ch">Need a door that closes? Look at <a href="/private-pods" data-nav="true" style="font-weight:700;border-bottom:2px solid #2B2D42">Private Pods</a> or <a href="/workspaces" data-nav="true" style="font-weight:700;border-bottom:2px solid #2B2D42">all workspaces</a>.</p>
+      </div>
+      <div data-reveal="rise" style="display:flex;gap:14px;flex-wrap:wrap">
+        <a href="/book?space=desk" data-nav="true" style="background:#9B6A6C;color:#FFFFFF;padding:16px 30px;border-radius:12px;font-weight:700;font-size:17px;display:inline-flex;align-items:center;gap:10px;transition:background .2s" style-hover="background:#7E5456;color:#FFFFFF">Reserve a spot <span aria-hidden="true">→</span></a>
+        <a href="/contact" data-nav="true" style="border:1.5px solid #2B2D42;color:#2B2D42;padding:15px 30px;border-radius:12px;font-weight:700;font-size:17px;display:inline-flex;align-items:center;transition:background .2s,color .2s" style-hover="background:#2B2D42;color:#F5F5F5">Book a free visit</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- STICKY MOBILE BAR -->
+  <div data-mob-only="true" data-sticky-bar="true" style="position:fixed;left:0;right:0;bottom:0;z-index:700;background:rgba(43,45,66,.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);color:#F5F5F5;padding:12px 20px calc(12px + env(safe-area-inset-bottom));display:flex;justify-content:space-between;align-items:center;gap:16px;border-top:1px solid rgba(255,255,255,.1)">
+    <div><div style="font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#B9BAC6;font-weight:700">Coworking desk</div><div style="font-weight:700;font-size:17px">From GHS 180/day</div></div>
+    <a href="/book?space=desk" data-nav="true" style="background:#D49516;color:#2B2D42;padding:13px 20px;border-radius:12px;font-weight:700;white-space:nowrap;min-height:44px;display:inline-flex;align-items:center" style-hover="background:#E5B45A;color:#2B2D42">Reserve a spot</a>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer data-screen-label="Footer" style="background:#2B2D42;color:#F5F5F5;position:relative;overflow:hidden">
+  <div style="position:absolute;inset:0;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 66L0 50L0 16L28 0L56 16L56 50Z' fill='none' stroke='%23F5F5F5' stroke-opacity='.08'/%3E%3Cpath d='M28 0L28 34L0 50L0 84L28 100L56 84L56 50L28 34' fill='none' stroke='%23F5F5F5' stroke-opacity='.08'/%3E%3C/svg%3E&quot;);mask-image:radial-gradient(ellipse at 100% 0%,rgba(0,0,0,1),rgba(0,0,0,0) 60%);-webkit-mask-image:radial-gradient(ellipse at 100% 0%,rgba(0,0,0,1),rgba(0,0,0,0) 60%)"></div>
+  <div style="max-width:1320px;margin:0 auto;padding:88px 28px 40px;position:relative">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap;border-bottom:1px solid rgba(255,255,255,.12);padding-bottom:48px">
+      <div data-reveal="rise" style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(40px,7vw,96px);line-height:.96;letter-spacing:-.025em;max-width:12ch">Work Better.<br><span style="color:#D49516">Together.</span></div>
+      <img src="https://images.squarespace-cdn.com/content/v1/688633ab5eb7735480a9622d/6c140487-9cba-4324-9f2c-23180ca56305/The+Hive_Primary+Identity_Reverse.png?format=1500w" alt="The Hive" style="height:56px">
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:40px 24px;padding:56px 0 48px">
+      <div style="display:flex;flex-direction:column;gap:12px"><div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#D49516">Workspaces</div><a href="/coworking-desks" data-nav="true" style="color:#F5F5F5" style-hover="color:#D49516">Coworking Desks</a><a href="/private-pods" data-nav="true" style="color:#F5F5F5" style-hover="color:#D49516">Private Pods</a><a href="/meeting-rooms" data-nav="true" style="color:#F5F5F5" style-hover="color:#D49516">Meeting Rooms</a><a href="/private-offices" data-nav="true" style="color:#F5F5F5" style-hover="color:#D49516">Private Offices</a></div>
+      <div style="display:flex;flex-direction:column;gap:12px"><div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#D49516">Company</div><a href="/about" data-nav="true" style="color:#F5F5F5" style-hover="color:#D49516">About</a><a href="/events" data-nav="true" style="color:#F5F5F5" style-hover="color:#D49516">Events</a><a href="/gallery" data-nav="true" style="color:#F5F5F5" style-hover="color:#D49516">Gallery</a><a href="/contact" data-nav="true" style="color:#F5F5F5" style-hover="color:#D49516">Contact</a></div>
+      <div style="display:flex;flex-direction:column;gap:12px"><div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#D49516">Members</div><a href="/member-portal" data-nav="true" style="color:#F5F5F5" style-hover="color:#D49516">Member login</a><a href="/book" data-nav="true" style="color:#F5F5F5" style-hover="color:#D49516">Book a spot</a><a href="/plans" data-nav="true" style="color:#F5F5F5" style-hover="color:#D49516">Plans</a></div>
+      <div style="display:flex;flex-direction:column;gap:12px"><div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#D49516">Visit</div><a href="https://maps.app.goo.gl/yGtXRa84B5EEi823A" target="_blank" rel="noreferrer" style="color:#F5F5F5;line-height:1.5" style-hover="color:#D49516">ICGC Christ Temple East, Teshie Rasta Rd, Tse Addo, Accra<br><span style="color:#B9BAC6;font-size:14px">Plus code HVJ9+6J · Get directions</span></a><div style="color:#B9BAC6">Mon–Fri, 8am–5pm · Closed weekends</div><a href="tel:+233256071000" style="color:#F5F5F5" style-hover="color:#D49516">+233 25 607 1000</a><a href="mailto:info@thehivegh.com" style="color:#F5F5F5" style-hover="color:#D49516">info@thehivegh.com</a><a href="https://www.instagram.com/thehive.gh" target="_blank" rel="noreferrer" style="color:#F5F5F5" style-hover="color:#D49516">Instagram @thehive.gh</a></div>
+      <div style="display:flex;flex-direction:column;gap:12px;min-width:240px"><div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#D49516">Newsletter</div><sc-if value="{{ nlDone }}" hint-placeholder-val="{{ false }}"><div style="background:rgba(212,149,22,.15);border:1px solid #D49516;border-radius:12px;padding:16px;display:flex;gap:12px;align-items:flex-start"><span style="flex:none;width:12px;height:14px;margin-top:5px;background:#D49516;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span><div><div style="font-weight:700">You’re on the list.</div><div style="font-size:14px;color:#B9BAC6">We’ll send events and news to {{ nlEmail }}.</div></div></div></sc-if><sc-if value="{{ nlIdle }}" hint-placeholder-val="{{ true }}"><form onSubmit="{{ submitNl }}" style="display:flex;flex-direction:column;gap:10px"><label for="nl-email" style="font-size:14px;color:#B9BAC6">Events, news and member offers. No spam.</label><div style="display:flex;gap:8px"><input id="nl-email" type="email" required placeholder="you@company.com" value="{{ nlEmail }}" onChange="{{ setNlEmail }}" style="flex:1;min-width:0;height:48px;border:1.5px solid rgba(255,255,255,.2);border-radius:12px;padding:0 14px;font:inherit;font-size:15px;color:#F5F5F5;background:rgba(255,255,255,.06);outline:none;transition:border-color .2s" style-focus="border-color:#D49516"><button type="submit" style="background:#D49516;color:#2B2D42;border:0;padding:0 18px;border-radius:12px;font-weight:700;cursor:pointer;transition:background .2s" style-hover="background:#E5B45A">Join</button></div></form></sc-if></div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,.12);padding-top:24px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:14px;color:#B9BAC6">
+      <div>© 2026 The Hive. All rights reserved.</div>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center"><span>For The Hive team:</span><a href="/staff-app" data-nav="true" style="color:#B9BAC6;text-decoration:underline;text-underline-offset:3px" style-hover="color:#D49516">Staff App</a><a href="/manager-dashboard" data-nav="true" style="color:#B9BAC6;text-decoration:underline;text-underline-offset:3px" style-hover="color:#D49516">Manager Dashboard</a></div>
+    </div>
+  </div>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;smoothScroll&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Motion&quot;}}">
+class Component extends DCLogic {
+  state = { megaOpen: false, mobileOpen: false, nlEmail: '', nlDone: false, active: -1, faq: -1 };
+  progressRef = React.createRef(); wipeRef = React.createRef(); headerRef = React.createRef(); headerBarRef = React.createRef(); headerInnerRef = React.createRef(); logoRef = React.createRef();
+  tm = { x: 0, y: 0 }; cm = { x: 0, y: 0 };
+
+  componentDidMount() {
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const fine = matchMedia('(pointer: fine)').matches;
+    this.reduced = reduced; this.fine = fine;
+    this._c = [];
+    const on = (t, e, f, o) => { t.addEventListener(e, f, o); this._c.push(() => t.removeEventListener(e, f, o)); };
+    const ease = 'cubic-bezier(.2,.7,.2,1)';
+
+    let lastY = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY, h = this.headerRef.current || document.querySelector('header'), p = this.progressRef.current || document.querySelector('[data-progress]');
+      if (p) { const max = document.documentElement.scrollHeight - innerHeight; p.style.width = (max > 0 ? (y / max) * 100 : 0) + '%'; }
+      if (h) {
+        const shrink = y > 40, bar = this.headerBarRef.current || h.firstElementChild, inner = this.headerInnerRef.current || (bar && bar.firstElementChild), logo = this.logoRef.current || h.querySelector('img');
+        if (inner) inner.style.padding = shrink ? '10px 28px' : '18px 28px';
+        if (logo) logo.style.height = shrink ? '34px' : '42px';
+        if (bar) bar.style.background = shrink ? 'rgba(43,45,66,.92)' : 'rgba(43,45,66,.78)';
+        const hide = y > lastY + 4 && y > 200 && !this.state.megaOpen;
+        h.style.transform = hide ? 'translateY(-100%)' : 'translateY(0)';
+        if (hide && this.state.megaOpen) this.setState({ megaOpen: false });
+      }
+      lastY = y;
+    };
+    on(window, 'scroll', onScroll, { passive: true }); onScroll();
+
+    if ((this.props.smoothScroll ?? true) && fine && !reduced) {
+      let target = window.scrollY, cur = target, raf = 0, lastSet = -1;
+      const loop = () => {
+        if (lastSet >= 0 && Math.abs(window.scrollY - lastSet) > 2) { raf = 0; lastSet = -1; return; }
+        cur += (target - cur) * 0.11;
+        if (Math.abs(target - cur) < 0.5) { cur = target; window.scrollTo(0, cur); raf = 0; lastSet = -1; return; }
+        window.scrollTo(0, cur); lastSet = Math.round(window.scrollY); raf = requestAnimationFrame(loop);
+      };
+      let broken = false, checks = 0;
+      on(window, 'wheel', (e) => {
+        if (broken || e.ctrlKey || this.state.mobileOpen) return;
+        if (e.target.closest && e.target.closest('[data-drag],[data-table]')) { const el = e.target.closest('[data-drag],[data-table]'); if (el.scrollWidth > el.clientWidth && Math.abs(e.deltaX) > Math.abs(e.deltaY)) return; }
+        const max = document.documentElement.scrollHeight - innerHeight;
+        if (max <= 0) return;
+        e.preventDefault();
+        if (!raf) { cur = window.scrollY; target = cur; }
+        target = Math.max(0, Math.min(max, target + e.deltaY));
+        if (!raf) raf = requestAnimationFrame(loop);
+        if (checks < 3) { const before = window.scrollY; setTimeout(() => { checks++; if (Math.abs(target - before) > 2 && window.scrollY === before) broken = true; }, 120); }
+      }, { passive: false });
+      this._c.push(() => cancelAnimationFrame(raf));
+    }
+
+    if (fine && !reduced) {
+      on(document, 'mousemove', (e) => {
+        this.tm = { x: e.clientX / innerWidth * 2 - 1, y: e.clientY / innerHeight * 2 - 1 };
+        const card = e.target.closest && e.target.closest('[data-tilt]');
+        if (card) {
+          const r = card.getBoundingClientRect(), px = (e.clientX - r.left) / r.width - 0.5, py = (e.clientY - r.top) / r.height - 0.5;
+          card.style.transform = `perspective(900px) rotateX(${-py * 6}deg) rotateY(${px * 6}deg) translateY(-4px)`;
+          const img = card.querySelector('img'); if (img && !img.style.clipPath) img.style.transform = 'scale(1.06)';
+        }
+      });
+      on(document, 'mouseout', (e) => {
+        const card = e.target.closest && e.target.closest('[data-tilt]');
+        if (card && !card.contains(e.relatedTarget)) { card.style.transform = ''; const img = card.querySelector('img'); if (img) img.style.transform = ''; }
+      });
+    }
+
+    const io = new IntersectionObserver((entries) => entries.forEach((en) => {
+      if (!en.isIntersecting) return; const el = en.target; io.unobserve(el);
+      if (el.dataset.reveal === 'stagger') { el.querySelectorAll('[data-reveal-item]').forEach((it, i) => setTimeout(() => { it.style.opacity = '1'; it.style.transform = 'translateY(0)'; }, i * 110)); return; }
+      if (el.dataset.reveal === 'hex') { el.style.clipPath = 'polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)'; return; }
+      if (el.dataset.reveal === 'honey') { this.openHoney(el); return; }
+      if (el.dataset.reveal === 'clip') { el.style.clipPath = 'inset(0 0 0 0 round 16px)'; return; }
+      el.style.opacity = '1'; el.style.transform = 'translateY(0)';
+    }), { threshold: 0.15 });
+    this.io = io;
+    const prep = (el) => {
+      const r = el.getBoundingClientRect(); const below = r.top > innerHeight * 0.9;
+      if (reduced || !below) return;
+      if (el.dataset.reveal === 'stagger') { el.querySelectorAll('[data-reveal-item]').forEach((it) => { it.style.opacity = '0'; it.style.transform = 'translateY(28px)'; it.style.transition = `opacity .7s ${ease},transform .9s ${ease}`; }); }
+      else if (el.dataset.reveal === 'hex') { el.style.clipPath = 'polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%)'; el.style.transition = `clip-path 1.1s ${ease}`; }
+      else if (el.dataset.reveal === 'clip') { el.style.clipPath = 'inset(0 0 100% 0 round 16px)'; el.style.transition = `clip-path 1.1s ${ease}`; }
+      else if (el.dataset.reveal === 'honey') { el.querySelectorAll('[data-honey-item]').forEach((it) => { it.style.clipPath = 'polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%)'; it.style.opacity = '0'; }); }
+      else { el.style.opacity = '0'; el.style.transform = 'translateY(28px)'; el.style.transition = `opacity .8s ${ease},transform 1s ${ease}`; }
+      io.observe(el);
+    };
+    document.querySelectorAll('[data-reveal]').forEach(prep);
+    const sweep = () => document.querySelectorAll('[data-reveal]').forEach((el) => {
+      const r = el.getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight) return;
+      const hidden = el.style.opacity === '0' || /100%|50% 50%/.test(el.style.clipPath || '') || (el.dataset.reveal === 'stagger' && [...el.querySelectorAll('[data-reveal-item]')].some((i) => i.style.opacity === '0')) || (el.dataset.reveal === 'honey' && [...el.querySelectorAll('[data-honey-item]')].some((i) => i.style.opacity === '0'));
+      if (!hidden) return; io.unobserve(el);
+      if (el.dataset.reveal === 'stagger') el.querySelectorAll('[data-reveal-item]').forEach((it, i) => setTimeout(() => { it.style.opacity = '1'; it.style.transform = 'translateY(0)'; }, i * 110));
+      else if (el.dataset.reveal === 'hex') el.style.clipPath = 'polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)';
+      else if (el.dataset.reveal === 'clip') el.style.clipPath = 'inset(0 0 0 0 round 16px)';
+      else if (el.dataset.reveal === 'honey') this.openHoney(el);
+      else { el.style.opacity = '1'; el.style.transform = 'translateY(0)'; }
+    });
+    this._sweep = setInterval(sweep, 700); this._c.push(() => clearInterval(this._sweep));
+    setTimeout(sweep, 300);
+
+    const lines = document.querySelectorAll('[data-hero-line]'), loads = document.querySelectorAll('[data-load]');
+    if (reduced) { lines.forEach((l) => { l.style.transform = 'none'; }); loads.forEach((l) => { l.style.opacity = '1'; l.style.transform = 'none'; }); }
+    else requestAnimationFrame(() => requestAnimationFrame(() => {
+      lines.forEach((l, i) => { l.style.transition = `transform 1.1s ${ease} ${0.15 + i * 0.12}s`; l.style.transform = 'translateY(0)'; });
+      loads.forEach((l) => { const n = parseInt(l.dataset.load, 10); l.style.transition = `opacity .8s ${ease} ${0.5 + n * 0.12}s,transform 1s ${ease} ${0.5 + n * 0.12}s`; l.style.opacity = '1'; l.style.transform = 'translateY(0)'; });
+    }));
+
+    on(document, 'click', (e) => {
+      const a = e.target.closest && e.target.closest('a[data-nav]');
+      if (!a || e.metaKey || e.ctrlKey || e.button !== 0) return;
+      if (this.dragged) { e.preventDefault(); return; }
+      e.preventDefault(); const href = a.getAttribute('href');
+      if (reduced) { location.href = href; return; }
+      this.wipe(true).then(() => { location.href = href; });
+    });
+    on(document, 'keydown', (e) => { if (e.key === 'Escape') this.setState({ megaOpen: false, mobileOpen: false }); });
+    this.raf = requestAnimationFrame(() => this.loop());
+  }
+  componentWillUnmount() { (this._c || []).forEach((f) => f()); if (this.io) this.io.disconnect(); cancelAnimationFrame(this.raf); document.body.style.overflow = ''; }
+  componentDidUpdate() { const mo = this.state.mobileOpen; if (this._lastMobile !== mo) { this._lastMobile = mo; document.body.style.overflow = mo ? 'hidden' : ''; } }
+
+  loop() {
+    const reduced = this.reduced;
+    this.cm.x += (this.tm.x - this.cm.x) * 0.05; this.cm.y += (this.tm.y - this.cm.y) * 0.05;
+    if (!reduced) document.querySelectorAll('[data-px]').forEach((el) => {
+      const p = el.parentElement.getBoundingClientRect(); if (p.bottom < -200 || p.top > innerHeight + 200) return;
+      const off = (p.top + p.height / 2 - innerHeight / 2) * parseFloat(el.dataset.px), mf = parseFloat(el.dataset.mouse || '0');
+      const base = el.tagName === 'IMG' ? ' scale(1.14)' : '';
+      el.style.transform = `translate3d(${(this.cm.x * mf).toFixed(2)}px,${(off + this.cm.y * mf).toFixed(2)}px,0)${base}`;
+    });
+    const z = document.querySelector('[data-zoom]');
+    if (z && !reduced) { const r = z.parentElement.getBoundingClientRect(); const p = Math.max(0, Math.min(1, -r.top / Math.max(1, r.height))); z.style.transform = `scale(${(1.04 + p * 0.18).toFixed(3)}) translateY(${(p * 40).toFixed(1)}px)`; }
+    const hb = document.querySelector('[data-honey]');
+    if (hb && !reduced && innerWidth > 900) { const r = hb.getBoundingClientRect(); if (r.bottom > -100 && r.top < innerHeight + 100) { const off = r.top + r.height / 2 - innerHeight / 2; const k = Math.max(-1, Math.min(1, off / (innerHeight * 0.6))); hb.querySelectorAll('[data-honey-item]').forEach((it, i) => { const f = parseFloat(it.dataset.float) * 3.2, dir = i % 2 ? -1 : 1; it.style.transform = `translate3d(${(k * dir * 22).toFixed(1)}px,${(off * f).toFixed(1)}px,0) rotate(${(k * dir * 7).toFixed(2)}deg) scale(${(1 - Math.abs(k) * 0.08).toFixed(3)})`; }); } }
+    const gt = document.querySelector('[data-gallery-track]');
+    if (gt) { const gr = gt.parentElement.getBoundingClientRect(); if (gr.bottom > 0 && gr.top < innerHeight) { this.gx = (this.gx || 0) - (reduced ? 0 : 0.6); const half = gt.scrollWidth / 2 + 8; if (half > 8 && this.gx <= -half) this.gx += half; gt.style.transform = `translate3d(${this.gx.toFixed(1)}px,0,0)`; } }
+    const tl = document.querySelector('[data-timeline]');
+    if (tl) {
+      const r = tl.getBoundingClientRect(); const p = reduced ? 1 : Math.max(0, Math.min(1, (innerHeight * 0.72 - r.top) / r.height));
+      const line = tl.querySelector('[data-tl-line]'); if (line) line.style.transform = `scaleY(${p.toFixed(3)})`;
+      tl.querySelectorAll('[data-tl-item]').forEach((it) => { const onIt = (it.offsetTop + 24) <= p * r.height; it.style.opacity = onIt ? '1' : '0.25'; it.style.transform = onIt ? 'translateX(0)' : 'translateX(14px)'; const dot = it.querySelector('[data-tl-dot]'); if (dot) { dot.style.background = onIt ? '#D49516' : '#E6E6EA'; dot.style.transform = onIt ? 'scale(1)' : 'scale(.7)'; } });
+    }
+    this.raf = requestAnimationFrame(() => this.loop());
+  }
+  openHoney(el) { el.querySelectorAll('[data-honey-item]').forEach((it, i) => setTimeout(() => { it.style.clipPath = 'polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)'; it.style.opacity = '1'; }, i * 140)); }
+  wipe(stay) {
+    const w = this.wipeRef.current || document.querySelector('[data-wipe]'); if (!w) return Promise.resolve();
+    w.style.transition = 'transform .55s cubic-bezier(.7,0,.2,1)'; w.style.transform = 'translateX(0)';
+    return new Promise((res) => setTimeout(() => {
+      if (stay) return res();
+      w.style.transform = 'translateX(101%)';
+      setTimeout(() => { w.style.transition = 'none'; w.style.transform = 'translateX(-101%)'; res(); }, 600);
+    }, 650));
+  }
+  renderVals() {
+    const s = this.state, a = s.active;
+    const v = {
+      megaOpen: s.megaOpen, megaClosed: !s.megaOpen, megaOp: s.megaOpen ? 1 : 0, megaY: s.megaOpen ? 0 : -12, megaPe: s.megaOpen ? 'auto' : 'none',
+      mobileClosed: !s.mobileOpen, mobOp: s.mobileOpen ? 1 : 0, mobPe: s.mobileOpen ? 'auto' : 'none', mobY: s.mobileOpen ? 0 : -20, mobLinkY: s.mobileOpen ? 0 : 30,
+      openMega: () => !s.megaOpen && this.setState({ megaOpen: true }), closeMega: () => s.megaOpen && this.setState({ megaOpen: false }),
+      toggleMega: () => this.setState({ megaOpen: !s.megaOpen }),
+      openMobile: () => this.setState({ mobileOpen: true }), closeMobile: () => this.setState({ mobileOpen: false }),
+      nlEmail: s.nlEmail, nlDone: s.nlDone, nlIdle: !s.nlDone,
+      setNlEmail: (e) => this.setState({ nlEmail: e.target.value }),
+      submitNl: (e) => { e.preventDefault(); this.setState({ nlDone: true }); },
+      leavePanels: () => this.setState({ active: -1 }),
+      todayLabel: new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' }),
+      slots: (() => { const booked = String(this.props.bookedSlots ?? '09:00,11:00,14:00').split(',').map((t) => t.trim()); return [8, 9, 10, 11, 12, 13, 14, 15, 16].map((h) => { const t = String(h).padStart(2, '0') + ':00', b = booked.includes(t); return { label: t, free: !b, booked: b, href: '/book?space=pod&time=' + t }; }); })(),
+      gDown: (e) => { const el = e.currentTarget; this.g = { x: e.clientX, sl: el.scrollLeft, moved: false }; el.setPointerCapture(e.pointerId); el.style.cursor = 'grabbing'; },
+      gMove: (e) => { if (!this.g) return; const dx = e.clientX - this.g.x; if (Math.abs(dx) > 4) this.g.moved = true; e.currentTarget.scrollLeft = this.g.sl - dx; },
+      gUp: (e) => { if (!this.g) return; this.dragged = this.g.moved; setTimeout(() => { this.dragged = false; }, 50); this.g = null; e.currentTarget.style.cursor = 'grab'; },
+    };
+    for (let i = 0; i < 4; i++) {
+      const open = a === i, dim = a >= 0 && !open;
+      v['flex' + i] = open ? '2.6 1 0%' : dim ? '0.8 1 0%' : '1 1 0%';
+      v['op' + i] = open ? 1 : 0; v['imgOp' + i] = open ? 1 : 0; v['y' + i] = open ? 0 : 18;
+      v['enter' + i] = () => a !== i && this.setState({ active: i });
+    }
+    for (let i = 0; i < 4; i++) {
+      const open = s.faq === i;
+      v['faqOpen' + i] = open; v['faqRot' + i] = open ? 'rotate(45deg)' : 'rotate(0deg)'; v['faqH' + i] = open ? '200px' : '0px'; v['faqOp' + i] = open ? 1 : 0;
+      v['faqT' + i] = () => this.setState({ faq: open ? -1 : i });
+    }
+    return v;
+  }
+}
+
+</script>

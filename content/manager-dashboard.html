@@ -1,0 +1,1103 @@
+<x-dc>
+<helmet>
+<title>The Hive · Manager Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@500;700&family=Pontano+Sans:wght@400;700&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;padding:0;background:#F4F4F6;color:#2B2D42;font-family:'Pontano Sans',sans-serif;font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+a{color:#2B2D42;text-decoration:none}a:hover{color:#9B6A6C}
+button{font-family:inherit}
+input,select,textarea{font-family:inherit;font-size:14px;color:#2B2D42}
+@keyframes hvPulse{0%,100%{opacity:1}50%{opacity:.45}}
+@keyframes hvSlide{from{transform:translateX(40px);opacity:0}to{transform:none;opacity:1}}
+@keyframes hvFade{from{opacity:0}to{opacity:1}}
+@keyframes hvIn{from{transform:translateY(-8px);opacity:0}to{transform:none;opacity:1}}
+
+@media (max-width:900px){
+[data-dash-grid]{grid-template-columns:minmax(0,1fr)!important}
+[data-dash-side]{position:fixed!important;top:0;left:0;bottom:0;width:min(280px,84vw);height:100%!important;z-index:60;transform:translateX(-102%);transition:transform .3s cubic-bezier(.2,.7,.2,1);box-shadow:20px 0 50px rgba(43,45,66,.25)}
+#dash-nav:checked ~ [data-dash-grid] [data-dash-side]{transform:none}
+[data-dash-backdrop]{display:block!important;position:fixed;inset:0;background:rgba(43,45,66,.45);z-index:55;opacity:0;pointer-events:none;transition:opacity .3s}
+#dash-nav:checked ~ [data-dash-backdrop]{opacity:1;pointer-events:auto}
+[data-dash-burger]{display:inline-flex!important}
+[data-dash-head]{padding:12px 16px!important}
+[data-dash-main]{padding:18px 16px 56px!important}
+[data-dash-head] h1{font-size:20px!important}
+[data-m-stack]{grid-template-columns:minmax(0,1fr)!important}
+[data-m-floor]{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+}
+@keyframes hvLive{0%{box-shadow:0 0 0 0 rgba(47,125,91,.5)}100%{box-shadow:0 0 0 8px rgba(47,125,91,0)}}
+</style>
+</helmet>
+
+<input type="checkbox" id="dash-nav" aria-hidden="true" style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px">
+<label for="dash-nav" data-dash-backdrop aria-hidden="true" style="display:none"></label>
+<div data-dash-grid style="display:grid;grid-template-columns:240px minmax(0,1fr);min-height:100vh">
+
+<aside data-dash-side style="background:#2B2D42;color:#F5F5F5;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;padding:20px 14px;gap:20px;overflow-y:auto">
+  <a href="/" aria-label="The Hive home" style="display:flex;align-items:center;padding:4px 8px"><img src="https://images.squarespace-cdn.com/content/v1/688633ab5eb7735480a9622d/6c140487-9cba-4324-9f2c-23180ca56305/The+Hive_Primary+Identity_Reverse.png?format=1500w" alt="The Hive" style="height:34px;display:block"></a>
+  <div style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#8E90A6;padding:0 10px">Manager Dashboard</div>
+  <nav style="display:flex;flex-direction:column;gap:2px">
+    <sc-for list="{{ nav }}" as="n" hint-placeholder-count="10">
+      <button onClick="{{ n.go }}" style="display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;text-align:left;border:0;cursor:pointer;padding:9px 12px;border-radius:9px;font-size:14px;font-weight:700;color:{{ n.fg }};background:{{ n.bg }};transition:background .15s,color .15s" style-hover="background:rgba(255,255,255,.07);color:#FFFFFF">
+        <span style="display:flex;align-items:center;gap:10px"><span style="width:6px;height:6px;border-radius:2px;background:{{ n.dot }}"></span>{{ n.label }}</span>
+        <sc-if value="{{ n.hasBadge }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;min-width:20px;text-align:center;padding:1px 6px;border-radius:999px;background:{{ n.badgeBg }};color:{{ n.badgeFg }}">{{ n.badge }}</span></sc-if>
+      </button>
+    </sc-for>
+  </nav>
+  <div style="margin-top:auto;display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:center;gap:10px;padding:12px;border-radius:12px;background:rgba(255,255,255,.06)">
+      <div style="width:34px;height:34px;border-radius:50%;background:#D49516;color:#2B2D42;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px">AA</div>
+      <div style="line-height:1.3"><div style="font-weight:700;font-size:13px">Abena Asante</div><div style="font-size:12px;color:#B9BAC6">General Manager</div></div>
+    </div>
+    <a href="/" style="color:#B9BAC6;font-size:13px;padding:0 10px" style-hover="color:#D49516">← Back to the website</a>
+  </div>
+</aside>
+
+<div style="min-width:0;display:flex;flex-direction:column">
+  <header style="position:sticky;top:0;z-index:20;background:rgba(244,244,246,.92);backdrop-filter:blur(8px);border-bottom:1px solid #E4E4EA">
+    <div data-dash-head style="max-width:1480px;margin:0 auto;padding:16px 28px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:12px"><label for="dash-nav" data-dash-burger role="button" aria-label="Open menu" tabindex="0" style="display:none;width:42px;height:42px;border-radius:10px;border:1px solid #E4E4EA;background:#FFFFFF;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="#2B2D42" stroke-width="2" stroke-linecap="round"/></svg></label><div>
+        <h1 style="font-family:Epilogue,sans-serif;font-weight:700;font-size:24px;letter-spacing:-.02em;margin:0;line-height:1.15">{{ title }}</h1>
+        <div style="font-size:13px;color:#5A5C72">{{ subtitle }}</div>
+      </div></div>
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+        <span style="display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8A5E05;background:#FBEFD6;border:1px solid #EFD7A4;padding:5px 11px;border-radius:999px"><span style="width:7px;height:7px;border-radius:50%;background:#D49516"></span>Sample data</span>
+        <span style="font-size:13px;color:#5A5C72;padding:6px 12px;border:1px solid #E4E4EA;border-radius:999px;background:#FFFFFF">Fri 23 Oct 2026 · {{ clockText }}</span>
+      </div>
+    </div>
+  </header>
+
+  <main data-dash-main style="flex:1;width:100%;max-width:1480px;margin:0 auto;padding:24px 28px 64px">
+
+    <sc-if value="{{ loading }}" hint-placeholder-val="{{ false }}">
+      <div style="display:flex;flex-direction:column;gap:16px" aria-busy="true" aria-label="Loading">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px">
+          <sc-for list="{{ skel4 }}" as="s" hint-placeholder-count="4"><div style="height:112px;border-radius:14px;background:#E9E9EE;animation:hvPulse 1.2s ease-in-out infinite"></div></sc-for>
+        </div>
+        <div data-m-stack style="display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:16px">
+          <div style="height:320px;border-radius:14px;background:#E9E9EE;animation:hvPulse 1.2s ease-in-out infinite .1s"></div>
+          <div style="height:320px;border-radius:14px;background:#E9E9EE;animation:hvPulse 1.2s ease-in-out infinite .2s"></div>
+        </div>
+        <div style="height:220px;border-radius:14px;background:#E9E9EE;animation:hvPulse 1.2s ease-in-out infinite .3s"></div>
+      </div>
+    </sc-if>
+
+    <!-- OVERVIEW -->
+    <sc-if value="{{ show.overview }}" hint-placeholder-val="{{ true }}">
+      <div data-screen-label="01 Overview" style="display:flex;flex-direction:column;gap:16px">
+        <section style="background:#2B2D42;color:#F5F5F5;border-radius:16px;padding:24px;display:grid;grid-template-columns:minmax(220px,1fr) minmax(0,3fr);gap:24px" data-m-stack>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#D49516">Today at The Hive</div>
+            <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:26px;letter-spacing:-.02em;line-height:1.1">Friday, 23 October</div>
+            <div style="font-size:13px;color:#B9BAC6">The same brief that landed in your inbox at 7:00.</div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px">
+            <sc-for list="{{ brief }}" as="b" hint-placeholder-count="5">
+              <button onClick="{{ b.go }}" style="text-align:left;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);color:#F5F5F5;border-radius:12px;padding:14px;cursor:pointer;display:flex;flex-direction:column;gap:4px;transition:border-color .15s,background .15s" style-hover="border-color:#D49516;background:rgba(212,149,22,.08)">
+                <span style="font-size:12px;color:#B9BAC6">{{ b.label }}</span>
+                <span style="font-family:Epilogue,sans-serif;font-weight:700;font-size:24px;letter-spacing:-.02em;color:{{ b.color }}">{{ b.value }}</span>
+                <span style="font-size:12px;color:#B9BAC6;line-height:1.4">{{ b.detail }}</span>
+              </button>
+            </sc-for>
+          </div>
+        </section>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px">
+          <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="5">
+            <div style="background:#FFFFFF;border:1px solid #E4E4EA;border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:6px;transition:border-color .15s,box-shadow .15s" style-hover="border-color:#E3C27F;box-shadow:0 8px 24px rgba(43,45,66,.07)">
+              <div style="font-size:13px;color:#5A5C72">{{ k.label }}</div>
+              <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:10px">
+                <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:26px;letter-spacing:-.02em;font-variant-numeric:tabular-nums;white-space:nowrap">{{ k.value }}</div>
+                <svg viewBox="0 0 100 30" preserveAspectRatio="none" style="width:84px;height:30px;flex:none;overflow:visible"><polyline points="{{ k.spark }}" fill="none" stroke="#D49516" style="stroke-width:1.6;vector-effect:non-scaling-stroke;stroke-linejoin:round;stroke-linecap:round"></polyline></svg>
+              </div>
+              <div style="font-size:12px;font-weight:700;color:{{ k.deltaColor }}">{{ k.delta }}<span style="font-weight:400;color:#8E90A6"> {{ k.deltaNote }}</span></div>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,520px),1fr));gap:16px">
+          <section style="background:#FFFFFF;border:1px solid #E4E4EA;border-radius:14px;padding:20px">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap">
+              <div><h2 style="font-family:Epilogue,sans-serif;font-size:16px;margin:0;letter-spacing:-.01em">Daily revenue</h2><div style="font-size:13px;color:#5A5C72">Last 30 days · passes, rooms and pods · GHS</div></div>
+              <div style="text-align:right"><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:18px">{{ rev30 }}</div><div style="font-size:12px;color:#5A5C72">30-day total</div></div>
+            </div>
+            <div style="display:grid;grid-template-columns:40px minmax(0,1fr);gap:8px;margin-top:18px">
+              <div style="position:relative;height:200px">
+                <sc-for list="{{ yTicks }}" as="t" hint-placeholder-count="4"><div style="position:absolute;right:0;top:{{ t.top }}%;transform:translateY(-50%);font-size:11px;color:#8E90A6">{{ t.label }}</div></sc-for>
+              </div>
+              <div style="position:relative;height:200px" onMouseLeave="{{ clearHover }}">
+                <sc-for list="{{ yTicks }}" as="t" hint-placeholder-count="4"><div style="position:absolute;left:0;right:0;top:{{ t.top }}%;border-top:1px dashed #ECECF0"></div></sc-for>
+                <div style="position:absolute;inset:0;clip-path:inset(0 {{ areaClip }}% 0 0);transition:clip-path 1.3s cubic-bezier(.2,.7,.2,1)">
+                  <svg viewBox="0 0 600 200" preserveAspectRatio="none" style="width:100%;height:200px;display:block"><path d="{{ areaPath }}" fill="rgba(212,149,22,.16)"></path><path d="{{ linePath }}" fill="none" stroke="#D49516" style="stroke-width:2;vector-effect:non-scaling-stroke;stroke-linejoin:round"></path></svg>
+                </div>
+                <sc-if value="{{ hasHover }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:absolute;top:0;bottom:0;left:{{ hov.left }}%;border-left:1px solid #2B2D42;pointer-events:none"></div>
+                  <div style="position:absolute;left:{{ hov.left }}%;top:{{ hov.top }}%;width:10px;height:10px;margin:-5px 0 0 -5px;border-radius:50%;background:#FFFFFF;border:2px solid #D49516;pointer-events:none"></div>
+                  <div style="position:absolute;left:{{ hov.left }}%;top:0;transform:translateX({{ hov.shift }});background:#2B2D42;color:#F5F5F5;border-radius:8px;padding:7px 10px;font-size:12px;white-space:nowrap;pointer-events:none;box-shadow:0 6px 18px rgba(43,45,66,.25)"><div style="color:#B9BAC6">{{ hov.date }}</div><div style="font-weight:700">{{ hov.value }}</div></div>
+                </sc-if>
+                <div style="position:absolute;inset:0;display:flex">
+                  <sc-for list="{{ dayHover }}" as="h" hint-placeholder-count="30"><div onMouseEnter="{{ h.enter }}" style="flex:1;height:100%"></div></sc-for>
+                </div>
+              </div>
+            </div>
+            <div style="position:relative;height:18px;margin:6px 0 0 48px">
+              <sc-for list="{{ xTicks }}" as="x" hint-placeholder-count="5"><span style="position:absolute;left:{{ x.left }}%;transform:translateX(-50%);font-size:11px;color:#8E90A6;white-space:nowrap">{{ x.label }}</span></sc-for>
+            </div>
+          </section>
+
+          <section style="background:#FFFFFF;border:1px solid #E4E4EA;border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:16px">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+              <div><h2 style="font-family:Epilogue,sans-serif;font-size:16px;margin:0;letter-spacing:-.01em">Revenue by product</h2><div style="font-size:13px;color:#5A5C72">October to date · GHS</div></div>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <sc-for list="{{ products }}" as="p" hint-placeholder-count="5">
+                <div style="display:grid;grid-template-columns:120px minmax(0,1fr) 96px;align-items:center;gap:12px">
+                  <span style="font-size:13px;font-weight:700">{{ p.label }}</span>
+                  <div style="height:22px;background:#F1F1F4;border-radius:6px;overflow:hidden"><div style="height:100%;width:{{ p.w }}%;background:{{ p.color }};border-radius:6px;transition:width 1s cubic-bezier(.2,.7,.2,1) {{ p.delay }}ms"></div></div>
+                  <span style="font-size:13px;text-align:right;font-variant-numeric:tabular-nums"><strong>{{ p.value }}</strong> <span style="color:#8E90A6">{{ p.share }}</span></span>
+                </div>
+              </sc-for>
+            </div>
+          </section>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px">
+          <section style="background:#FFFFFF;border:1px solid #E4E4EA;border-radius:14px;padding:20px">
+            <div><h2 style="font-family:Epilogue,sans-serif;font-size:16px;margin:0;letter-spacing:-.01em">Desk occupancy by weekday</h2><div style="font-size:13px;color:#5A5C72">Average of the last 4 weeks · 60 desks</div></div>
+            <div style="display:flex;align-items:flex-end;gap:14px;height:200px;margin-top:20px;padding-bottom:4px;border-bottom:1px solid #E4E4EA">
+              <sc-for list="{{ weekdays }}" as="w" hint-placeholder-count="6">
+                <div style="flex:1;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:6px">
+                  <span style="font-size:12px;font-weight:700;font-variant-numeric:tabular-nums">{{ w.pct }}</span>
+                  <div style="width:100%;max-width:52px;height:{{ w.h }}%;background:{{ w.color }};border-radius:6px 6px 2px 2px;transition:height 1s cubic-bezier(.2,.7,.2,1) {{ w.delay }}ms"></div>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display:flex;gap:14px;margin-top:8px">
+              <sc-for list="{{ weekdays }}" as="w" hint-placeholder-count="6"><span style="flex:1;text-align:center;font-size:12px;color:{{ w.labelColor }};font-weight:700">{{ w.label }}</span></sc-for>
+            </div>
+          </section>
+
+          <section style="background:#FFFFFF;border:1px solid #E4E4EA;border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+              <div><h2 style="font-family:Epilogue,sans-serif;font-size:16px;margin:0;letter-spacing:-.01em">Live activity</h2><div style="font-size:13px;color:#5A5C72">Check-ins, payments and bookings as they happen</div></div>
+              <span style="display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:#2F7D5B"><span style="width:8px;height:8px;border-radius:50%;background:#2F7D5B;animation:hvLive 1.6s ease-out infinite"></span>Live</span>
+            </div>
+            <div style="display:flex;flex-direction:column;max-height:300px;overflow:hidden">
+              <sc-for list="{{ feed }}" as="f" hint-placeholder-count="6">
+                <div style="display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid #F0F0F3;animation:hvIn .45s ease">
+                  <span style="width:28px;height:28px;border-radius:8px;background:{{ f.bg }};color:{{ f.fg }};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700">{{ f.icon }}</span>
+                  <span style="font-size:13px;min-width:0"><strong>{{ f.who }}</strong> <span style="color:#5A5C72">{{ f.what }}</span></span>
+                  <span style="font-size:12px;color:#8E90A6;font-variant-numeric:tabular-nums">{{ f.time }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </section>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- BOOKINGS -->
+    <sc-if value="{{ show.bookings }}" hint-placeholder-val="{{ false }}">
+      <div data-screen-label="02 Bookings" style="display:flex;flex-direction:column;gap:16px">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+          <div style="display:flex;gap:4px;padding:4px;background:#FFFFFF;border:1px solid #E4E4EA;border-radius:10px">
+            <sc-for list="{{ bTypes }}" as="t" hint-placeholder-count="4"><button onClick="{{ t.pick }}" style="border:0;cursor:pointer;padding:7px 14px;border-radius:7px;font-size:13px;font-weight:700;background:{{ t.bg }};color:{{ t.fg }}" style-hover="color:#2B2D42">{{ t.label }}</button></sc-for>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+            <select value="{{ bStatus }}" onChange="{{ setBStatus }}" style="padding:8px 12px;border:1px solid #E4E4EA;border-radius:10px;background:#FFFFFF;cursor:pointer"><option value="all">All statuses</option><option value="Confirmed">Confirmed</option><option value="Pending">Pending</option><option value="Checked in">Checked in</option><option value="Completed">Completed</option></select>
+            <input value="{{ bSearch }}" onChange="{{ setBSearch }}" placeholder="Search guest name" style="padding:8px 12px;border:1px solid #E4E4EA;border-radius:10px;background:#FFFFFF;width:200px;outline-color:#D49516">
+          </div>
+        </div>
+        <div style="display:flex;gap:20px;flex-wrap:wrap;font-size:13px;color:#5A5C72;align-items:center">
+          <span><strong style="color:#2B2D42">19 – 24 October 2026</strong></span>
+          <span>{{ bSummary }}</span>
+          <span style="margin-left:auto;display:flex;gap:14px;align-items:center"><span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:3px;background:#E8E9F1"></span>Desk</span><span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:3px;background:#FBEFD6"></span>Pod</span><span style="display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:3px;background:#F3E7E8"></span>Room</span><span>Drag a booking to reschedule</span></span>
+        </div>
+        <sc-if value="{{ bEmpty }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#FFFFFF;border:1px dashed #D3D3DC;border-radius:14px;padding:36px;text-align:center;display:flex;flex-direction:column;gap:8px;align-items:center">
+            <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:16px">No bookings match these filters</div>
+            <div style="color:#5A5C72;font-size:13px">Try another status or clear the search.</div>
+            <button onClick="{{ clearBFilters }}" style="margin-top:6px;border:1px solid #2B2D42;background:#FFFFFF;color:#2B2D42;border-radius:9px;padding:8px 14px;font-weight:700;cursor:pointer" style-hover="background:#2B2D42;color:#FFFFFF">Clear filters</button>
+          </div>
+        </sc-if>
+        <div style="background:#FFFFFF;border:1px solid #E4E4EA;border-radius:14px;overflow:auto">
+          <div style="min-width:980px">
+            <div style="display:grid;grid-template-columns:170px repeat(6,minmax(0,1fr));border-bottom:1px solid #E4E4EA;position:sticky;top:0;background:#FFFFFF">
+              <div style="padding:12px 14px;font-size:12px;color:#8E90A6;font-weight:700;text-transform:uppercase;letter-spacing:.08em">Space</div>
+              <sc-for list="{{ weekHead }}" as="d" hint-placeholder-count="6">
+                <div style="padding:10px 12px;border-left:1px solid #F0F0F3;background:{{ d.bg }}"><div style="font-size:12px;color:{{ d.sub }};font-weight:700;text-transform:uppercase;letter-spacing:.08em">{{ d.dow }}</div><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:16px">{{ d.date }}</div></div>
+              </sc-for>
+            </div>
+            <sc-for list="{{ bRows }}" as="row" hint-placeholder-count="9">
+              <div style="display:grid;grid-template-columns:170px repeat(6,minmax(0,1fr));border-bottom:1px solid #F0F0F3">
+                <div style="padding:12px 14px;display:flex;flex-direction:column;justify-content:center"><div style="font-weight:700;font-size:13px">{{ row.name }}</div><div style="font-size:12px;color:#8E90A6">{{ row.sub }}</div></div>
+                <sc-for list="{{ row.cells }}" as="c" hint-placeholder-count="6">
+                  <div onDragOver="{{ c.over }}" onDrop="{{ c.drop }}" style="min-height:72px;padding:6px;border-left:1px solid #F0F0F3;display:flex;flex-direction:column;gap:4px;background:{{ c.bg }};outline:{{ c.outline }};outline-offset:-2px;transition:background .12s">
+                    <sc-for list="{{ c.items }}" as="bk" hint-placeholder-count="1">
+                      <div draggable="true" onDragStart="{{ bk.start }}" onDragEnd="{{ bk.end }}" onClick="{{ bk.open }}" style="cursor:grab;padding:5px 8px;border-radius:7px;font-size:12px;line-height:1.3;background:{{ bk.bg }};border:1px {{ bk.borderStyle }} {{ bk.border }};opacity:{{ bk.opacity }};transition:transform .12s,box-shadow .12s" style-hover="transform:translateY(-1px);box-shadow:0 4px 12px rgba(43,45,66,.12)">
+                        <div style="font-weight:700;display:flex;justify-content:space-between;gap:6px"><span>{{ bk.time }}</span><span style="width:7px;height:7px;border-radius:50%;margin-top:4px;background:{{ bk.dot }}"></span></div>
+                        <div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ bk.name }}</div>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- MEMBERS -->
+    <sc-if value="{{ show.members }}" hint-placeholder-val="{{ false }}">
+      <div data-screen-label="03 Members" style="display:flex;flex-direction:column;gap:16px">
+        <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center">
+          <input value="{{ mSearch }}" onChange="{{ setMSearch }}" placeholder="Search by name, email or company" style="padding:10px 14px;border:1px solid #E4E4EA;border-radius:10px;background:#FFFFFF;width:min(100%,340px);outline-color:#D49516">
+          <div style="display:flex;gap:4px;padding:4px;background:#FFFFFF;border:1px solid #E4E4EA;border-radius:10px;flex-wrap:wrap">
+            <sc-for list="{{ mPlans }}" as="t" hint-placeholder-count="5"><button onClick="{{ t.pick }}" style="border:0;cursor:pointer;padding:7px 12px;border-radius:7px;font-size:13px;font-weight:700;background:{{ t.bg }};color:{{ t.fg }}" style-hover="color:#2B2D42">{{ t.label }}</button></sc-for>
+          </div>
+        </div>
+        <section style="background:#FFFFFF;border:1px solid #E4E4EA;border-radius:14px;overflow:auto">
+          <div style="min-width:860px">
+            <div style="display:grid;grid-template-columns:minmax(0,2.2fr) minmax(0,1.2fr) minmax(0,1.2fr) minmax(0,1fr) minmax(0,1fr) minmax(0,.9fr);gap:12px;padding:12px 20px;border-bottom:1px solid #E4E4EA;font-size:12px;color:#8E90A6;font-weight:700;text-transform:uppercase;letter-spacing:.08em">
+              <span>Member</span><span>Plan</span><span>Days left</span><span>Last visit</span><span style="text-align:right">Total spent</span><span>Status</span>
+            </div>
+            <sc-for list="{{ members }}" as="m" hint-placeholder-count="8">
+              <div onClick="{{ m.open }}" style="display:grid;grid-template-columns:minmax(0,2.2fr) minmax(0,1.2fr) minmax(0,1.2fr) minmax(0,1fr) minmax(0,1fr) minmax(0,.9fr);gap:12px;padding:11px 20px;border-bottom:1px solid #F0F0F3;align-items:center;cursor:pointer;transition:background .12s" style-hover="background:#FAFAFB">
+                <div style="display:flex;align-items:center;gap:10px;min-width:0"><span style="width:32px;height:32px;flex:none;border-radius:50%;background:#E8E9F1;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700">{{ m.initials }}</span><div style="min-width:0"><div style="font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ m.name }}</div><div style="font-size:12px;color:#8E90A6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ m.email }}</div></div></div>
+                <span style="font-size:13px">{{ m.plan }}</span>
+                <div style="display:flex;flex-direction:column;gap:4px"><span style="font-size:13px;font-variant-numeric:tabular-nums">{{ m.daysText }}</span><div style="height:4px;width:90px;background:#F1F1F4;border-radius:2px;overflow:hidden"><div style="height:100%;width:{{ m.daysW }}%;background:{{ m.daysColor }}"></div></div></div>
+                <span style="font-size:13px;color:#5A5C72">{{ m.last }}</span>
+                <span style="font-size:13px;text-align:right;font-weight:700;font-variant-numeric:tabular-nums">{{ m.spentText }}</span>
+                <span><span style="display:inline-flex;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;color:{{ m.chip.fg }};background:{{ m.chip.bg }}">{{ m.status }}</span></span>
+              </div>
+            </sc-for>
+            <sc-if value="{{ mEmpty }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:48px 20px;text-align:center;display:flex;flex-direction:column;gap:6px;align-items:center">
+                <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:16px">No members found</div>
+                <div style="color:#5A5C72;font-size:13px">Nobody matches “{{ mSearch }}”. Check the spelling or try a phone number.</div>
+              </div>
+            </sc-if>
+          </div>
+        </section>
+        <div style="font-size:12px;color:#8E90A6">{{ mCount }}</div>
+      </div>
+    </sc-if>
+
+    <!-- BILLING -->
+    <sc-if value="{{ show.billing }}" hint-placeholder-val="{{ false }}">
+      <div data-screen-label="04 Billing" style="display:flex;flex-direction:column;gap:16px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px">
+          <sc-for list="{{ billTiles }}" as="t" hint-placeholder-count="3">
+            <div style="background:#FFFFFF;border:1px solid #E4E4EA;border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:4px">
+              <span style="font-size:13px;color:#5A5C72">{{ t.label }}</span>
+              <span style="font-family:Epilogue,sans-serif;font-weight:700;font-size:24px;letter-spacing:-.02em;color:{{ t.color }}">{{ t.value }}</span>
+              <span style="font-size:12px;color:#8E90A6">{{ t.note }}</span>
+            </div>
+          </sc-for>
+          <div style="background:#2B2D42;color:#F5F5F5;border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;justify-content:space-between;gap:10px">
+            <div><div style="font-weight:700">Month-end statement</div><div style="font-size:12px;color:#B9BAC6">October 2026 · all invoices and payments</div></div>
+            <button onClick="{{ exportStatement }}" style="align-self:flex-start;border:0;background:#D49516;color:#2B2D42;font-weight:700;border-radius:9px;padding:9px 14px;cursor:pointer;transition:background .15s" style-hover="background:#E2A836">Export statement (CSV)</button>
+          </div>
+        </div>
+        <section style="background:#FFFFFF;border:1px solid #E4E4EA;border-radius:14px;overflow:auto">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid #E4E4EA;flex-wrap:wrap">
+            <h2 style="font-family:Epilogue,sans-serif;font-size:16px;margin:0">Invoices</h2>
+            <div style="display:flex;gap:4px;padding:4px;background:#F4F4F6;border-radius:10px">
+              <sc-for list="{{ invTabs }}" as="t" hint-placeholder-count="4"><button onClick="{{ t.pick }}" style="border:0;cursor:pointer;padding:6px 12px;border-radius:7px;font-size:13px;font-weight:700;background:{{ t.bg }};color:{{ t.fg }};box-shadow:{{ t.shadow }}" style-hover="color:#2B2D42">{{ t.label }} <span style="color:#8E90A6;font-weight:400">{{ t.count }}</span></button></sc-for>
+            </div>
+          </div>
+          <div style="min-width:880px">
+            <div style="display:grid;grid-template-columns:110px minmax(0,1.6fr) minmax(0,1.4fr) 90px 90px 110px 96px 150px;gap:12px;padding:10px 20px;border-bottom:1px solid #E4E4EA;font-size:12px;color:#8E90A6;font-weight:700;text-transform:uppercase;letter-spacing:.08em">
+              <span>Invoice</span><span>Customer</span><span>Item</span><span>Issued</span><span>Due</span><span style="text-align:right">Amount</span><span>Status</span><span></span>
+            </div>
+            <sc-for list="{{ invoices }}" as="i" hint-placeholder-count="8">
+              <div style="display:grid;grid-template-columns:110px minmax(0,1.6fr) minmax(0,1.4fr) 90px 90px 110px 96px 150px;gap:12px;padding:10px 20px;border-bottom:1px solid #F0F0F3;align-items:center;font-size:13px;transition:background .12s" style-hover="background:#FAFAFB">
+                <span style="font-variant-numeric:tabular-nums;color:#5A5C72">{{ i.no }}</span>
+                <span style="font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ i.who }}</span>
+                <span style="color:#5A5C72;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ i.item }}</span>
+                <span style="color:#5A5C72">{{ i.issued }}</span>
+                <span style="color:{{ i.dueColor }};font-weight:{{ i.dueWeight }}">{{ i.due }}</span>
+                <span style="text-align:right;font-weight:700;font-variant-numeric:tabular-nums">{{ i.amountText }}</span>
+                <span><span style="display:inline-flex;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;color:{{ i.chip.fg }};background:{{ i.chip.bg }}">{{ i.status }}</span></span>
+                <span style="text-align:right">
+                  <sc-if value="{{ i.canRemind }}" hint-placeholder-val="{{ false }}"><button onClick="{{ i.remind }}" style="border:1px solid #2B2D42;background:#FFFFFF;color:#2B2D42;border-radius:8px;padding:5px 10px;font-size:12px;font-weight:700;cursor:pointer;transition:background .15s,color .15s" style-hover="background:#2B2D42;color:#FFFFFF">Send reminder</button></sc-if>
+                  <sc-if value="{{ i.wasReminded }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#2F7D5B;font-weight:700">{{ i.remindedText }}</span></sc-if>
+                </span>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+        <section style="background:#FFFFFF;border:1px solid #E4E4EA;border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:14px">
+          <div><h2 style="font-family:Epilogue,sans-serif;font-size:16px;margin:0">Company accounts</h2><div style="font-size:13px;color:#5A5C72">Teams billed monthly on one invoice</div></div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px">
+            <sc-for list="{{ companies }}" as="c" hint-placeholder-count="5">
+              <div style="border:1px solid #E4E4EA;border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px;transition:border-color .15s" style-hover="border-color:#E3C27F">
+                <div style="display:flex;justify-content:space-between;gap:8px;align-items:flex-start"><div><div style="font-weight:700">{{ c.name }}</div><div style="font-size:12px;color:#8E90A6">{{ c.contact }}</div></div><span style="display:inline-flex;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;color:{{ c.chip.fg }};background:{{ c.chip.bg }}">{{ c.status }}</span></div>
+                <div style="font-size:13px;color:#5A5C72">{{ c.plan }}</div>
+                <div style="display:flex;justify-content:space-between;font-size:13px;border-top:1px solid #F0F0F3;padding-top:8px"><span style="color:#5A5C72">Monthly</span><strong>{{ c.monthly }}</strong></div>
+                <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:#5A5C72">Balance</span><strong style="color:{{ c.balColor }}">{{ c.balance }}</strong></div>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+      </div>
+    </sc-if>
+
+    <!-- OFFICES -->
+    <sc-if value="{{ show.offices }}" hint-placeholder-val="{{ false }}">
+      <div data-screen-label="05 Offices" style="display:flex;flex-direction:column;gap:16px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap">
+          <div><h2 style="font-family:Epilogue,sans-serif;font-size:16px;margin:0">Leasing pipeline</h2><div style="font-size:13px;color:#5A5C72">Drag a card to move it to the next stage</div></div>
+          <div style="font-size:13px;color:#5A5C72">Open pipeline <strong style="color:#2B2D42">{{ pipeTotal }}</strong> per month</div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(5,minmax(210px,1fr));gap:12px;overflow-x:auto;padding-bottom:4px">
+          <sc-for list="{{ stages }}" as="st" hint-placeholder-count="5">
+            <div onDragOver="{{ st.over }}" onDrop="{{ st.drop }}" style="background:{{ st.bg }};border:1px solid {{ st.border }};border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:10px;min-height:320px;transition:background .12s,border-color .12s">
+              <div style="display:flex;justify-content:space-between;align-items:center;padding:2px 4px"><span style="font-weight:700;display:flex;align-items:center;gap:8px"><span style="width:8px;height:8px;border-radius:50%;background:{{ st.dot }}"></span>{{ st.label }} <span style="color:#8E90A6;font-weight:400">{{ st.count }}</span></span><span style="font-size:12px;color:#5A5C72">{{ st.total }}</span></div>
+              <sc-for list="{{ st.cards }}" as="d" hint-placeholder-count="2">
+                <div draggable="true" onDragStart="{{ d.start }}" onDragEnd="{{ d.end }}" style="background:#FFFFFF;border:1px solid #E4E4EA;border-radius:10px;padding:12px;cursor:grab;display:flex;flex-direction:column;gap:6px;opacity:{{ d.opacity }};transition:box-shadow .15s,transform .15s" style-hover="box-shadow:0 6px 18px rgba(43,45,66,.1);transform:translateY(-1px)">
+                  <div style="font-weight:700">{{ d.co }}</div>
+                  <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:#5A5C72">{{ d.teamText }}</span><strong style="font-variant-numeric:tabular-nums">{{ d.valueText }}</strong></div>
+                  <div style="display:flex;justify-content:space-between;font-size:12px;color:#8E90A6"><span>{{ d.contact }}</span><span>{{ d.age }}</span></div>
+                </div>
+              </sc-for>
+              <sc-if value="{{ st.empty }}" hint-placeholder-val="{{ false }}"><div style="border:1px dashed #D3D3DC;border-radius:10px;padding:20px 10px;text-align:center;font-size:12px;color:#8E90A6">Drop a deal here</div></sc-if>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:16px">
+          <section style="background:#FFFFFF;border:1px solid #E4E4EA;border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:14px;grid-column:span 2;min-width:0">
+            <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start">
+              <div><h2 style="font-family:Epilogue,sans-serif;font-size:16px;margin:0">Office floor plan · First floor</h2><div style="font-size:13px;color:#5A5C72">{{ officeSummary }}</div></div>
+              <div style="display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:#5A5C72">
+                <span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:3px;background:#2B2D42"></span>Occupied</span>
+                <span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:3px;background:#9B6A6C"></span>Notice given</span>
+                <span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:3px;background:#F6DDA6"></span>Reserved</span>
+                <span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:3px;border:1.5px dashed #9EA0B3"></span>Available</span>
+              </div>
+            </div>
+            <div data-m-floor style="background:#F4F4F6;border-radius:12px;padding:12px;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px">
+              <sc-for list="{{ officesTop }}" as="o" hint-placeholder-count="7">
+                <div title="{{ o.tip }}" style="height:96px;border-radius:8px;padding:8px;background:{{ o.bg }};color:{{ o.fg }};border:1.5px {{ o.borderStyle }} {{ o.border }};display:flex;flex-direction:column;justify-content:space-between;cursor:default;transition:transform .12s,box-shadow .12s" style-hover="transform:translateY(-2px);box-shadow:0 6px 16px rgba(43,45,66,.18)">
+                  <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700"><span>{{ o.no }}</span><span style="opacity:.75">{{ o.seats }}</span></div>
+                  <div style="font-size:11px;line-height:1.25;opacity:.9">{{ o.tenant }}</div>
+                </div>
+              </sc-for>
+              <div style="grid-column:1 / -1;height:34px;border-radius:6px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#8E90A6;background:repeating-linear-gradient(90deg,#ECECF0 0 14px,#F4F4F6 14px 28px)"><span>Corridor</span><span>Kitchen · Reception →</span></div>
+              <sc-for list="{{ officesBottom }}" as="o" hint-placeholder-count="7">
+                <div title="{{ o.tip }}" style="height:96px;border-radius:8px;padding:8px;background:{{ o.bg }};color:{{ o.fg }};border:1.5px {{ o.borderStyle }} {{ o.border }};display:flex;flex-direction:column;justify-content:space-between;cursor:default;transition:transform .12s,box-shadow .12s" style-hover="transform:translateY(-2px);box-shadow:0 6px 16px rgba(43,45,66,.18)">
+                  <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700"><span>{{ o.no }}</span><span style="opacity:.75">{{ o.seats }}</span></div>
+                  <div style="font-size:11px;line-height:1.25;opacity:.9">{{ o.tenant }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </section>
+          <section style="background:#FFFFFF;border:1px solid #E4E4EA;border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:12px">
+            <div><h2 style="font-family:Epilogue,sans-serif;font-size:16px;margin:0">Lease renewals</h2><div style="font-size:13px;color:#5A5C72">Leases ending in the next 90 days</div></div>
+            <sc-for list="{{ renewals }}" as="r" hint-placeholder-count="3">
+              <div style="border:1px solid #E4E4EA;border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:8px">
+                <div style="display:flex;justify-content:space-between;gap:8px;align-items:flex-start"><div><div style="font-weight:700">{{ r.co }}</div><div style="font-size:12px;color:#8E90A6">{{ r.office }} · {{ r.rent }}</div></div><span style="display:inline-flex;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap;color:{{ r.chip.fg }};background:{{ r.chip.bg }}">{{ r.days }}</span></div>
+                <div style="font-size:12px;color:#5A5C72">{{ r.note }}</div>
+                <button onClick="{{ r.act }}" style="align-self:flex-start;border:1px solid #2B2D42;background:#FFFFFF;color:#2B2D42;border-radius:8px;padding:5px 10px;font-size:12px;font-weight:700;cursor:pointer;transition:background .15s,color .15s" style-hover="background:#2B2D42;color:#FFFFFF">{{ r.cta }}</button>
+              </div>
+            </sc-for>
+          </section>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- ROOMS AND EVENTS -->
+    <sc-if value="{{ show.rooms }}" hint-placeholder-val="{{ false }}">
+      <div data-screen-label="06 Rooms and Events" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:16px;align-items:start">
+        <section style="background:#FFFFFF;border:1px solid #E4E4EA;border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap">
+            <div><h2 style="font-family:Epilogue,sans-serif;font-size:16px;margin:0">Room and pod utilisation</h2><div style="font-size:13px;color:#5A5C72">This week · share of bookable hours, 8:00 to 18:00</div></div>
+            <span style="font-size:12px;color:#5A5C72;display:flex;align-items:center;gap:6px"><span style="width:2px;height:14px;background:#9B6A6C"></span>70% target</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:12px">
+            <sc-for list="{{ util }}" as="u" hint-placeholder-count="8">
+              <div style="display:grid;grid-template-columns:110px minmax(0,1fr) 92px;gap:12px;align-items:center">
+                <span style="font-size:13px;font-weight:700">{{ u.name }}</span>
+                <div style="position:relative;height:20px;background:#F1F1F4;border-radius:6px">
+                  <div style="height:100%;width:{{ u.w }}%;background:{{ u.color }};border-radius:6px;transition:width 1s cubic-bezier(.2,.7,.2,1) {{ u.delay }}ms"></div>
+                  <div style="position:absolute;top:-3px;bottom:-3px;left:70%;width:2px;background:#9B6A6C"></div>
+                </div>
+                <span style="font-size:13px;text-align:right;font-variant-numeric:tabular-nums"><strong>{{ u.pct }}</strong> <span style="color:#8E90A6">{{ u.hrs }}</span></span>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+        <section style="background:#FFFFFF;border:1px solid #E4E4EA;border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:12px">
+          <div><h2 style="font-family:Epilogue,sans-serif;font-size:16px;margin:0">Upcoming events</h2><div style="font-size:13px;color:#5A5C72">RSVPs from the website and WhatsApp</div></div>
+          <sc-for list="{{ events }}" as="e" hint-placeholder-count="6">
+            <div style="display:grid;grid-template-columns:52px minmax(0,1fr) 140px;gap:14px;align-items:center;padding:10px;border-radius:12px;transition:background .12s" style-hover="background:#FAFAFB">
+              <div style="border-radius:10px;background:#2B2D42;color:#F5F5F5;text-align:center;padding:6px 0;line-height:1.1"><div style="font-size:11px;color:#D49516;font-weight:700;text-transform:uppercase">{{ e.mon }}</div><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:18px">{{ e.day }}</div></div>
+              <div style="min-width:0"><div style="font-weight:700;display:flex;gap:8px;align-items:center;flex-wrap:wrap">{{ e.title }} <span style="display:inline-flex;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700;color:{{ e.chip.fg }};background:{{ e.chip.bg }}">{{ e.status }}</span></div><div style="font-size:12px;color:#8E90A6">{{ e.meta }}</div></div>
+              <div style="display:flex;flex-direction:column;gap:4px"><div style="font-size:12px;display:flex;justify-content:space-between"><strong>{{ e.rsvp }} RSVPs</strong><span style="color:#8E90A6">of {{ e.cap }}</span></div><div style="height:6px;background:#F1F1F4;border-radius:3px;overflow:hidden"><div style="height:100%;width:{{ e.w }}%;background:{{ e.barColor }};transition:width 1s cubic-bezier(.2,.7,.2,1)"></div></div></div>
+            </div>
+          </sc-for>
+        </section>
+      </div>
+    </sc-if>
+
+    <!-- OPERATIONS -->
+    <sc-if value="{{ show.operations }}" hint-placeholder-val="{{ false }}">
+      <div data-screen-label="07 Operations" style="display:flex;flex-direction:column;gap:16px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:16px;align-items:start">
+          <section style="background:#FFFFFF;border:1px solid #E4E4EA;border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:16px">
+            <div style="display:flex;align-items:center;gap:18px">
+              <div style="position:relative;width:88px;height:88px;flex:none">
+                <svg viewBox="0 0 88 88" style="width:88px;height:88px;transform:rotate(-90deg)"><circle cx="44" cy="44" r="36" fill="none" stroke="#F1F1F4" style="stroke-width:9"></circle><circle cx="44" cy="44" r="36" fill="none" stroke="#D49516" style="stroke-width:9;stroke-linecap:round;stroke-dasharray:{{ ringDash }} 226.2;transition:stroke-dasharray .9s cubic-bezier(.2,.7,.2,1)"></circle></svg>
+                <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:Epilogue,sans-serif;font-weight:700;font-size:18px">{{ checkPct }}</div>
+              </div>
+              <div><h2 style="font-family:Epilogue,sans-serif;font-size:16px;margin:0">Today’s checklist</h2><div style="font-size:13px;color:#5A5C72">{{ checkSummary }} · ticked in the Staff App by Doreen</div></div>
+            </div>
+            <sc-for list="{{ checklists }}" as="cl" hint-placeholder-count="3">
+              <div style="display:flex;flex-direction:column;gap:2px">
+                <div style="display:flex;justify-content:space-between;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8E90A6;padding:4px 0"><span>{{ cl.name }}</span><span>{{ cl.done }}</span></div>
+                <sc-for list="{{ cl.items }}" as="it" hint-placeholder-count="4">
+                  <button onClick="{{ it.toggle }}" style="display:flex;align-items:center;gap:10px;border:0;background:transparent;text-align:left;padding:6px 4px;border-radius:7px;cursor:pointer;font-size:13px;color:{{ it.color }}" style-hover="background:#FAFAFB">
+                    <span style="width:18px;height:18px;flex:none;border-radius:5px;border:1.5px solid {{ it.boxBorder }};background:{{ it.boxBg }};color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700">{{ it.mark }}</span>
+                    <span style="text-decoration:{{ it.deco }}">{{ it.label }}</span>
+                    <span style="margin-left:auto;font-size:12px;color:#8E90A6">{{ it.when }}</span>
+                  </button>
+                </sc-for>
+              </div>
+            </sc-for>
+          </section>
+          <section style="background:#FFFFFF;border:1px solid #E4E4EA;border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:14px">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px"><div><h2 style="font-family:Epilogue,sans-serif;font-size:16px;margin:0">Stock levels</h2><div style="font-size:13px;color:#5A5C72">Counted at opening this morning</div></div><span style="display:inline-flex;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;color:#A23B3B;background:#F8E3E3">{{ lowCount }}</span></div>
+            <sc-for list="{{ stock }}" as="s" hint-placeholder-count="8">
+              <div style="display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) 84px;gap:12px;align-items:center">
+                <div><div style="font-size:13px;font-weight:700">{{ s.name }}</div><div style="font-size:12px;color:{{ s.noteColor }}">{{ s.note }}</div></div>
+                <div style="height:8px;background:#F1F1F4;border-radius:4px;overflow:hidden"><div style="height:100%;width:{{ s.w }}%;background:{{ s.color }};transition:width .9s cubic-bezier(.2,.7,.2,1)"></div></div>
+                <div style="text-align:right">
+                  <sc-if value="{{ s.low }}" hint-placeholder-val="{{ false }}"><button onClick="{{ s.reorder }}" style="border:0;background:#D49516;color:#2B2D42;border-radius:7px;padding:4px 10px;font-size:12px;font-weight:700;cursor:pointer" style-hover="background:#E2A836">{{ s.cta }}</button></sc-if>
+                  <sc-if value="{{ s.ok }}" hint-placeholder-val="{{ true }}"><span style="font-size:12px;color:#5A5C72;font-variant-numeric:tabular-nums">{{ s.qty }}</span></sc-if>
+                </div>
+              </div>
+            </sc-for>
+          </section>
+        </div>
+        <section style="background:#FFFFFF;border:1px solid #E4E4EA;border-radius:14px;overflow:auto">
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid #E4E4EA;gap:12px;flex-wrap:wrap"><div><h2 style="font-family:Epilogue,sans-serif;font-size:16px;margin:0">Maintenance tickets</h2><div style="font-size:13px;color:#5A5C72">{{ ticketSummary }}</div></div></div>
+          <div style="min-width:760px">
+            <div style="display:grid;grid-template-columns:70px minmax(0,2fr) minmax(0,1fr) 90px minmax(0,1fr) 80px 140px;gap:12px;padding:10px 20px;border-bottom:1px solid #E4E4EA;font-size:12px;color:#8E90A6;font-weight:700;text-transform:uppercase;letter-spacing:.08em"><span>Ticket</span><span>Issue</span><span>Where</span><span>Priority</span><span>Assigned</span><span>Age</span><span>Status</span></div>
+            <sc-for list="{{ tickets }}" as="t" hint-placeholder-count="6">
+              <div style="display:grid;grid-template-columns:70px minmax(0,2fr) minmax(0,1fr) 90px minmax(0,1fr) 80px 140px;gap:12px;padding:11px 20px;border-bottom:1px solid #F0F0F3;align-items:center;font-size:13px;transition:background .12s" style-hover="background:#FAFAFB">
+                <span style="color:#5A5C72">{{ t.id }}</span><span style="font-weight:700">{{ t.issue }}</span><span style="color:#5A5C72">{{ t.where }}</span>
+                <span style="display:flex;align-items:center;gap:6px;font-weight:700;color:{{ t.prioColor }}"><span style="width:7px;height:7px;border-radius:50%;background:{{ t.prioColor }}"></span>{{ t.prio }}</span>
+                <span style="color:#5A5C72">{{ t.who }}</span><span style="color:#5A5C72">{{ t.age }}</span>
+                <span><button onClick="{{ t.cycle }}" title="Click to change status" style="border:0;cursor:pointer;display:inline-flex;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;color:{{ t.chip.fg }};background:{{ t.chip.bg }}" style-hover="filter:brightness(.96)">{{ t.status }}</button></span>
+              </div>
+            </sc-for>
+          </div>
+        </section>
+      </div>
+    </sc-if>
+
+    <!-- MARKETING -->
+    <sc-if value="{{ show.marketing }}" hint-placeholder-val="{{ false }}">
+      <div data-screen-label="08 Marketing" style="display:flex;flex-direction:column;gap:16px">
+        <div style="background:#FBEFD6;border:1px solid #EFD7A4;border-radius:12px;padding:12px 16px;display:flex;align-items:center;gap:12px;font-size:13px;color:#5E4206">
+          <span style="width:22px;height:22px;flex:none;border-radius:50%;background:#D49516;color:#2B2D42;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px">!</span>
+          <span><strong>Nothing posts until you approve it.</strong> Drafts are written by the AI assistant from this week’s bookings, events and photos. Approve first, then schedule.</span>
+        </div>
+        <div data-m-stack style="display:grid;grid-template-columns:minmax(0,2fr) minmax(300px,1fr);gap:16px;align-items:start">
+          <section style="display:flex;flex-direction:column;gap:12px;min-width:0">
+            <div style="display:flex;justify-content:space-between;align-items:baseline"><h2 style="font-family:Epilogue,sans-serif;font-size:16px;margin:0">Drafts queue</h2><span style="font-size:13px;color:#5A5C72">{{ queueCount }}</span></div>
+            <sc-if value="{{ queueEmpty }}" hint-placeholder-val="{{ false }}">
+              <div style="background:#FFFFFF;border:1px dashed #D3D3DC;border-radius:14px;padding:48px 20px;text-align:center;display:flex;flex-direction:column;gap:6px;align-items:center">
+                <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:16px">Queue clear</div>
+                <div style="color:#5A5C72;font-size:13px;max-width:40ch">Every draft is scheduled. New drafts arrive on Monday at 7:00 with the weekly brief.</div>
+              </div>
+            </sc-if>
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px">
+              <sc-for list="{{ drafts }}" as="p" hint-placeholder-count="4">
+                <article style="background:#FFFFFF;border:1px solid #E4E4EA;border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:box-shadow .15s,border-color .15s" style-hover="box-shadow:0 10px 28px rgba(43,45,66,.08);border-color:#D9D9E1">
+                  <div style="aspect-ratio:16 / 10;background:repeating-linear-gradient(135deg,#ECECF0 0 10px,#F4F4F6 10px 20px);display:flex;align-items:flex-end;padding:10px;position:relative">
+                    <span style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#5A5C72;background:rgba(255,255,255,.85);padding:3px 7px;border-radius:5px">{{ p.image }}</span>
+                    <span style="position:absolute;top:10px;left:10px;display:inline-flex;padding:3px 9px;border-radius:999px;font-size:11px;font-weight:700;color:{{ p.chip.fg }};background:{{ p.chip.bg }}">{{ p.status }}</span>
+                  </div>
+                  <div style="padding:14px;display:flex;flex-direction:column;gap:10px;flex:1">
+                    <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">
+                      <div style="display:flex;gap:5px"><sc-for list="{{ p.plats }}" as="pl" hint-placeholder-count="2"><span title="{{ pl.name }}" style="width:24px;height:24px;border-radius:6px;background:#2B2D42;color:#F5F5F5;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700">{{ pl.short }}</span></sc-for></div>
+                      <span style="font-size:12px;color:#5A5C72">Suggested <strong style="color:#2B2D42">{{ p.when }}</strong></span>
+                    </div>
+                    <sc-if value="{{ p.notEditing }}" hint-placeholder-val="{{ true }}">
+                      <p style="margin:0;font-size:13px;line-height:1.55;text-wrap:pretty">{{ p.caption }}</p>
+                    </sc-if>
+                    <sc-if value="{{ p.editing }}" hint-placeholder-val="{{ false }}">
+                      <textarea value="{{ p.caption }}" onChange="{{ p.setCaption }}" rows="5" style="width:100%;resize:vertical;border:1px solid #D49516;border-radius:8px;padding:8px;font-size:13px;line-height:1.5;outline:none"></textarea>
+                    </sc-if>
+                    <div style="font-size:12px;color:#9B6A6C;font-weight:700">{{ p.tags }}</div>
+                    <div style="display:flex;gap:6px;margin-top:auto;padding-top:4px">
+                      <button onClick="{{ p.approve }}" disabled="{{ p.approved }}" style="flex:1;border:0;border-radius:8px;padding:8px;font-size:13px;font-weight:700;cursor:pointer;background:{{ p.approveBg }};color:{{ p.approveFg }}" style-hover="filter:brightness(1.05)">{{ p.approveLabel }}</button>
+                      <button onClick="{{ p.edit }}" style="flex:1;border:1px solid #D3D3DC;background:#FFFFFF;color:#2B2D42;border-radius:8px;padding:8px;font-size:13px;font-weight:700;cursor:pointer" style-hover="border-color:#2B2D42">{{ p.editLabel }}</button>
+                      <button onClick="{{ p.schedule }}" disabled="{{ p.cantSchedule }}" title="{{ p.scheduleTip }}" style="flex:1;border:0;border-radius:8px;padding:8px;font-size:13px;font-weight:700;cursor:{{ p.scheduleCursor }};background:{{ p.scheduleBg }};color:{{ p.scheduleFg }}">Schedule</button>
+                    </div>
+                  </div>
+                </article>
+              </sc-for>
+            </div>
+          </section>
+          <section style="background:#FFFFFF;border:1px solid #E4E4EA;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:12px;position:sticky;top:96px">
+            <div><h2 style="font-family:Epilogue,sans-serif;font-size:16px;margin:0">Content calendar</h2><div style="font-size:13px;color:#5A5C72">26 Oct – 15 Nov · scheduled posts</div></div>
+            <div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px">
+              <sc-for list="{{ calDow }}" as="d" hint-placeholder-count="7"><span style="font-size:11px;color:#8E90A6;font-weight:700;text-align:center">{{ d }}</span></sc-for>
+              <sc-for list="{{ calDays }}" as="c" hint-placeholder-count="21">
+                <div style="min-height:58px;border-radius:7px;padding:4px;background:{{ c.bg }};display:flex;flex-direction:column;gap:3px">
+                  <span style="font-size:11px;font-weight:700;color:{{ c.numColor }}">{{ c.num }}</span>
+                  <sc-for list="{{ c.posts }}" as="cp" hint-placeholder-count="0"><span title="{{ cp.title }}" style="font-size:10px;line-height:1.2;padding:2px 4px;border-radius:4px;background:{{ cp.bg }};color:{{ cp.fg }};font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;animation:{{ cp.anim }}">{{ cp.label }}</span></sc-for>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px;border-top:1px solid #F0F0F3;padding-top:12px">
+              <sc-for list="{{ scheduledList }}" as="s" hint-placeholder-count="4">
+                <div style="display:flex;justify-content:space-between;gap:10px;font-size:12px"><span style="min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><strong>{{ s.when }}</strong> · {{ s.title }}</span><span style="color:#8E90A6;flex:none">{{ s.plats }}</span></div>
+              </sc-for>
+            </div>
+          </section>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- REPORTS -->
+    <sc-if value="{{ show.reports }}" hint-placeholder-val="{{ false }}">
+      <div data-screen-label="09 Reports" style="display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start">
+        <aside style="background:#FFFFFF;border:1px solid #E4E4EA;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:14px;position:sticky;top:96px;flex:1 1 240px;max-width:300px">
+          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8E90A6">Monthly report</div>
+          <div style="display:flex;flex-direction:column;gap:4px">
+            <sc-for list="{{ reportMonths }}" as="rm" hint-placeholder-count="3"><button onClick="{{ rm.pick }}" style="text-align:left;border:1px solid {{ rm.border }};background:{{ rm.bg }};border-radius:9px;padding:9px 12px;cursor:pointer;font-size:13px;color:#2B2D42" style-hover="border-color:#D49516"><div style="font-weight:700">{{ rm.label }}</div><div style="font-size:12px;color:#8E90A6">{{ rm.note }}</div></button></sc-for>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;border-top:1px solid #F0F0F3;padding-top:14px">
+            <button onClick="{{ exportPdf }}" style="border:0;background:#2B2D42;color:#F5F5F5;border-radius:9px;padding:10px;font-weight:700;cursor:pointer" style-hover="background:#3A3D58">Export PDF</button>
+            <button onClick="{{ exportReportCsv }}" style="border:1px solid #D3D3DC;background:#FFFFFF;color:#2B2D42;border-radius:9px;padding:10px;font-weight:700;cursor:pointer" style-hover="border-color:#2B2D42">Export data (CSV)</button>
+            <div style="font-size:12px;color:#8E90A6">Sent to the owners on the 1st of each month.</div>
+          </div>
+        </aside>
+        <article style="background:#FFFFFF;border-radius:6px;box-shadow:0 1px 3px rgba(43,45,66,.08),0 20px 50px rgba(43,45,66,.10);max-width:860px;flex:999 1 480px;min-width:0;margin:0 auto;overflow:hidden">
+          <div style="background:#2B2D42;color:#F5F5F5;padding:28px 36px;display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap">
+            <div><img src="https://images.squarespace-cdn.com/content/v1/688633ab5eb7735480a9622d/6c140487-9cba-4324-9f2c-23180ca56305/The+Hive_Primary+Identity_Reverse.png?format=1500w" alt="The Hive" style="height:30px;display:block;margin-bottom:18px"><div style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#D49516">Monthly report</div><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:30px;letter-spacing:-.02em;line-height:1.1">{{ rep.label }}</div></div>
+            <div style="font-size:12px;color:#B9BAC6;text-align:right">{{ rep.note }}<br>Prepared by Abena Asante · Sample data</div>
+          </div>
+          <div style="padding:28px 36px;display:flex;flex-direction:column;gap:26px">
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:#E4E4EA;border:1px solid #E4E4EA;border-radius:10px;overflow:hidden">
+              <sc-for list="{{ rep.kpis }}" as="k" hint-placeholder-count="4"><div style="background:#FFFFFF;padding:14px 16px"><div style="font-size:12px;color:#5A5C72">{{ k.label }}</div><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:20px;letter-spacing:-.01em;white-space:nowrap">{{ k.value }}</div><div style="font-size:12px;font-weight:700;color:{{ k.color }}">{{ k.delta }}</div></div></sc-for>
+            </div>
+            <div>
+              <h3 style="font-family:Epilogue,sans-serif;font-size:15px;margin:0 0 10px">Revenue by product</h3>
+              <sc-for list="{{ rep.products }}" as="p" hint-placeholder-count="5">
+                <div style="display:grid;grid-template-columns:150px minmax(0,1fr) 110px 50px;gap:12px;align-items:center;padding:7px 0;border-bottom:1px solid #F0F0F3;font-size:13px"><span>{{ p.label }}</span><div style="height:8px;background:#F1F1F4;border-radius:4px;overflow:hidden"><div style="height:100%;width:{{ p.w }}%;background:#2B2D42"></div></div><strong style="text-align:right;font-variant-numeric:tabular-nums">{{ p.value }}</strong><span style="text-align:right;color:#8E90A6">{{ p.share }}</span></div>
+              </sc-for>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px">
+              <div><h3 style="font-family:Epilogue,sans-serif;font-size:15px;margin:0 0 8px">Highlights</h3><ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:13px;line-height:1.55"><sc-for list="{{ rep.highlights }}" as="h" hint-placeholder-count="3"><li>{{ h }}</li></sc-for></ul></div>
+              <div><h3 style="font-family:Epilogue,sans-serif;font-size:15px;margin:0 0 8px">Focus next month</h3><ul style="margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;font-size:13px;line-height:1.55"><sc-for list="{{ rep.focus }}" as="h" hint-placeholder-count="3"><li>{{ h }}</li></sc-for></ul></div>
+            </div>
+            <div style="border-top:1px solid #E4E4EA;padding-top:12px;font-size:11px;color:#8E90A6;display:flex;justify-content:space-between"><span>The Hive · Accra</span><span>Page 1 of 1</span></div>
+          </div>
+        </article>
+      </div>
+    </sc-if>
+
+    <!-- SETTINGS -->
+    <sc-if value="{{ show.settings }}" hint-placeholder-val="{{ false }}">
+      <div data-screen-label="10 Settings" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px;align-items:start">
+        <section style="background:#FFFFFF;border:1px solid #E4E4EA;border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:14px">
+          <h2 style="font-family:Epilogue,sans-serif;font-size:16px;margin:0">Team and access</h2>
+          <sc-for list="{{ team }}" as="t" hint-placeholder-count="4">
+            <div style="display:flex;align-items:center;gap:12px;padding-bottom:12px;border-bottom:1px solid #F0F0F3">
+              <span style="width:34px;height:34px;flex:none;border-radius:50%;background:#E8E9F1;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700">{{ t.initials }}</span>
+              <div style="flex:1;min-width:0"><div style="font-weight:700">{{ t.name }}</div><div style="font-size:12px;color:#8E90A6">{{ t.role }}</div></div>
+              <span style="font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;background:#F1F1F4;color:#5A5C72">{{ t.access }}</span>
+            </div>
+          </sc-for>
+        </section>
+        <section style="background:#FFFFFF;border:1px solid #E4E4EA;border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:6px">
+          <h2 style="font-family:Epilogue,sans-serif;font-size:16px;margin:0 0 8px">Notifications</h2>
+          <sc-for list="{{ notifs }}" as="n" hint-placeholder-count="5">
+            <button onClick="{{ n.toggle }}" style="display:flex;align-items:center;gap:14px;border:0;background:transparent;text-align:left;padding:10px 6px;border-radius:9px;cursor:pointer;color:#2B2D42" style-hover="background:#FAFAFB">
+              <div style="flex:1"><div style="font-weight:700;font-size:14px">{{ n.label }}</div><div style="font-size:12px;color:#8E90A6">{{ n.note }}</div></div>
+              <span style="width:38px;height:22px;flex:none;border-radius:999px;background:{{ n.track }};position:relative;transition:background .2s"><span style="position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#FFFFFF;transform:translateX({{ n.knob }}px);transition:transform .2s;box-shadow:0 1px 2px rgba(0,0,0,.2)"></span></span>
+            </button>
+          </sc-for>
+        </section>
+        <section style="background:#FFFFFF;border:1px solid #E4E4EA;border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:12px">
+          <h2 style="font-family:Epilogue,sans-serif;font-size:16px;margin:0">Payments and connections</h2>
+          <sc-for list="{{ integrations }}" as="g" hint-placeholder-count="4">
+            <div style="display:flex;align-items:center;gap:12px;justify-content:space-between;border:1px solid #E4E4EA;border-radius:10px;padding:12px 14px">
+              <div><div style="font-weight:700">{{ g.name }}</div><div style="font-size:12px;color:#8E90A6">{{ g.note }}</div></div>
+              <span style="display:inline-flex;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;color:{{ g.chip.fg }};background:{{ g.chip.bg }}">{{ g.status }}</span>
+            </div>
+          </sc-for>
+        </section>
+        <section style="background:#FFFFFF;border:1px solid #E4E4EA;border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:12px">
+          <h2 style="font-family:Epilogue,sans-serif;font-size:16px;margin:0">Workspace</h2>
+          <sc-for list="{{ workspace }}" as="w" hint-placeholder-count="5">
+            <div style="display:flex;justify-content:space-between;gap:16px;font-size:13px;padding-bottom:10px;border-bottom:1px solid #F0F0F3"><span style="color:#5A5C72">{{ w.k }}</span><strong style="text-align:right">{{ w.v }}</strong></div>
+          </sc-for>
+        </section>
+      </div>
+    </sc-if>
+  </main>
+</div>
+</div>
+
+<sc-if value="{{ drawerOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeDrawer }}" style="position:fixed;inset:0;background:rgba(43,45,66,.32);z-index:40;animation:hvFade .2s ease"></div>
+  <aside role="dialog" aria-label="Details" style="position:fixed;top:0;right:0;bottom:0;width:min(440px,100vw);background:#FFFFFF;z-index:41;box-shadow:-20px 0 50px rgba(43,45,66,.18);display:flex;flex-direction:column;animation:hvSlide .28s cubic-bezier(.2,.7,.2,1)">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;padding:20px 22px;border-bottom:1px solid #E4E4EA;gap:12px">
+      <div><div style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#9B6A6C">{{ dr.kicker }}</div><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:22px;letter-spacing:-.02em;line-height:1.2">{{ dr.title }}</div><div style="font-size:13px;color:#5A5C72">{{ dr.sub }}</div></div>
+      <button onClick="{{ closeDrawer }}" aria-label="Close" style="width:34px;height:34px;flex:none;border:1px solid #E4E4EA;background:#FFFFFF;border-radius:9px;cursor:pointer;font-size:16px;color:#2B2D42" style-hover="border-color:#2B2D42">×</button>
+    </div>
+    <div style="flex:1;overflow-y:auto;padding:20px 22px;display:flex;flex-direction:column;gap:20px">
+      <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+        <sc-for list="{{ dr.stats }}" as="s" hint-placeholder-count="3"><div style="background:#F4F4F6;border-radius:10px;padding:10px 12px"><div style="font-size:11px;color:#5A5C72">{{ s.k }}</div><div style="font-weight:700;font-size:15px">{{ s.v }}</div></div></sc-for>
+      </div>
+      <sc-for list="{{ dr.sections }}" as="sec" hint-placeholder-count="2">
+        <div style="display:flex;flex-direction:column;gap:2px">
+          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8E90A6;padding-bottom:6px">{{ sec.title }}</div>
+          <sc-for list="{{ sec.rows }}" as="r" hint-placeholder-count="3">
+            <div style="display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid #F0F0F3;font-size:13px"><span style="color:#5A5C72">{{ r.k }}</span><span style="font-weight:700;text-align:right">{{ r.v }}</span></div>
+          </sc-for>
+        </div>
+      </sc-for>
+      <sc-if value="{{ dr.hasNotes }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#8E90A6">Notes</div>
+          <sc-for list="{{ dr.notes }}" as="nt" hint-placeholder-count="1"><div style="background:#FBF6EA;border-radius:10px;padding:10px 12px;font-size:13px"><div>{{ nt.text }}</div><div style="font-size:11px;color:#8E90A6;margin-top:4px">{{ nt.by }}</div></div></sc-for>
+          <textarea value="{{ noteDraft }}" onChange="{{ setNoteDraft }}" rows="3" placeholder="Add a note for the team" style="width:100%;border:1px solid #E4E4EA;border-radius:10px;padding:10px;resize:vertical;outline-color:#D49516"></textarea>
+          <button onClick="{{ addNote }}" style="align-self:flex-end;border:0;background:#2B2D42;color:#F5F5F5;border-radius:8px;padding:8px 14px;font-weight:700;cursor:pointer" style-hover="background:#3A3D58">Add note</button>
+        </div>
+      </sc-if>
+    </div>
+    <div style="padding:16px 22px;border-top:1px solid #E4E4EA;display:flex;gap:8px;flex-wrap:wrap">
+      <sc-for list="{{ dr.actions }}" as="a" hint-placeholder-count="2"><button onClick="{{ a.fn }}" style="flex:1;border:1px solid {{ a.border }};background:{{ a.bg }};color:{{ a.fg }};border-radius:9px;padding:10px;font-weight:700;cursor:pointer;white-space:nowrap" style-hover="filter:brightness(1.06)">{{ a.label }}</button></sc-for>
+    </div>
+  </aside>
+</sc-if>
+
+<sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+  <div role="status" style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:60;background:#2B2D42;color:#F5F5F5;padding:12px 18px;border-radius:12px;font-size:14px;box-shadow:0 12px 30px rgba(43,45,66,.3);display:flex;align-items:center;gap:10px;animation:hvIn .25s ease;max-width:90vw"><span style="width:8px;height:8px;border-radius:50%;background:#D49516;flex:none"></span>{{ toast }}</div>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  D = (() => {
+    let s = 11; const r = () => (s = (s * 16807) % 2147483647) / 2147483647;
+    const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const days = [];
+    for (let i = 0; i < 30; i++) {
+      const d = new Date(2026, 9, 23 - (29 - i)), wd = d.getDay();
+      let v = wd === 0 ? 1400 + r() * 900 : wd === 6 ? 5200 + r() * 2200 : 9600 + r() * 5000;
+      if (i === 29) v = 4260;
+      days.push({ label: DOW[wd] + ' ' + d.getDate() + ' ' + MON[d.getMonth()], short: d.getDate() + ' ' + MON[d.getMonth()], v: Math.round(v / 10) * 10, oct: d.getMonth() === 9 });
+    }
+    const offices = [
+      ['O1',4,'occupied','Kente Digital',7200],['O2',6,'occupied','Asante & Co. Law',9800],['O3',4,'available','',6500],['O4',8,'occupied','Volta Analytics',12400],['O5',10,'occupied','Sankofa Media',15600],['O6',4,'notice','Ofori Design Studio',6800],['O7',6,'occupied','Gold Coast Fintech',9600],
+      ['O8',6,'occupied','Akwaaba Travel',9400],['O9',4,'reserved','Nkrumah Circle Labs',6500],['O10',12,'occupied','Meridian Health GH',18200],['O11',6,'occupied','Tema Port Logistics',9200],['O12',4,'available','',6500],['O13',8,'occupied','BluePeak Energy',12600],['O14',4,'notice','Adom Consulting',6900]
+    ].map(([no, seats, status, tenant, rent]) => ({ no, seats, status, tenant, rent }));
+    const officeRent = offices.filter(o => o.status === 'occupied' || o.status === 'notice').reduce((a, o) => a + o.rent, 0);
+    const res = [
+      { id: 'dA', name: 'Open desks', sub: 'Zone A · 36 desks', type: 'desk' }, { id: 'dB', name: 'Quiet zone', sub: 'Zone B · 24 desks', type: 'desk' },
+      { id: 'p1', name: 'Pod 1', sub: 'Phone pod · 1', type: 'pod' }, { id: 'p2', name: 'Pod 2', sub: 'Phone pod · 1', type: 'pod' }, { id: 'p3', name: 'Pod 3', sub: 'Focus pod · 2', type: 'pod' }, { id: 'p4', name: 'Pod 4', sub: 'Focus pod · 2', type: 'pod' },
+      { id: 'rB', name: 'Boardroom', sub: '14 seats · GHS 400/hr', type: 'room' }, { id: 'rK', name: 'Kente Room', sub: '8 seats · GHS 250/hr', type: 'room' }, { id: 'rA', name: 'Adinkra Room', sub: '6 seats · GHS 200/hr', type: 'room' }
+    ];
+    const names = ['Ama Owusu','Kwesi Mensah','Efua Boateng','Yaw Darko','Akosua Asare','Kofi Annan-Sey','Abena Ofori','Kwame Nyarko','Adjoa Quaye','Nii Lartey','Esi Amponsah','Selorm Agbeko','Fiifi Baidoo','Naa Dedei Tetteh','Kojo Appiah','Delali Kumah','Mawuli Tsikata','Afua Sarpong','Edem Kpodo','Yaa Asantewaa'];
+    const bookings = []; let id = 1;
+    res.forEach(rs => { for (let d = 0; d < 6; d++) {
+      const sat = d === 5;
+      const n = rs.type === 'desk' ? (sat ? 1 : 2 + Math.floor(r() * 2)) : rs.type === 'pod' ? Math.floor(r() * (sat ? 1.5 : 3)) : Math.floor(r() * (sat ? 1.3 : 2.4));
+      let h = 8 + Math.floor(r() * 2);
+      for (let k = 0; k < n; k++) {
+        const dur = rs.type === 'desk' ? 0 : 1 + Math.floor(r() * 2);
+        const start = h; h += dur + 1 + Math.floor(r() * 2);
+        if (rs.type !== 'desk' && start > 16) break;
+        const name = names[Math.floor(r() * names.length)];
+        let status = d < 4 ? 'Completed' : d === 4 ? (rs.type === 'desk' || start < 11 ? (r() < .75 ? 'Checked in' : 'Confirmed') : 'Confirmed') : (r() < .3 ? 'Pending' : 'Confirmed');
+        const plan = rs.type === 'desk' ? ['Day pass','Flex pass','All-Access'][Math.floor(r() * 3)] : 'Hourly';
+        const rate = rs.type === 'pod' ? 80 : rs.id === 'rB' ? 400 : rs.id === 'rK' ? 250 : 200;
+        bookings.push({ id: 'B' + (1000 + id++), res: rs.id, day: d, start, dur, name, status, plan, amount: rs.type === 'desk' ? (plan === 'Day pass' ? 180 : 0) : rate * dur, pay: ['MoMo','Card','Plan credit','Bank transfer'][rs.type === 'desk' && plan !== 'Day pass' ? 2 : Math.floor(r() * 2)] });
+      }
+    } });
+    const members = [
+      ['Ama Owusu','ama.owusu@gmail.com','All-Access',18,'Today',16450,'Active','Freelance brand designer'],
+      ['Kwesi Mensah','kwesi@voltaanalytics.com','Private office',64,'Today',38200,'Active','Volta Analytics'],
+      ['Efua Boateng','efua.b@outlook.com','10-Day Flex',3,'Yesterday',6750,'Expiring','Product designer'],
+      ['Yaw Darko','yaw.darko@kumasiventures.com','Day pass',0,'21 Oct',1260,'Active','Kumasi Ventures'],
+      ['Akosua Asare','akosua.asare@gmail.com','All-Access',2,'Today',21200,'Expiring','Software engineer'],
+      ['Kofi Annan-Sey','kofi@sankofamedia.com','Private office',41,'Today',52400,'Active','Sankofa Media'],
+      ['Abena Ofori','abena@oforidesign.com','Private office',38,'20 Oct',27200,'Active','Ofori Design Studio'],
+      ['Kwame Nyarko','kwame.nyarko@yahoo.com','5-Day Flex',0,'2 Oct',2100,'Expired','Accountant'],
+      ['Adjoa Quaye','adjoa.quaye@gmail.com','All-Access',24,'22 Oct',10600,'Active','Copywriter'],
+      ['Nii Lartey','nii@goldcoastfintech.com','Private office',52,'Today',44100,'Active','Gold Coast Fintech'],
+      ['Esi Amponsah','esi.amponsah@gmail.com','10-Day Flex',6,'19 Oct',4050,'Active','UX researcher'],
+      ['Selorm Agbeko','selorm.agbeko@proton.me','All-Access',0,'28 Sep',7950,'Paused','On leave until Nov'],
+      ['Fiifi Baidoo','fiifi.baidoo@gmail.com','5-Day Flex',4,'Today',2800,'Active','Photographer'],
+      ['Naa Dedei Tetteh','naa@akwaabatravel.com','Private office',12,'22 Oct',33600,'Expiring','Akwaaba Travel'],
+      ['Kojo Appiah','kojo.appiah@gmail.com','Day pass',0,'17 Oct',540,'Active','Student'],
+      ['Delali Kumah','delali@bluepeak.energy','Private office',73,'Today',37800,'Active','BluePeak Energy'],
+      ['Mawuli Tsikata','mawuli.t@gmail.com','All-Access',9,'21 Oct',13250,'Active','Data analyst'],
+      ['Afua Sarpong','afua.sarpong@meridianhealth.gh','Private office',86,'Today',54600,'Active','Meridian Health GH']
+    ].map(([name, email, plan, daysLeft, last, spent, status, co], i) => ({ id: 'M' + i, name, email, plan, daysLeft, last, spent, status, co }));
+    const invoices = [
+      ['INV-1088','Meridian Health GH','Office O10 · October',18200,'1 Oct','8 Oct','Paid'],
+      ['INV-1089','Sankofa Media','Office O5 · October',15600,'1 Oct','8 Oct','Paid'],
+      ['INV-1090','Volta Analytics','Office O4 · October',12400,'1 Oct','8 Oct','Paid'],
+      ['INV-1091','Akwaaba Travel','Office O8 · October',9400,'1 Oct','8 Oct','Overdue'],
+      ['INV-1092','Adom Consulting','Office O14 · October',6900,'1 Oct','8 Oct','Overdue'],
+      ['INV-1093','Gold Coast Fintech','Office O7 · October',9600,'1 Oct','8 Oct','Paid'],
+      ['INV-1094','BluePeak Energy','Office O13 + 6 Boardroom hrs',15000,'1 Oct','8 Oct','Paid'],
+      ['INV-1101','Kumasi Ventures','Team day passes × 8',1440,'14 Oct','21 Oct','Overdue'],
+      ['INV-1107','Akosua Asare','All-Access · Nov renewal',2650,'20 Oct','25 Oct','Due'],
+      ['INV-1108','Efua Boateng','10-Day Flex renewal',1350,'21 Oct','26 Oct','Due'],
+      ['INV-1110','Tema Port Logistics','Office O11 · Nov deposit',9200,'22 Oct','31 Oct','Due'],
+      ['INV-1111','Ghana Tech Week','Event space · 7 Nov',6500,'22 Oct','30 Oct','Due'],
+      ['INV-1112','Ama Owusu','Boardroom · 2 hrs',800,'22 Oct','22 Oct','Paid'],
+      ['INV-1113','Fiifi Baidoo','5-Day Flex Pass',700,'23 Oct','23 Oct','Paid']
+    ].map(([no, who, item, amount, issued, due, status]) => ({ no, who, item, amount, issued, due, status }));
+    const deals = [
+      ['Kumasi Ventures',8,11800,'Yaw Darko','enquiry','2 days'],['Lumen Architects',5,7600,'Esi Adu','enquiry','Today'],['ShopAccra',12,17800,'Kojo Mensa','tour','Tour Tue 27'],
+      ['Harmattan Films',4,6500,'Dela Ayi','tour','Tour Mon 26'],['Nkrumah Circle Labs',4,6500,'Sena Owusu','quote','Sent 3 days ago'],['Coastal Agritech',6,9300,'Kwabena Oti','quote','Sent today'],
+      ['Tema Port Logistics',6,9200,'Joyce Lamptey','signed','Moves in 1 Nov'],['Meridian Health GH',12,18200,'Afua Sarpong','moved','Since Sep'],['BluePeak Energy',8,12600,'Delali Kumah','moved','Since Aug']
+    ].map(([co, team, value, contact, stage, age], i) => ({ id: 'D' + i, co, team, value, contact, stage, age }));
+    const checklists = [
+      { name: 'Opening', items: [['Unlock doors and switch on lights','7:31',1],['AC on in rooms and offices','7:33',1],['Wi-Fi and printer check','7:36',1],['Coffee machine on, milk in','7:40',1],['Wipe desks in Zone A and B','7:52',1],['Restock water station','7:55',1],['Reception tablet charged','7:57',1],['Count stock and log','8:04',1]] },
+      { name: 'Midday', items: [['Kitchen tidy and dishwasher','12:10',1],['Check washroom supplies','12:14',1],['Reset Boardroom after 11:00','12:30',1],['Empty bins in Zone A','',0],['Refill coffee beans','',0]] },
+      { name: 'Closing', items: [['Lock private offices','',0],['AC off in empty rooms','',0],['Cash up and log takings','',0],['Dishwasher on','',0],['Lights off, alarm set','',0],['Lock front door','',0]] }
+    ];
+    const stock = [['Coffee beans',2,10,'kg'],['Fresh milk',6,12,'L'],['Tea bags',180,300,'bags'],['Printer paper',3,20,'reams'],['Hand soap',1,8,'bottles'],['Toilet roll',34,48,'rolls'],['Drinking water',22,30,'bottles'],['Sugar sachets',140,400,'sachets']].map(([name, q, max, u]) => ({ name, q, max, u }));
+    const tickets = [
+      ['T-214','Boardroom AC not cooling','Boardroom','High','Kojo (facilities)','2 days','In progress'],
+      ['T-215','Pod 3 door handle loose','Pod 3','Medium','Kojo (facilities)','1 day','Open'],
+      ['T-211','Printer jams on tray 2','Zone A','Medium','HP service desk','5 days','Waiting on vendor'],
+      ['T-216','Flickering light above desk A12','Zone A','Low','Kojo (facilities)','Today','Open'],
+      ['T-209','Water dispenser leaking','Kitchen','High','PureFlow Ghana','6 days','Waiting on vendor'],
+      ['T-207','Office O6 blind stuck','Office O6','Low','Kojo (facilities)','8 days','Resolved']
+    ].map(([id, issue, where, prio, who, age, status]) => ({ id, issue, where, prio, who, age, status }));
+    const posts = [
+      { id: 'P1', image: 'photo: members at the long table', plats: ['IG','FB'], day: 1, time: '12:30', title: 'Friday at the long table', status: 'draft', caption: 'Fresh coffee, fast Wi-Fi and a seat with your name on it. Book a day pass for GHS 180 and see why Accra’s freelancers keep coming back.', tags: '#TheHiveGH #CoworkingAccra #WorkFromAccra' },
+      { id: 'P2', image: 'photo: empty 6-seat office, morning light', plats: ['IN'], day: 2, time: '09:00', title: 'Private offices open', status: 'draft', caption: 'Two private offices are ready this month, for teams of 4 to 6. Lockable, furnished, power backup included. Book a tour this week.', tags: '#AccraBusiness #PrivateOffice #TheHiveGH' },
+      { id: 'P3', image: 'photo: last month’s founders breakfast', plats: ['IG'], day: 4, time: '17:00', title: 'Founders’ Breakfast', status: 'draft', caption: 'Founders’ Breakfast is back on Thursday 5 November. Waakye, coffee and honest talk about growing a business in Ghana. 40 seats, RSVP in bio.', tags: '#FoundersBreakfast #GhanaStartups #TheHiveGH' },
+      { id: 'P4', image: 'photo: member portrait at her desk', plats: ['IG','FB'], day: 7, time: '11:00', title: 'Member spotlight: Efua', status: 'draft', caption: 'Meet Efua, product designer and 10-Day Flex member. She designs apps for three West African banks, mostly from desk B7 by the window.', tags: '#MemberSpotlight #WomenInTech #TheHiveGH' }
+    ];
+    const scheduled = [
+      { id: 'S1', plats: ['IG'], day: 0, time: '08:30', title: 'Monday: fresh week, fresh desk' },
+      { id: 'S2', plats: ['IN'], day: 3, time: '10:00', title: 'October in numbers' },
+      { id: 'S3', plats: ['FB'], day: 8, time: '12:00', title: 'Room hire for workshops' },
+      { id: 'S4', plats: ['IG','FB'], day: 11, time: '18:00', title: 'Founders’ Breakfast photos' },
+      { id: 'S5', plats: ['IN'], day: 15, time: '09:00', title: 'Hiring at our member companies' }
+    ];
+    return { days, offices, officeRent, res, bookings, members, invoices, deals, checklists, stock, tickets, posts, scheduled, MON, DOW };
+  })();
+
+  state = {
+    screen: 'overview', loading: true, anim: false, p: 0, hover: -1, toast: '', clock: 642, feedN: 0,
+    feed: [
+      { type: 'checkin', who: 'Afua Sarpong', what: 'checked in · Office O10', time: '10:41' },
+      { type: 'payment', who: 'GHS 800', what: 'paid by Ama Owusu · Boardroom · MoMo', time: '10:38' },
+      { type: 'booking', who: 'Coastal Agritech', what: 'booked a tour · Mon 26 Oct', time: '10:31' },
+      { type: 'checkin', who: 'Fiifi Baidoo', what: 'checked in · Quiet zone B4', time: '10:22' },
+      { type: 'payment', who: 'GHS 700', what: 'paid by Fiifi Baidoo · 5-Day Flex · Card', time: '10:20' },
+      { type: 'issue', who: 'Ticket T-216', what: 'reported · light flickering above A12', time: '10:05' },
+      { type: 'checkin', who: 'Nii Lartey', what: 'checked in · Office O7', time: '09:58' }
+    ],
+    bookings: this.D.bookings.map(b => ({ ...b })), bType: 'all', bStatus: 'all', bSearch: '', dragId: null, dragOver: null,
+    mSearch: '', mPlan: 'All', drawer: null, noteDraft: '', notes: { M0: [{ text: 'Prefers desk A3 by the window. Ask about upgrading to a team plan, she brings a client twice a week.', by: 'Doreen · 12 Oct' }], M4: [{ text: 'Renewal due Sunday. Mentioned the price. Offer the 3-month rate.', by: 'Abena · 20 Oct' }] },
+    invTab: 'All', reminded: {}, deals: this.D.deals.map(d => ({ ...d })), dragDeal: null, dealOver: null,
+    checks: this.D.checklists.map(c => c.items.map(i => !!i[2])), tickets: this.D.tickets.map(t => ({ ...t })), reordered: {}, renewed: {},
+    posts: this.D.posts.map(p => ({ ...p })), editing: null, justScheduled: null, reportMonth: 0,
+    notifs: [true, true, true, true, false]
+  };
+
+  componentDidMount() { this.go('overview')(); this.feedT = setInterval(() => this.tick(), 5200); }
+  componentWillUnmount() { clearInterval(this.feedT); clearTimeout(this.lt); clearTimeout(this.at); clearTimeout(this.tt); clearTimeout(this.pt); cancelAnimationFrame(this.raf); }
+
+  go = (key) => () => {
+    clearTimeout(this.lt); clearTimeout(this.at); cancelAnimationFrame(this.raf);
+    this.setState({ screen: key, loading: true, anim: false, drawer: null, p: key === 'overview' ? 0 : 1, hover: -1 });
+    window.scrollTo(0, 0);
+    this.lt = setTimeout(() => {
+      this.setState({ loading: false });
+      this.at = setTimeout(() => { this.setState({ anim: true }); if (key === 'overview') this.countUp(); }, 60);
+    }, 650);
+  };
+  countUp() {
+    const t0 = performance.now();
+    const step = (t) => { const k = Math.min(1, (t - t0) / 1200); this.setState({ p: 1 - Math.pow(1 - k, 3) }); if (k < 1) this.raf = requestAnimationFrame(step); };
+    if (document.hidden) { this.setState({ p: 1 }); return; }
+    this.raf = requestAnimationFrame(step);
+    clearTimeout(this.pt); this.pt = setTimeout(() => { if (this.state.p < 1) { cancelAnimationFrame(this.raf); this.setState({ p: 1 }); } }, 1500);
+  }
+  tick() {
+    const pool = [
+      { type: 'checkin', who: 'Esi Amponsah', what: 'checked in · Open desks A9' },
+      { type: 'payment', who: 'GHS 180', what: 'paid by Kojo Appiah · Day pass · MoMo' },
+      { type: 'booking', who: 'Mawuli Tsikata', what: 'booked Pod 3 · 14:00 to 16:00' },
+      { type: 'checkin', who: 'Delali Kumah', what: 'checked in · Office O13' },
+      { type: 'payment', who: 'GHS 2,650', what: 'paid by Akosua Asare · All-Access renewal · Card' },
+      { type: 'booking', who: 'Harmattan Films', what: 'booked the Kente Room · Tue 27 Oct' },
+      { type: 'checkin', who: 'Adjoa Quaye', what: 'checked in · Quiet zone B11' },
+      { type: 'payment', who: 'GHS 500', what: 'paid by Lumen Architects · Kente Room 2 hrs · MoMo' }
+    ];
+    this.setState(s => {
+      const clock = s.clock + 1 + (s.feedN % 3);
+      const item = { ...pool[s.feedN % pool.length], time: this.hm(clock) };
+      return { clock, feedN: s.feedN + 1, feed: [item, ...s.feed].slice(0, 9) };
+    });
+  }
+  hm(m) { return String(Math.floor(m / 60)).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0'); }
+  showToast(msg) { clearTimeout(this.tt); this.setState({ toast: msg }); this.tt = setTimeout(() => this.setState({ toast: '' }), 3000); }
+  download(name, rows) {
+    const csv = rows.map(r => r.map(c => '"' + String(c).replace(/"/g, '""') + '"').join(',')).join('\n');
+    const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' })); a.download = name; document.body.appendChild(a); a.click(); a.remove();
+  }
+
+  renderVals() {
+    const S = this.state, D = this.D;
+    const f = (n) => Math.round(n).toLocaleString('en-GB'), g = (n) => 'GHS ' + f(n);
+    const C = { green: { fg: '#2F7D5B', bg: '#E2F1E9' }, gold: { fg: '#8A5E05', bg: '#FBEFD6' }, red: { fg: '#A23B3B', bg: '#F8E3E3' }, blue: { fg: '#3D5A99', bg: '#E4EAF6' }, grey: { fg: '#5A5C72', bg: '#ECECF0' } };
+    const chipFor = (st) => ({ Active: C.green, Paid: C.green, 'Checked in': C.green, Resolved: C.green, Approved: C.green, Connected: C.green, Open: C.red, Overdue: C.red, Expired: C.red, Full: C.red, Expiring: C.gold, Due: C.gold, Pending: C.gold, 'Waiting on vendor': C.gold, 'AI draft': C.grey, 'In progress': C.blue, Confirmed: C.blue, Scheduled: C.blue, 'Selling fast': C.gold, Paused: C.grey, Completed: C.grey, Draft: C.grey, 'Not connected': C.grey })[st] || C.grey;
+    const v = {};
+    const NAV = [['overview','Overview'],['bookings','Bookings'],['members','Members'],['billing','Billing'],['offices','Offices'],['rooms','Rooms and Events'],['operations','Operations'],['marketing','Marketing'],['reports','Reports'],['settings','Settings']];
+    const overdueN = D.invoices.filter(i => i.status === 'Overdue' && !S.reminded[i.no]).length;
+    const draftN = S.posts.filter(p => p.status !== 'scheduled').length;
+    const openTickets = S.tickets.filter(t => t.status !== 'Resolved').length;
+    const badges = { billing: [overdueN, C.red], marketing: [draftN, C.gold], operations: [openTickets, C.grey] };
+    v.nav = NAV.map(([key, label]) => { const on = S.screen === key, b = badges[key]; return { key, label, go: this.go(key), fg: on ? '#D49516' : '#C9CAD6', bg: on ? 'rgba(212,149,22,.14)' : 'transparent', dot: on ? '#D49516' : 'rgba(255,255,255,.22)', hasBadge: !!(b && b[0]), badge: b ? b[0] : '', badgeBg: b && key === 'billing' ? '#A23B3B' : key === 'marketing' ? '#D49516' : 'rgba(255,255,255,.14)', badgeFg: key === 'marketing' ? '#2B2D42' : '#FFFFFF' }; });
+    const SUB = { overview: 'How The Hive is doing today, this month and right now', bookings: 'Every desk, pod and room this week', members: D.members.length + ' members on passes, plans and offices', billing: 'Invoices, company accounts and month-end', offices: 'Leasing pipeline, floor plan and renewals', rooms: 'How the rooms are used, and what’s coming up', operations: 'Checklists, stock and maintenance', marketing: 'AI-drafted posts waiting for your approval', reports: 'The monthly report for the owners', settings: 'Team, notifications and connections' };
+    v.title = NAV.find(n => n[0] === S.screen)[1]; v.subtitle = SUB[S.screen]; v.clockText = this.hm(S.clock);
+    v.loading = S.loading; v.skel4 = [1, 2, 3, 4];
+    v.show = {}; NAV.forEach(([k]) => { v.show[k] = !S.loading && S.screen === k; });
+    v.hasToast = !!S.toast; v.toast = S.toast;
+    const A = S.anim, p = S.p;
+
+    // OVERVIEW
+    const todayB = S.bookings.filter(b => b.day === 4), arrivals = todayB.filter(b => b.status !== 'Checked in').length;
+    const yday = D.days[28].v;
+    v.brief = [
+      { label: 'Bookings today', value: String(todayB.length), detail: todayB.filter(b => D.res.find(r => r.id === b.res).type === 'desk').length + ' desks, ' + todayB.filter(b => D.res.find(r => r.id === b.res).type !== 'desk').length + ' pods and rooms', color: '#F5F5F5', go: this.go('bookings') },
+      { label: 'Expected arrivals', value: String(arrivals + 19), detail: 'First booked room at 13:00', color: '#F5F5F5', go: this.go('bookings') },
+      { label: 'Yesterday’s takings', value: g(yday), detail: 'MoMo 58% · Card 34% · Cash 8%', color: '#D49516', go: this.go('billing') },
+      { label: 'Renewals due', value: '5', detail: 'Akosua Asare, Efua Boateng, Akwaaba Travel +2', color: '#F5F5F5', go: this.go('members') },
+      { label: 'Issues', value: '2', detail: 'Boardroom AC · Coffee beans low', color: '#E8A3A3', go: this.go('operations') }
+    ];
+    const mtdDaily = D.days.filter(d => d.oct).reduce((a, d) => a + d.v, 0), revMonth = mtdDaily + D.officeRent;
+    const filled = D.offices.filter(o => o.status === 'occupied' || o.status === 'notice').length;
+    const spark = (arr) => { const mn = Math.min(...arr), mx = Math.max(...arr); return arr.map((x, i) => (i / (arr.length - 1) * 100).toFixed(1) + ',' + (28 - (x - mn) / (mx - mn || 1) * 26).toFixed(1)).join(' '); };
+    v.kpis = [
+      { label: 'Occupancy today', value: Math.round(78 * p) + '%', spark: spark([64, 70, 69, 75, 81, 72, 74, 78]), delta: '+6 pts', deltaNote: 'vs last Friday', deltaColor: '#2F7D5B' },
+      { label: 'Revenue this month', value: g(revMonth * p), spark: spark([210, 228, 236, 251, 247, 262, 271, 286]), delta: '+9.4%', deltaNote: 'vs Sep to date', deltaColor: '#2F7D5B' },
+      { label: 'Active members', value: f(142 * p), spark: spark([121, 124, 129, 131, 133, 138, 140, 142]), delta: '+11', deltaNote: 'this month', deltaColor: '#2F7D5B' },
+      { label: 'Renewals due this week', value: f(9 * p), spark: spark([4, 6, 5, 7, 6, 8, 7, 9]), delta: 'GHS 21,450', deltaNote: 'at stake', deltaColor: '#8A5E05' },
+      { label: 'Private offices filled', value: Math.round(filled * p) + ' of ' + D.offices.length, spark: spark([9, 9, 10, 10, 10, 11, 11, 11]), delta: '1 reserved', deltaNote: '· 2 on notice', deltaColor: '#5A5C72' }
+    ];
+    const MAX = 16000, n = D.days.length;
+    const pts = D.days.map((d, i) => [i / (n - 1) * 600, 200 - d.v / MAX * 200]);
+    v.linePath = 'M' + pts.map(q => q[0].toFixed(1) + ',' + q[1].toFixed(1)).join(' L');
+    v.areaPath = v.linePath + ' L600,200 L0,200 Z';
+    v.areaClip = A ? 0 : 100;
+    v.rev30 = g(D.days.reduce((a, d) => a + d.v, 0));
+    v.yTicks = [0, 5000, 10000, 15000].map(t => ({ top: 100 - t / MAX * 100, label: t ? (t / 1000) + 'k' : '0' }));
+    v.xTicks = [0, 7, 14, 21, 29].map(i => ({ left: i / (n - 1) * 100, label: i === 29 ? 'Today' : D.days[i].short }));
+    v.dayHover = D.days.map((d, i) => ({ enter: () => this.setState({ hover: i }) }));
+    v.clearHover = () => this.setState({ hover: -1 });
+    v.hasHover = S.hover >= 0;
+    if (v.hasHover) { const d = D.days[S.hover], left = S.hover / (n - 1) * 100; v.hov = { left, top: 100 - d.v / MAX * 100, date: d.label + (S.hover === 29 ? ' · so far' : ''), value: g(d.v), shift: left > 80 ? 'calc(-100% - 8px)' : '8px' }; } else v.hov = {};
+    const prodVals = [['Day passes', mtdDaily * .26], ['Flex passes', mtdDaily * .21], ['All-Access', mtdDaily * .31], ['Rooms and pods', mtdDaily * .22], ['Offices', D.officeRent]];
+    const pMax = Math.max(...prodVals.map(x => x[1]));
+    v.products = prodVals.map(([label, val], i) => ({ label, value: g(val), share: Math.round(val / revMonth * 100) + '%', w: A ? val / pMax * 100 : 0, delay: i * 90, color: label === 'Offices' ? '#D49516' : '#2B2D42' }));
+    v.weekdays = [['Mon', 72], ['Tue', 84], ['Wed', 88], ['Thu', 81], ['Fri', 69], ['Sat', 38]].map(([label, pct], i) => ({ label, pct: pct + '%', h: A ? pct * .86 : 0, delay: i * 80, color: label === 'Fri' ? '#D49516' : '#2B2D42', labelColor: label === 'Fri' ? '#2B2D42' : '#8E90A6' }));
+    const FT = { checkin: ['IN', '#E2F1E9', '#2F7D5B'], payment: ['GHS', '#FBEFD6', '#8A5E05'], booking: ['BK', '#E4EAF6', '#3D5A99'], issue: ['!', '#F8E3E3', '#A23B3B'] };
+    v.feed = S.feed.map(x => ({ ...x, icon: FT[x.type][0], bg: FT[x.type][1], fg: FT[x.type][2] }));
+
+    // BOOKINGS
+    const KIND = { desk: ['#E8E9F1', '#C9CBDA'], pod: ['#FBEFD6', '#EBCB86'], room: ['#F3E7E8', '#D9B9BB'] };
+    const DOT = { 'Checked in': '#2F7D5B', Confirmed: '#3D5A99', Pending: '#D49516', Completed: '#B9BAC6' };
+    v.bTypes = [['all', 'All spaces'], ['desk', 'Desks'], ['pod', 'Pods'], ['room', 'Rooms']].map(([k, label]) => ({ label, pick: () => this.setState({ bType: k }), bg: S.bType === k ? '#2B2D42' : 'transparent', fg: S.bType === k ? '#FFFFFF' : '#5A5C72' }));
+    v.bStatus = S.bStatus; v.setBStatus = (e) => this.setState({ bStatus: e.target.value });
+    v.bSearch = S.bSearch; v.setBSearch = (e) => this.setState({ bSearch: e.target.value });
+    v.clearBFilters = () => this.setState({ bStatus: 'all', bSearch: '', bType: 'all' });
+    const q = S.bSearch.trim().toLowerCase();
+    const match = (b) => (S.bStatus === 'all' || b.status === S.bStatus) && (!q || b.name.toLowerCase().includes(q));
+    const resShown = D.res.filter(r => S.bType === 'all' || r.type === S.bType);
+    const WD = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    v.weekHead = WD.map((dow, i) => ({ dow: i === 4 ? 'Today' : dow, date: (19 + i) + ' Oct', bg: i === 4 ? '#FBEFD6' : '#FFFFFF', sub: i === 4 ? '#8A5E05' : '#8E90A6' }));
+    let shownCount = 0;
+    v.bRows = resShown.map(rs => ({ ...rs, cells: WD.map((_, d) => {
+      const key = rs.id + '-' + d, items = S.bookings.filter(b => b.res === rs.id && b.day === d && match(b)).sort((a, b) => a.start - b.start);
+      shownCount += items.length;
+      return {
+        bg: S.dragOver === key ? 'rgba(212,149,22,.16)' : d === 4 ? '#FFFCF5' : '#FFFFFF', outline: S.dragOver === key ? '2px dashed #D49516' : 'none',
+        over: (e) => { e.preventDefault(); if (S.dragOver !== key) this.setState({ dragOver: key }); },
+        drop: (e) => { e.preventDefault(); this.moveBooking(rs, d); },
+        items: items.map(b => ({ time: rs.type === 'desk' ? 'All day' : this.hm(b.start * 60) + '–' + this.hm((b.start + b.dur) * 60), name: b.name, bg: KIND[rs.type][0], border: b.status === 'Pending' ? '#D49516' : KIND[rs.type][1], borderStyle: b.status === 'Pending' ? 'dashed' : 'solid', dot: DOT[b.status], opacity: S.dragId === b.id ? .4 : b.status === 'Completed' ? .65 : 1,
+          start: (e) => { e.dataTransfer.setData('text/plain', b.id); e.dataTransfer.effectAllowed = 'move'; this.setState({ dragId: b.id }); },
+          end: () => this.setState({ dragId: null, dragOver: null }),
+          open: () => this.setState({ drawer: { kind: 'booking', id: b.id }, noteDraft: '' }) }))
+      };
+    }) }));
+    v.bEmpty = shownCount === 0;
+    const wk = S.bookings, roomHrs = wk.reduce((a, b) => a + b.dur, 0), wkRev = wk.reduce((a, b) => a + b.amount, 0);
+    v.bSummary = wk.length + ' bookings · ' + roomHrs + ' pod and room hours · ' + g(wkRev) + ' billed';
+
+    // MEMBERS
+    const mq = S.mSearch.trim().toLowerCase();
+    const PLANS = ['All', 'All-Access', 'Flex', 'Day pass', 'Private office'];
+    v.mPlans = PLANS.map(k => ({ label: k, pick: () => this.setState({ mPlan: k }), bg: S.mPlan === k ? '#2B2D42' : 'transparent', fg: S.mPlan === k ? '#FFFFFF' : '#5A5C72' }));
+    v.mSearch = S.mSearch; v.setMSearch = (e) => this.setState({ mSearch: e.target.value });
+    const mList = D.members.filter(m => (S.mPlan === 'All' || m.plan.includes(S.mPlan)) && (!mq || (m.name + m.email + m.co).toLowerCase().includes(mq)));
+    const span = (m) => m.plan === 'All-Access' ? 30 : m.plan.includes('10') ? 10 : m.plan.includes('5-') ? 5 : m.plan === 'Private office' ? 90 : 1;
+    v.members = mList.map(m => ({ ...m, initials: m.name.split(' ').map(x => x[0]).slice(0, 2).join(''), daysText: m.plan === 'Day pass' ? 'Pay per visit' : m.plan.includes('Flex') ? m.daysLeft + ' of ' + span(m) + ' days' : m.daysLeft + ' days', daysW: m.plan === 'Day pass' ? 0 : Math.min(100, m.daysLeft / span(m) * 100), daysColor: m.daysLeft <= 3 ? '#A23B3B' : '#D49516', spentText: g(m.spent), chip: chipFor(m.status), open: () => this.setState({ drawer: { kind: 'member', id: m.id }, noteDraft: '' }) }));
+    v.mEmpty = mList.length === 0; v.mCount = 'Showing ' + mList.length + ' of ' + D.members.length + ' members';
+
+    // BILLING
+    const invs = D.invoices;
+    const sum = (st) => invs.filter(i => i.status === st).reduce((a, i) => a + i.amount, 0);
+    v.billTiles = [
+      { label: 'Collected in October', value: g(sum('Paid')), note: invs.filter(i => i.status === 'Paid').length + ' invoices paid', color: '#2B2D42' },
+      { label: 'Due this week', value: g(sum('Due')), note: invs.filter(i => i.status === 'Due').length + ' invoices', color: '#8A5E05' },
+      { label: 'Overdue', value: g(sum('Overdue')), note: invs.filter(i => i.status === 'Overdue').length + ' invoices · oldest 15 days', color: '#A23B3B' }
+    ];
+    v.invTabs = ['All', 'Paid', 'Due', 'Overdue'].map(k => ({ label: k, count: k === 'All' ? invs.length : invs.filter(i => i.status === k).length, pick: () => this.setState({ invTab: k }), bg: S.invTab === k ? '#FFFFFF' : 'transparent', fg: S.invTab === k ? '#2B2D42' : '#5A5C72', shadow: S.invTab === k ? '0 1px 3px rgba(43,45,66,.12)' : 'none' }));
+    v.invoices = invs.filter(i => S.invTab === 'All' || i.status === S.invTab).map(i => ({ ...i, amountText: g(i.amount), chip: chipFor(i.status), dueColor: i.status === 'Overdue' ? '#A23B3B' : '#5A5C72', dueWeight: i.status === 'Overdue' ? 700 : 400, canRemind: i.status !== 'Paid' && !S.reminded[i.no], wasReminded: !!S.reminded[i.no], remindedText: 'Reminder sent ' + (S.reminded[i.no] || ''),
+      remind: () => { this.setState({ reminded: { ...S.reminded, [i.no]: this.hm(S.clock) } }); this.showToast('Reminder sent to ' + i.who + ' by email and WhatsApp'); } }));
+    v.companies = [
+      ['Meridian Health GH', 'Afua Sarpong · accounts@meridianhealth.gh', 'Office O10 · 12 seats · 30-day terms', 18200, 0],
+      ['Sankofa Media', 'Kofi Annan-Sey', 'Office O5 · 10 seats + 4 room hrs', 15600, 0],
+      ['Akwaaba Travel', 'Naa Dedei Tetteh', 'Office O8 · 6 seats', 9400, 9400],
+      ['Kumasi Ventures', 'Yaw Darko', 'Team day passes · invoiced weekly', 1440, 1440],
+      ['Adom Consulting', 'Kwaku Adom', 'Office O14 · on notice, leaving 30 Nov', 6900, 6900]
+    ].map(([name, contact, plan, mo, bal]) => ({ name, contact, plan, monthly: g(mo), balance: bal ? g(bal) : 'GHS 0', balColor: bal ? '#A23B3B' : '#2F7D5B', status: bal ? 'Overdue' : 'Paid', chip: chipFor(bal ? 'Overdue' : 'Paid') }));
+    v.exportStatement = () => { this.download('The Hive statement October 2026.csv', [['Invoice', 'Customer', 'Item', 'Issued', 'Due', 'Amount (GHS)', 'Status'], ...invs.map(i => [i.no, i.who, i.item, i.issued, i.due, i.amount, i.status])]); this.showToast('October statement exported · ' + invs.length + ' invoices'); };
+
+    // OFFICES
+    const STG = [['enquiry', 'Enquiry', '#B9BAC6'], ['tour', 'Tour booked', '#3D5A99'], ['quote', 'Quote sent', '#D49516'], ['signed', 'Signed', '#9B6A6C'], ['moved', 'Moved in', '#2F7D5B']];
+    v.stages = STG.map(([k, label, dot]) => { const cards = S.deals.filter(d => d.stage === k), over = S.dealOver === k; return {
+      label, dot, count: cards.length, total: g(cards.reduce((a, d) => a + d.value, 0)), empty: cards.length === 0,
+      bg: over ? 'rgba(212,149,22,.10)' : '#ECECF0', border: over ? '#D49516' : 'transparent',
+      over: (e) => { e.preventDefault(); if (S.dealOver !== k) this.setState({ dealOver: k }); },
+      drop: (e) => { e.preventDefault(); const id = S.dragDeal; if (!id) return; const d = S.deals.find(x => x.id === id); this.setState({ deals: S.deals.map(x => x.id === id ? { ...x, stage: k, age: 'Just now' } : x), dragDeal: null, dealOver: null }); if (d && d.stage !== k) this.showToast(d.co + ' moved to ' + label); },
+      cards: cards.map(d => ({ ...d, teamText: d.team + ' people', valueText: g(d.value) + ' / mo', opacity: S.dragDeal === d.id ? .4 : 1,
+        start: (e) => { e.dataTransfer.setData('text/plain', d.id); e.dataTransfer.effectAllowed = 'move'; this.setState({ dragDeal: d.id }); },
+        end: () => this.setState({ dragDeal: null, dealOver: null }) }))
+    }; });
+    v.pipeTotal = g(S.deals.filter(d => d.stage !== 'moved').reduce((a, d) => a + d.value, 0));
+    const OS = { occupied: ['#2B2D42', '#F5F5F5', '#2B2D42', 'solid', 'Occupied'], notice: ['#9B6A6C', '#FFFFFF', '#9B6A6C', 'solid', 'Notice given'], reserved: ['#F6DDA6', '#5E4206', '#E3C27F', 'solid', 'Reserved'], available: ['#FFFFFF', '#5A5C72', '#9EA0B3', 'dashed', 'Available'] };
+    const omap = (o) => { const x = OS[o.status]; return { no: o.no, seats: o.seats + ' seats', tenant: o.tenant || 'Available · ' + g(o.rent), bg: x[0], fg: x[1], border: x[2], borderStyle: x[3], tip: o.no + ' · ' + x[4] + (o.tenant ? ' · ' + o.tenant : '') + ' · ' + g(o.rent) + '/mo' }; };
+    v.officesTop = D.offices.slice(0, 7).map(omap); v.officesBottom = D.offices.slice(7).map(omap);
+    v.officeSummary = filled + ' of ' + D.offices.length + ' filled · 1 reserved · 2 available · ' + g(D.officeRent) + ' monthly rent roll';
+    v.renewals = [
+      ['Adom Consulting', 'O14', 6900, 38, 'Gave notice on 1 Oct. Office O14 is free from 1 Dec, so start showing it.', 'List O14 as available'],
+      ['Ofori Design Studio', 'O6', 6800, 52, 'Gave notice. They want a bigger office: offer O3 or O12 before they leave.', 'Offer a bigger office'],
+      ['Akwaaba Travel', 'O8', 9400, 12, 'Lease ends 4 Nov. October invoice is overdue, so settle that before renewing.', 'Send renewal offer']
+    ].map(([co, o, rent, days, note, cta]) => ({ co, office: 'Office ' + o, rent: g(rent) + '/mo', days: days + ' days left', note, chip: days <= 30 ? C.red : C.gold, cta: S.renewed[co] ? 'Done' : cta, act: () => { this.setState({ renewed: { ...S.renewed, [co]: true } }); this.showToast(cta + ': ' + co); } }));
+
+    // ROOMS AND EVENTS
+    v.util = [['Pod 1', 91], ['Boardroom', 82], ['Pod 2', 76], ['Pod 3', 68], ['Kente Room', 64], ['Adinkra Room', 57], ['Pod 4', 44], ['Event space', 35]].map(([name, pct], i) => ({ name, pct: pct + '%', hrs: Math.round(pct * .5) + ' hrs', w: A ? pct : 0, delay: i * 70, color: pct >= 70 ? '#2B2D42' : '#B9BAC6' }));
+    v.events = [
+      ['Oct', 28, 'Freelancer Tax Clinic', 'Wed · 17:30 · Kente Room · with GRA-certified adviser', 22, 24, 'Selling fast'],
+      ['Oct', 31, 'Friday Networking Drinks', 'Sat · 18:00 · Event space · members free', 48, 60, 'Open'],
+      ['Nov', 5, 'Founders’ Breakfast', 'Thu · 8:00 · Event space · GHS 120', 40, 40, 'Full'],
+      ['Nov', 7, 'Ghana Tech Week Meetup', 'Sat · 14:00 · Event space · external hire', 86, 120, 'Open'],
+      ['Nov', 12, 'Design Critique Night', 'Thu · 18:30 · Boardroom', 9, 14, 'Open'],
+      ['Nov', 19, 'Women in Business Lunch', 'Thu · 12:30 · Event space', 0, 50, 'Draft']
+    ].map(([mon, day, title, meta, rsvp, cap, status]) => ({ mon, day, title, meta, rsvp, cap, status, chip: status === 'Open' ? C.green : chipFor(status), w: A ? rsvp / cap * 100 : 0, barColor: rsvp >= cap ? '#A23B3B' : '#D49516' }));
+
+    // OPERATIONS
+    let tot = 0, done = 0;
+    v.checklists = D.checklists.map((cl, ci) => { const d = S.checks[ci].filter(Boolean).length; tot += cl.items.length; done += d; return { name: cl.name, done: d + ' of ' + cl.items.length, items: cl.items.map((it, ii) => { const on = S.checks[ci][ii]; return { label: it[0], when: on ? (it[1] || this.hm(S.clock)) : '', mark: on ? '✓' : '', boxBg: on ? '#2F7D5B' : '#FFFFFF', boxBorder: on ? '#2F7D5B' : '#C9CBDA', color: on ? '#5A5C72' : '#2B2D42', deco: on ? 'line-through' : 'none', toggle: () => this.setState({ checks: S.checks.map((row, r) => r === ci ? row.map((x, k) => k === ii ? !x : x) : row) }) }; }) }; });
+    const cp = done / tot; v.checkPct = Math.round(cp * 100) + '%'; v.ringDash = (A ? cp * 226.2 : 0).toFixed(1); v.checkSummary = done + ' of ' + tot + ' tasks done';
+    v.stock = D.stock.map(st => { const re = S.reordered[st.name], ratio = st.q / st.max, low = ratio <= .25; return { name: st.name, qty: st.q + ' ' + st.u, note: low ? (re ? 'Reorder placed · arrives Mon' : 'Low · ' + st.q + ' of ' + st.max + ' ' + st.u) : st.q + ' of ' + st.max + ' ' + st.u, noteColor: low && !re ? '#A23B3B' : '#8E90A6', w: A ? ratio * 100 : 0, color: low ? '#A23B3B' : ratio < .5 ? '#D49516' : '#2F7D5B', low: low && !re, ok: !low || !!re, cta: 'Reorder', reorder: () => { this.setState({ reordered: { ...S.reordered, [st.name]: true } }); this.showToast('Reorder sent for ' + st.name.toLowerCase()); } }; });
+    v.lowCount = D.stock.filter(st => st.q / st.max <= .25 && !S.reordered[st.name]).length + ' low';
+    const CYC = ['Open', 'In progress', 'Waiting on vendor', 'Resolved'];
+    const PRI = { High: '#A23B3B', Medium: '#8A5E05', Low: '#5A5C72' };
+    v.tickets = S.tickets.map((t, i) => ({ ...t, prioColor: PRI[t.prio], chip: chipFor(t.status), cycle: () => this.setState({ tickets: S.tickets.map((x, k) => k === i ? { ...x, status: CYC[(CYC.indexOf(x.status) + 1) % CYC.length] } : x) }) }));
+    v.ticketSummary = openTickets + ' open · ' + S.tickets.filter(t => t.prio === 'High' && t.status !== 'Resolved').length + ' high priority · click a status to update it';
+
+    // MARKETING
+    const PL = { IG: 'Instagram', FB: 'Facebook', IN: 'LinkedIn' };
+    const CAL0 = new Date(2026, 9, 26);
+    const dayLabel = (d) => { const x = new Date(2026, 9, 26 + d); return D.DOW[x.getDay()] + ' ' + x.getDate() + ' ' + D.MON[x.getMonth()]; };
+    const queue = S.posts.filter(x => x.status !== 'scheduled');
+    v.queueEmpty = queue.length === 0; v.queueCount = queue.length + ' waiting · ' + queue.filter(x => x.status === 'approved').length + ' approved';
+    const upd = (id, patch) => this.setState({ posts: S.posts.map(x => x.id === id ? { ...x, ...patch } : x) });
+    v.drafts = queue.map(x => { const ap = x.status === 'approved', ed = S.editing === x.id; return {
+      ...x, plats: x.plats.map(k => ({ short: k === 'IN' ? 'in' : k, name: PL[k] })), when: dayLabel(x.day) + ', ' + x.time,
+      status: ap ? 'Approved' : 'AI draft', chip: chipFor(ap ? 'Approved' : 'AI draft'), editing: ed, notEditing: !ed, editLabel: ed ? 'Done' : 'Edit',
+      setCaption: (e) => upd(x.id, { caption: e.target.value, status: 'draft' }),
+      approved: ap, approveLabel: ap ? 'Approved' : 'Approve', approveBg: ap ? '#E2F1E9' : '#D49516', approveFg: ap ? '#2F7D5B' : '#2B2D42',
+      approve: () => { upd(x.id, { status: 'approved' }); this.setState({ editing: null }); },
+      edit: () => this.setState({ editing: ed ? null : x.id }),
+      cantSchedule: !ap, scheduleTip: ap ? 'Schedule for ' + dayLabel(x.day) : 'Approve this draft first', scheduleCursor: ap ? 'pointer' : 'not-allowed', scheduleBg: ap ? '#2B2D42' : '#ECECF0', scheduleFg: ap ? '#FFFFFF' : '#9EA0B3',
+      schedule: () => { if (!ap) return; upd(x.id, { status: 'scheduled' }); this.setState({ justScheduled: x.id }); this.showToast('Scheduled for ' + dayLabel(x.day) + ', ' + x.time + '. It posts automatically.'); }
+    }; });
+    const cal = [...D.scheduled, ...S.posts.filter(x => x.status === 'scheduled')];
+    v.calDow = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+    v.calDays = Array.from({ length: 21 }, (_, d) => { const dt = new Date(2026, 9, 26 + d), ps = cal.filter(x => x.day === d); return { num: dt.getDate() === 1 ? '1 Nov' : dt.getDate(), bg: ps.length ? '#FBF6EA' : '#F7F7F9', numColor: ps.length ? '#2B2D42' : '#9EA0B3', posts: ps.map(x => ({ label: x.time + ' ' + x.plats.join('·'), title: x.title, bg: x.id === S.justScheduled ? '#D49516' : '#2B2D42', fg: x.id === S.justScheduled ? '#2B2D42' : '#F5F5F5', anim: x.id === S.justScheduled ? 'hvIn .4s ease' : 'none' })) }; });
+    v.scheduledList = cal.sort((a, b) => a.day - b.day).map(x => ({ when: dayLabel(x.day) + ' ' + x.time, title: x.title, plats: x.plats.map(k => PL[k]).join(', ') }));
+
+    // REPORTS
+    const RM = [
+      { label: 'October 2026', note: 'Month to date · 1–23 Oct', rev: revMonth, occ: '78%', mem: '142', off: filled + ' of 14', d: ['+9.4%', '+6 pts', '+11', '+1'], hi: ['Revenue is up 9.4% on September at the same point, led by All-Access renewals.', 'Pod 1 and the Boardroom are above 80% utilisation; Pod 4 is under 50%.', 'Tema Port Logistics signed for O11 and moves in on 1 November.'], fo: ['Fill O3 and O12 before Adom Consulting leaves O14 on 30 Nov.', 'Collect GHS 17,740 in overdue invoices, starting with Akwaaba Travel.', 'Run a Pod 4 off-peak offer (GHS 60/hr before 11:00).'] },
+      { label: 'September 2026', note: 'Full month · 1–30 Sep', rev: 341280, occ: '73%', mem: '131', off: '10 of 14', d: ['+5.1%', '+3 pts', '+8', '0'], hi: ['Best September on record, with Saturdays up 22% after the new opening hours.', 'Meridian Health GH moved into O10, the largest office.', '4 events, 212 RSVPs.'], fo: ['Push All-Access renewals before October price review.', 'Sign one of three office quotes in progress.', 'Fix the Boardroom AC before peak season.'] },
+      { label: 'August 2026', note: 'Full month · 1–31 Aug', rev: 324700, occ: '70%', mem: '123', off: '10 of 14', d: ['+2.8%', '+1 pt', '+5', '+1'], hi: ['BluePeak Energy moved into O13.', 'Flex passes overtook day passes for the first time.', 'Founders’ Breakfast sold out in 3 days.'], fo: ['Launch the 10-Day Flex Pass promotion.', 'Hire weekend front-desk cover.', 'Restart the member spotlight series.'] }
+    ];
+    const R = RM[S.reportMonth];
+    v.reportMonths = RM.map((m, i) => ({ label: m.label, note: m.note, pick: () => this.setState({ reportMonth: i }), bg: S.reportMonth === i ? '#FBF6EA' : '#FFFFFF', border: S.reportMonth === i ? '#D49516' : '#E4E4EA' }));
+    const offR = S.reportMonth === 0 ? D.officeRent : R.rev * .3, restR = R.rev - offR;
+    const rp = [['Day passes', restR * .26], ['Flex passes', restR * .21], ['All-Access', restR * .31], ['Rooms and pods', restR * .22], ['Offices', offR]], rpMax = Math.max(...rp.map(x => x[1]));
+    v.rep = { label: R.label, note: R.note, kpis: [['Revenue', g(R.rev)], ['Desk occupancy', R.occ], ['Active members', R.mem], ['Offices filled', R.off]].map(([label, value], i) => ({ label, value, delta: R.d[i] + ' vs prior month', color: R.d[i].startsWith('+') ? '#2F7D5B' : '#5A5C72' })), products: rp.map(([label, val]) => ({ label, value: g(val), share: Math.round(val / R.rev * 100) + '%', w: val / rpMax * 100 })), highlights: R.hi, focus: R.fo };
+    v.exportPdf = () => this.showToast(R.label + ' report is being prepared as a PDF');
+    v.exportReportCsv = () => { this.download('The Hive report ' + R.label + '.csv', [['Metric', 'Value'], ['Revenue (GHS)', Math.round(R.rev)], ['Desk occupancy', R.occ], ['Active members', R.mem], ['Offices filled', R.off], ...rp.map(([l, x]) => [l + ' (GHS)', Math.round(x)])]); this.showToast(R.label + ' data exported'); };
+
+    // SETTINGS
+    v.team = [['Abena Asante', 'General Manager', 'Owner'], ['Doreen Mensah', 'Community Manager · Staff App', 'Front desk'], ['Kojo Asiedu', 'Facilities', 'Operations'], ['Efua Danso', 'Accounts (part-time)', 'Billing']].map(([name, role, access]) => ({ name, role, access, initials: name.split(' ').map(x => x[0]).join('') }));
+    v.notifs = [['Today at The Hive · 7:00 email', 'Bookings, arrivals, takings, renewals and issues'], ['Overdue invoice alerts', 'When an invoice passes its due date'], ['Low-stock alerts', 'When an item drops below 25%'], ['Lease renewals', '90, 60 and 30 days before a lease ends'], ['Every payment', 'One message per payment (noisy)']].map(([label, note], i) => ({ label, note, track: S.notifs[i] ? '#D49516' : '#D3D3DC', knob: S.notifs[i] ? 16 : 0, toggle: () => this.setState({ notifs: S.notifs.map((x, k) => k === i ? !x : x) }) }));
+    v.integrations = [['Paystack', 'Card payments on the website', 'Connected'], ['MTN MoMo', 'Mobile money at the desk and online', 'Connected'], ['WhatsApp Business', 'Reminders and follow-ups', 'Connected'], ['Instagram, Facebook, LinkedIn', 'Posting approved drafts', 'Connected'], ['Xero', 'Accounting sync', 'Not connected']].map(([name, note, status]) => ({ name, note, status, chip: chipFor(status) }));
+    v.workspace = [['Name', 'The Hive'], ['City', 'Accra, Ghana'], ['Opening hours', 'Mon–Fri 8:00–18:00 · Sat 9:00–15:00'], ['Currency', 'Ghana cedi (GHS)'], ['Capacity', '60 desks · 4 pods · 3 rooms · 14 offices']].map(([k, val]) => ({ k, v: val }));
+
+    // DRAWER
+    v.closeDrawer = () => this.setState({ drawer: null });
+    v.noteDraft = S.noteDraft; v.setNoteDraft = (e) => this.setState({ noteDraft: e.target.value });
+    v.drawerOpen = !!S.drawer; v.dr = { stats: [], sections: [], actions: [], notes: [] };
+    const btn = (label, fn, primary) => ({ label, fn, bg: primary ? '#2B2D42' : '#FFFFFF', fg: primary ? '#FFFFFF' : '#2B2D42', border: primary ? '#2B2D42' : '#D3D3DC' });
+    if (S.drawer && S.drawer.kind === 'booking') {
+      const b = S.bookings.find(x => x.id === S.drawer.id), rs = D.res.find(x => x.id === b.res);
+      const time = rs.type === 'desk' ? 'All day, 8:00–18:00' : this.hm(b.start * 60) + '–' + this.hm((b.start + b.dur) * 60);
+      v.dr = { kicker: 'Booking ' + b.id, title: b.name, sub: rs.name + ' · ' + WD[b.day] + ' ' + (19 + b.day) + ' Oct · ' + time,
+        stats: [{ k: 'Status', v: b.status }, { k: 'Amount', v: b.amount ? g(b.amount) : 'Plan credit' }, { k: 'Paid by', v: b.pay }],
+        sections: [{ title: 'Details', rows: [{ k: 'Space', v: rs.name + ' (' + rs.sub + ')' }, { k: 'Plan', v: b.plan }, { k: 'Booked via', v: b.id.endsWith('3') ? 'Front desk' : 'Website' }, { k: 'Phone', v: '+233 24 ' + (100 + (+b.id.slice(1) % 800)) + ' ' + (4000 + (+b.id.slice(1) * 7) % 5000) }] }, { title: 'Reschedule', rows: [{ k: 'Tip', v: 'Drag it on the calendar' }] }],
+        hasNotes: false, notes: [],
+        actions: [btn(b.status === 'Checked in' ? 'Checked in' : 'Check in', () => { this.setState({ bookings: S.bookings.map(x => x.id === b.id ? { ...x, status: 'Checked in' } : x) }); this.showToast(b.name + ' checked in'); }, true), btn('WhatsApp reminder', () => this.showToast('WhatsApp reminder sent to ' + b.name)), btn('Cancel', () => { this.setState({ bookings: S.bookings.filter(x => x.id !== b.id), drawer: null }); this.showToast('Booking ' + b.id + ' cancelled'); })] };
+    } else if (S.drawer && S.drawer.kind === 'member') {
+      const m = D.members.find(x => x.id === S.drawer.id), seed = +m.id.slice(1);
+      const visits = ['Today', '22 Oct', '21 Oct', '19 Oct', '16 Oct', '14 Oct'].slice(m.last === 'Today' ? 0 : 1).slice(0, 5).map((d, i) => ({ k: d, v: ['Open desks', 'Quiet zone', 'Pod 3 · 2 hrs', 'Open desks', 'Boardroom · 1 hr'][(i + seed) % 5] + ' · ' + ['8:12', '9:05', '8:40', '10:15', '8:55'][(i + seed) % 5] + ' in' }));
+      const pays = m.plan === 'Private office' ? [['1 Oct', 'Office rent · October'], ['1 Sep', 'Office rent · September'], ['1 Aug', 'Office rent · August']] : m.plan === 'Day pass' ? [['21 Oct', 'Day pass · GHS 180'], ['14 Oct', 'Day pass · GHS 180'], ['7 Oct', 'Day pass · GHS 180']] : [['25 Sep', m.plan + ' · renewal'], ['22 Oct', 'Pod 3 · 2 hrs · GHS 160'], ['25 Aug', m.plan + ' · renewal']];
+      v.dr = { kicker: m.plan + ' member', title: m.name, sub: m.email + ' · ' + m.co,
+        stats: [{ k: 'Total spent', v: g(m.spent) }, { k: 'Visits in Oct', v: String(4 + (seed * 3) % 14) }, { k: 'Member since', v: ['Mar 2025', 'Jan 2026', 'Jun 2025', 'Aug 2026'][seed % 4] }],
+        sections: [{ title: 'Visit history', rows: visits.length ? visits : [{ k: 'No visits yet', v: '' }] }, { title: 'Payments', rows: pays.map(([d, x]) => ({ k: d, v: x })) }],
+        hasNotes: true, notes: (S.notes[m.id] || []),
+        actions: [btn('Message on WhatsApp', () => this.showToast('WhatsApp opened for ' + m.name), true), btn(m.status === 'Expiring' || m.status === 'Expired' ? 'Send renewal link' : 'Edit plan', () => this.showToast((m.status === 'Expiring' || m.status === 'Expired' ? 'Renewal link sent to ' : 'Plan editor opened for ') + m.name))] };
+      v.addNote = () => { const t = S.noteDraft.trim(); if (!t) return; this.setState({ notes: { ...S.notes, [m.id]: [...(S.notes[m.id] || []), { text: t, by: 'Abena · just now' }] }, noteDraft: '' }); };
+    }
+    if (!v.addNote) v.addNote = () => {};
+    return v;
+  }
+
+  moveBooking(rs, day) {
+    const S = this.state, b = S.bookings.find(x => x.id === S.dragId);
+    this.setState({ dragId: null, dragOver: null });
+    if (!b || (b.res === rs.id && b.day === day)) return;
+    const from = this.D.res.find(x => x.id === b.res);
+    if (from.type !== rs.type) { this.showToast(from.type === 'desk' ? 'Desk bookings can only move to a desk zone' : 'Move ' + from.type + ' bookings to another ' + from.type); return; }
+    this.setState({ bookings: S.bookings.map(x => x.id === b.id ? { ...x, res: rs.id, day, status: day < 4 ? x.status : x.status === 'Completed' ? 'Confirmed' : x.status } : x) });
+    this.showToast('Rescheduled ' + b.name + ' to ' + rs.name + ', ' + ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][day] + ' ' + (19 + day) + ' Oct · guest notified on WhatsApp');
+  }
+}
+</script>

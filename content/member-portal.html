@@ -1,0 +1,720 @@
+<x-dc>
+<helmet>
+<title>Member Portal · The Hive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@500;700&amp;family=Pontano+Sans:wght@400;700&amp;family=Roboto:wght@500&amp;display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;padding:0;background:#F5F5F5;color:#2B2D42;font-family:'Pontano Sans',sans-serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+a{color:#2B2D42;text-decoration:none}a:hover{color:#9B6A6C}
+button{font:inherit}
+:focus-visible{outline:3px solid #D49516;outline-offset:3px;border-radius:4px}
+input::placeholder{color:#8A8C9C}
+@keyframes hive-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+@keyframes hive-rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+@keyframes hive-fade{from{opacity:0}to{opacity:1}}
+@keyframes hive-spin{to{transform:rotate(360deg)}}
+@keyframes hive-ring-fill{from{stroke-dashoffset:326.73}}
+@media (max-width:900px){[data-desk-only]{display:none!important}[data-login-grid]{grid-template-columns:minmax(0,1fr)!important}[data-login-panel]{min-height:300px!important}[data-portal-grid]{grid-template-columns:minmax(0,1fr)!important}[data-portal-main]{padding:24px 18px 120px!important}[data-bk-row]{grid-template-columns:auto minmax(0,1fr)!important}[data-bk-actions]{grid-column:1/-1;justify-content:flex-start!important}}
+@media (min-width:901px){[data-mob-only]{display:none!important}}
+@media (max-width:1150px){[data-dash-top],[data-dash-bottom]{grid-template-columns:minmax(0,1fr)!important}}
+@media (max-width:620px){[data-pass-card]{flex-direction:column!important;align-items:flex-start!important}[data-two-col]{grid-template-columns:minmax(0,1fr)!important}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.001s!important;transition-duration:.001s!important}}
+</style>
+</helmet>
+
+<div ref="{{ wipeRef }}" style="position:fixed;inset:0;background:#D49516;z-index:900;transform:translateX(-101%);display:flex;align-items:center;justify-content:center;pointer-events:none">
+  <img src="https://images.squarespace-cdn.com/content/v1/688633ab5eb7735480a9622d/6c140487-9cba-4324-9f2c-23180ca56305/The+Hive_Primary+Identity_Reverse.png?format=1500w" alt="" aria-hidden="true" style="height:72px;width:auto;max-width:70vw;animation:hive-pulse 1.4s ease-in-out infinite">
+</div>
+
+<!-- SCREEN 1 · LOGIN -->
+<sc-if value="{{ isLogin }}" hint-placeholder-val="{{ true }}">
+  <div data-screen-label="01 Login" data-login-grid="true" style="display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);min-height:100vh">
+    <section ref="{{ panelRef }}" data-login-panel="true" onMouseMove="{{ onPanelMove }}" onMouseLeave="{{ onPanelLeave }}" style="background:#D49516;color:#2B2D42;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:36px 44px 44px">
+      <div ref="{{ layer1Ref }}" aria-hidden="true" style="position:absolute;inset:-60px;transition:transform .9s cubic-bezier(.2,.7,.2,1);background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 66L0 50L0 16L28 0L56 16L56 50Z' fill='none' stroke='%232B2D42' stroke-opacity='.14'/%3E%3Cpath d='M28 0L28 34L0 50L0 84L28 100L56 84L56 50L28 34' fill='none' stroke='%232B2D42' stroke-opacity='.14'/%3E%3C/svg%3E&quot;);mask-image:radial-gradient(ellipse at 80% 30%,rgba(0,0,0,1),rgba(0,0,0,0) 70%);-webkit-mask-image:radial-gradient(ellipse at 80% 30%,rgba(0,0,0,1),rgba(0,0,0,0) 70%)"></div>
+      <div ref="{{ layer2Ref }}" aria-hidden="true" style="position:absolute;inset:0;transition:transform .7s cubic-bezier(.2,.7,.2,1);pointer-events:none">
+        <span style="position:absolute;right:12%;top:16%;width:150px;height:168px;background:rgba(43,45,66,.08);clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span>
+        <span style="position:absolute;right:30%;top:46%;width:84px;height:94px;background:rgba(255,255,255,.22);clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span>
+      </div>
+      <div ref="{{ layer3Ref }}" aria-hidden="true" style="position:absolute;inset:0;transition:transform .5s cubic-bezier(.2,.7,.2,1);pointer-events:none">
+        <span style="position:absolute;right:6%;top:52%;width:46px;height:52px;background:#2B2D42;opacity:.18;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span>
+        <span style="position:absolute;right:42%;top:22%;width:28px;height:32px;background:#FFFFFF;opacity:.5;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span>
+      </div>
+      <a href="/" data-nav="true" aria-label="The Hive home" style="position:relative;align-self:flex-start"><img src="https://images.squarespace-cdn.com/content/v1/688633ab5eb7735480a9622d/6c140487-9cba-4324-9f2c-23180ca56305/The+Hive_Primary+Identity_Reverse.png?format=1500w" alt="The Hive" style="height:44px;display:block"></a>
+      <div style="position:relative">
+        <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-bottom:14px">Member Portal</div>
+        <h1 style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(48px,7vw,104px);line-height:.94;letter-spacing:-.03em;margin:0">Welcome back</h1>
+        <p style="margin:18px 0 0;font-size:18px;max-width:34ch">Your pass, bookings and receipts in one place. Mon–Fri, 8am–5pm · Tse Addo, Accra.</p>
+      </div>
+    </section>
+
+    <section style="display:flex;flex-direction:column;padding:28px 44px 36px;background:#F5F5F5">
+      <div style="display:flex;justify-content:flex-end"><a href="/" data-nav="true" style="font-weight:700;font-size:15px;display:inline-flex;align-items:center;gap:8px;padding:10px 0"><span aria-hidden="true">←</span> Back to website</a></div>
+      <div style="margin:auto 0;width:100%;max-width:420px;align-self:center;padding:32px 0">
+
+        <sc-if value="{{ lgChoose }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:16px;animation:hive-rise .5s cubic-bezier(.2,.7,.2,1) both">
+            <h2 style="font-family:Epilogue,sans-serif;font-weight:700;font-size:36px;letter-spacing:-.02em;line-height:1.05;margin:0">Sign in</h2>
+            <p style="margin:0 0 8px;color:#5A5C72">No passwords. Use Google or a one-time code by SMS.</p>
+            <button type="button" onClick="{{ googleSignIn }}" style="height:54px;background:#FFFFFF;border:1px solid #747775;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:12px;font-family:Roboto,arial,sans-serif;font-weight:500;font-size:16px;letter-spacing:.25px;color:#1F1F1F;cursor:pointer;transition:background .2s,box-shadow .2s" style-hover="background:#F8F9FA;box-shadow:0 1px 2px rgba(60,64,67,.3),0 1px 3px 1px rgba(60,64,67,.15)"><svg aria-hidden="true" width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"></path><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"></path><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"></path><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"></path></svg>Continue with Google</button>
+            <div style="display:flex;align-items:center;gap:14px;color:#8A8C9C;font-size:14px"><span style="flex:1;height:1px;background:#E0E0E5"></span>or<span style="flex:1;height:1px;background:#E0E0E5"></span></div>
+            <button type="button" onClick="{{ toPhone }}" style="height:54px;background:#9B6A6C;border:0;border-radius:12px;font-weight:700;font-size:16px;color:#FFFFFF;cursor:pointer;transition:background .2s" style-hover="background:#7E5456">Get a code by SMS</button>
+            <p style="margin:8px 0 0;font-size:14px;color:#5A5C72">New to The Hive? <a href="/book" data-nav="true" style="font-weight:700;border-bottom:2px solid #D49516">Book your first day</a> and your account is made for you.</p>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ lgPhone }}" hint-placeholder-val="{{ false }}">
+          <form onSubmit="{{ sendCode }}" novalidate="{{ true }}" style="display:flex;flex-direction:column;gap:16px;animation:hive-rise .5s cubic-bezier(.2,.7,.2,1) both">
+            <button type="button" onClick="{{ toChoose }}" style="align-self:flex-start;background:transparent;border:0;padding:0;font-weight:700;font-size:15px;color:#2B2D42;cursor:pointer" style-hover="color:#9B6A6C">← All sign-in options</button>
+            <h2 style="font-family:Epilogue,sans-serif;font-weight:700;font-size:36px;letter-spacing:-.02em;line-height:1.05;margin:0">Your phone number</h2>
+            <p style="margin:0;color:#5A5C72">We'll text you a 6-digit code.</p>
+            <label style="display:flex;flex-direction:column;gap:8px;font-size:14px;font-weight:700">Phone
+              <span style="display:flex;height:54px;border:1.5px solid {{ phoneBorder }};border-radius:12px;background:#FFFFFF;overflow:hidden;transition:border-color .2s">
+                <span style="display:flex;align-items:center;padding:0 14px;background:#F5F5F5;border-right:1.5px solid #E6E6EA;font-size:16px">+233</span>
+                <input type="tel" inputMode="numeric" autoComplete="tel-national" placeholder="24 455 7890" value="{{ phone }}" onChange="{{ setPhone }}" aria-invalid="{{ phoneErr }}" style="flex:1;min-width:0;border:0;padding:0 14px;font:inherit;font-size:18px;letter-spacing:.04em;color:#2B2D42;outline:none;background:transparent;font-variant-numeric:tabular-nums">
+              </span>
+              <sc-if value="{{ phoneErr }}" hint-placeholder-val="{{ false }}"><span role="alert" style="font-weight:400;color:#7E5456">Enter a Ghana mobile number, e.g. 24 455 7890.</span></sc-if>
+            </label>
+            <button type="submit" style="height:54px;background:#9B6A6C;border:0;border-radius:12px;font-weight:700;font-size:16px;color:#FFFFFF;cursor:pointer;transition:background .2s" style-hover="background:#7E5456">Send code</button>
+            <div style="font-size:13px;color:#5A5C72;border:1px dashed #B9BAC6;border-radius:10px;padding:8px 12px">Sample: any number works. Try 24 455 7890 (Ama Mensah).</div>
+          </form>
+        </sc-if>
+
+        <sc-if value="{{ lgCode }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:16px;animation:hive-rise .5s cubic-bezier(.2,.7,.2,1) both">
+            <button type="button" onClick="{{ toPhone }}" style="align-self:flex-start;background:transparent;border:0;padding:0;font-weight:700;font-size:15px;color:#2B2D42;cursor:pointer" style-hover="color:#9B6A6C">← Use a different number</button>
+            <h2 style="font-family:Epilogue,sans-serif;font-weight:700;font-size:36px;letter-spacing:-.02em;line-height:1.05;margin:0">Enter your code</h2>
+            <p style="margin:0;color:#5A5C72">Sent to <strong style="color:#2B2D42">+233 {{ phone }}</strong>.</p>
+            <div role="group" aria-label="6-digit code" style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px">
+              <sc-for list="{{ codeBoxes }}" as="cb" hint-placeholder-count="6">
+                <input ref="{{ cb.ref }}" type="text" inputMode="numeric" autoComplete="one-time-code" maxLength="1" aria-label="{{ cb.aria }}" value="{{ cb.val }}" onChange="{{ cb.onChange }}" onKeyDown="{{ cb.onKeyDown }}" onPaste="{{ cb.onPaste }}" onFocus="{{ cb.onFocus }}" style="height:62px;width:100%;text-align:center;border:1.5px solid {{ cb.border }};border-radius:12px;background:#FFFFFF;font-family:Epilogue,sans-serif;font-weight:700;font-size:26px;color:#2B2D42;outline:none;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#D49516;box-shadow:0 0 0 4px rgba(212,149,22,.2)">
+              </sc-for>
+            </div>
+            <sc-if value="{{ verifying }}" hint-placeholder-val="{{ false }}"><div role="status" style="display:flex;align-items:center;gap:10px;font-weight:700"><span aria-hidden="true" style="width:18px;height:18px;border-radius:50%;border:2.5px solid #E6E6EA;border-top-color:#D49516;animation:hive-spin .8s linear infinite"></span>Checking your code…</div></sc-if>
+            <div style="font-size:14px;color:#5A5C72">{{ resendText }} <sc-if value="{{ canResend }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ resend }}" style="background:transparent;border:0;padding:0;font-weight:700;color:#2B2D42;cursor:pointer;border-bottom:2px solid #D49516">Resend code</button></sc-if></div>
+            <div style="font-size:13px;color:#5A5C72;border:1px dashed #B9BAC6;border-radius:10px;padding:8px 12px">Sample: any 6 digits will sign you in.</div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ lgBusy }}" hint-placeholder-val="{{ false }}">
+          <div role="status" style="display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;animation:hive-fade .3s both">
+            <span aria-hidden="true" style="width:56px;height:62px;background:#D49516;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);animation:hive-pulse 1s ease-in-out infinite"></span>
+            <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:22px;letter-spacing:-.02em">{{ busyText }}</div>
+          </div>
+        </sc-if>
+      </div>
+      <div style="font-size:13px;color:#5A5C72;text-align:center">Trouble signing in? <a href="https://wa.me/233256071000" target="_blank" rel="noreferrer" style="font-weight:700">WhatsApp us</a> · +233 25 607 1000</div>
+    </section>
+  </div>
+</sc-if>
+
+<!-- PORTAL -->
+<sc-if value="{{ isPortal }}" hint-placeholder-val="{{ false }}">
+  <div data-portal-grid="true" style="display:grid;grid-template-columns:264px minmax(0,1fr);min-height:100vh">
+
+    <aside data-desk-only="true" aria-label="Portal" style="background:#2B2D42;color:#F5F5F5;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;padding:28px 18px 22px;overflow:hidden">
+      <div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 66L0 50L0 16L28 0L56 16L56 50Z' fill='none' stroke='%23F5F5F5' stroke-opacity='.08'/%3E%3Cpath d='M28 0L28 34L0 50L0 84L28 100L56 84L56 50L28 34' fill='none' stroke='%23F5F5F5' stroke-opacity='.08'/%3E%3C/svg%3E&quot;);mask-image:radial-gradient(ellipse at 0% 100%,rgba(0,0,0,1),rgba(0,0,0,0) 60%);-webkit-mask-image:radial-gradient(ellipse at 0% 100%,rgba(0,0,0,1),rgba(0,0,0,0) 60%)"></div>
+      <a href="/" data-nav="true" aria-label="The Hive home" style="position:relative;padding:0 10px;margin-bottom:8px"><img src="https://images.squarespace-cdn.com/content/v1/688633ab5eb7735480a9622d/6c140487-9cba-4324-9f2c-23180ca56305/The+Hive_Primary+Identity_Reverse.png?format=1500w" alt="The Hive" style="height:38px;display:block"></a>
+      <div style="position:relative;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#D49516;padding:0 10px;margin:18px 0 10px">Member Portal</div>
+      <nav style="position:relative;display:flex;flex-direction:column;gap:4px">
+        <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="4">
+          <button type="button" onClick="{{ n.go }}" aria-current="{{ n.current }}" style="display:flex;align-items:center;gap:12px;padding:12px 12px;border:0;border-radius:12px;background:{{ n.bg }};color:{{ n.fg }};font-weight:700;font-size:16px;cursor:pointer;text-align:left;transition:background .2s,color .2s" style-hover="background:rgba(255,255,255,.08);color:#F5F5F5"><span aria-hidden="true" style="width:14px;height:16px;background:{{ n.dot }};clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);flex:none;transition:background .2s"></span>{{ n.label }}</button>
+        </sc-for>
+      </nav>
+      <div style="position:relative;margin-top:auto;display:flex;flex-direction:column;gap:6px;border-top:1px solid rgba(255,255,255,.12);padding-top:16px">
+        <div style="display:flex;align-items:center;gap:12px;padding:6px 10px 12px">
+          <span aria-hidden="true" style="width:40px;height:44px;background:#D49516;color:#2B2D42;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);display:grid;place-items:center;font-weight:700;font-size:14px;flex:none">AM</span>
+          <span style="min-width:0"><span style="display:block;font-weight:700;font-size:15px">{{ pName }}</span><span style="display:block;font-size:12px;color:#B9BAC6">Sample member</span></span>
+        </div>
+        <a href="/" data-nav="true" style="color:#F5F5F5;padding:10px;border-radius:10px;font-size:15px;font-weight:700;display:flex;align-items:center;gap:10px" style-hover="background:rgba(255,255,255,.08);color:#F5F5F5"><span aria-hidden="true">←</span> Back to website</a>
+        <button type="button" onClick="{{ signOut }}" style="background:transparent;border:0;color:#B9BAC6;padding:10px;border-radius:10px;font-size:15px;text-align:left;cursor:pointer" style-hover="background:rgba(255,255,255,.08);color:#F5F5F5">Sign out</button>
+      </div>
+    </aside>
+
+    <div style="min-width:0;display:flex;flex-direction:column">
+      <div data-mob-only="true" style="background:#2B2D42;padding:12px 18px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:50">
+        <img src="https://images.squarespace-cdn.com/content/v1/688633ab5eb7735480a9622d/6c140487-9cba-4324-9f2c-23180ca56305/The+Hive_Primary+Identity_Reverse.png?format=1500w" alt="The Hive" style="height:32px;display:block">
+        <a href="/" data-nav="true" style="color:#F5F5F5;font-size:14px;font-weight:700;padding:10px 0" style-hover="color:#D49516">← Back to website</a>
+      </div>
+
+      <main data-portal-main="true" style="flex:1;padding:36px 44px 64px;max-width:1180px;width:100%">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:28px">
+          <div>
+            <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#9B6A6C;margin-bottom:6px">{{ eyebrow }}</div>
+            <h1 style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(32px,4vw,48px);letter-spacing:-.025em;line-height:1.02;margin:0">{{ pageTitle }}</h1>
+          </div>
+          <sc-if value="{{ showSample }}" hint-placeholder-val="{{ true }}"><span style="display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:#5A5C72;border:1.5px dashed #B9BAC6;border-radius:999px;padding:6px 14px"><span aria-hidden="true" style="width:8px;height:8px;border-radius:50%;background:#D49516"></span>Sample data · Ama Mensah</span></sc-if>
+        </div>
+
+        <!-- SCREEN 2 · DASHBOARD -->
+        <sc-if value="{{ isDash }}" hint-placeholder-val="{{ false }}">
+          <div data-screen-label="02 Dashboard" style="display:flex;flex-direction:column;gap:24px;animation:hive-rise .5s cubic-bezier(.2,.7,.2,1) both">
+            <sc-if value="{{ showBanner }}" hint-placeholder-val="{{ true }}">
+              <div role="status" style="background:#2B2D42;color:#F5F5F5;border-radius:16px;padding:16px 18px 16px 22px;display:flex;align-items:center;gap:16px;flex-wrap:wrap">
+                <span aria-hidden="true" style="width:14px;height:16px;background:#D49516;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);flex:none"></span>
+                <div style="flex:1 1 260px;font-weight:700">{{ bannerText }}</div>
+                <a href="/book?plan=flex10" data-nav="true" style="background:#D49516;color:#2B2D42;padding:10px 20px;border-radius:12px;font-weight:700;font-size:15px;transition:background .2s" style-hover="background:#E5B45A;color:#2B2D42">Renew</a>
+                <button type="button" onClick="{{ hideBanner }}" aria-label="Dismiss" style="width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.1);color:#F5F5F5;cursor:pointer;font-size:18px;line-height:1" style-hover="background:rgba(255,255,255,.18)">×</button>
+              </div>
+            </sc-if>
+
+            <div data-dash-top="true" style="display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:24px">
+              <div style="background:#2B2D42;color:#F5F5F5;border-radius:16px;padding:28px;position:relative;overflow:hidden;box-shadow:0 2px 6px rgba(43,45,66,.1),0 24px 60px rgba(43,45,66,.16)">
+                <div aria-hidden="true" style="position:absolute;inset:0;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 66L0 50L0 16L28 0L56 16L56 50Z' fill='none' stroke='%23F5F5F5' stroke-opacity='.1'/%3E%3Cpath d='M28 0L28 34L0 50L0 84L28 100L56 84L56 50L28 34' fill='none' stroke='%23F5F5F5' stroke-opacity='.1'/%3E%3C/svg%3E&quot;);mask-image:radial-gradient(ellipse at 100% 0%,rgba(0,0,0,1),rgba(0,0,0,0) 60%);-webkit-mask-image:radial-gradient(ellipse at 100% 0%,rgba(0,0,0,1),rgba(0,0,0,0) 60%)"></div>
+                <div style="position:relative;font-family:Epilogue,sans-serif;font-weight:500;font-size:20px;letter-spacing:-.02em;margin-bottom:20px">{{ greeting }}</div>
+                <div data-pass-card="true" style="position:relative;display:flex;align-items:center;gap:28px">
+                  <div style="position:relative;width:148px;height:148px;flex:none">
+                    <svg width="148" height="148" viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52" fill="none" stroke="rgba(245,245,245,.14)" stroke-width="10"></circle><circle ref="{{ ringRef }}" cx="60" cy="60" r="52" fill="none" stroke="#D49516" stroke-width="10" stroke-linecap="round" stroke-dasharray="326.73" transform="rotate(-90 60 60)" style="stroke-dashoffset:{{ ringOffset }};animation:hive-ring-fill 1.4s cubic-bezier(.2,.7,.2,1) .15s both;transition:stroke-dashoffset 1.4s cubic-bezier(.2,.7,.2,1)"></circle></svg>
+                    <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center"><span ref="{{ numRef }}" style="font-family:Epilogue,sans-serif;font-weight:700;font-size:44px;line-height:1;letter-spacing:-.03em">{{ daysLeft }}</span><span style="font-size:13px;color:#B9BAC6">of {{ passTotal }} days left</span></div>
+                  </div>
+                  <div style="min-width:0;display:flex;flex-direction:column;gap:6px">
+                    <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#D49516">Pass wallet</div>
+                    <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:28px;letter-spacing:-.02em;line-height:1.1">10-Day Flex Pass</div>
+                    <div style="font-size:15px;color:#B9BAC6">Valid until <strong style="color:#F5F5F5">{{ validUntil }}</strong></div>
+                    <div style="font-size:14px;color:#B9BAC6">{{ usedText }}</div>
+                    <a href="/book?plan=flex10" data-nav="true" style="align-self:flex-start;margin-top:10px;background:#D49516;color:#2B2D42;padding:12px 22px;border-radius:12px;font-weight:700;transition:background .2s" style-hover="background:#E5B45A;color:#2B2D42">Top up</a>
+                  </div>
+                </div>
+              </div>
+
+              <div style="background:#FFFFFF;border-radius:16px;padding:24px;box-shadow:0 1px 2px rgba(43,45,66,.06),0 8px 24px rgba(43,45,66,.06)">
+                <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#9B6A6C;margin-bottom:14px">Quick actions</div>
+                <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px">
+                  <a href="/book?space=desk" data-nav="true" style="background:#F5F5F5;border-radius:14px;padding:18px 16px;display:flex;flex-direction:column;gap:12px;min-height:112px;color:#2B2D42;transition:background .2s" style-hover="background:#FBF1DC;color:#2B2D42"><span aria-hidden="true" style="width:22px;height:25px;background:#D49516;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span><span style="font-family:Epilogue,sans-serif;font-weight:700;font-size:18px;letter-spacing:-.02em;margin-top:auto">Book a desk</span></a>
+                  <a href="/book?space=meeting" data-nav="true" style="background:#F5F5F5;border-radius:14px;padding:18px 16px;display:flex;flex-direction:column;gap:12px;min-height:112px;color:#2B2D42;transition:background .2s" style-hover="background:#F1E6E6;color:#2B2D42"><span aria-hidden="true" style="width:22px;height:25px;background:#9B6A6C;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span><span style="font-family:Epilogue,sans-serif;font-weight:700;font-size:18px;letter-spacing:-.02em;margin-top:auto">Book a room</span></a>
+                  <a href="/book?space=pod" data-nav="true" style="background:#F5F5F5;border-radius:14px;padding:18px 16px;display:flex;flex-direction:column;gap:12px;min-height:112px;color:#2B2D42;transition:background .2s" style-hover="background:#E6E6EA;color:#2B2D42"><span aria-hidden="true" style="width:22px;height:25px;background:#2B2D42;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span><span style="font-family:Epilogue,sans-serif;font-weight:700;font-size:18px;letter-spacing:-.02em;margin-top:auto">Book a pod</span></a>
+                  <button type="button" onClick="{{ openInvite }}" style="background:#F5F5F5;border:0;border-radius:14px;padding:18px 16px;display:flex;flex-direction:column;gap:12px;min-height:112px;color:#2B2D42;text-align:left;cursor:pointer;transition:background .2s" style-hover="background:#FBF1DC"><span aria-hidden="true" style="width:22px;height:25px;border:0;background:#B9BAC6;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span><span style="font-family:Epilogue,sans-serif;font-weight:700;font-size:18px;letter-spacing:-.02em;margin-top:auto">Invite a guest</span></button>
+                </div>
+              </div>
+            </div>
+
+            <div data-dash-bottom="true" style="display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:24px;align-items:start">
+              <section style="background:#FFFFFF;border-radius:16px;padding:24px 24px 8px;box-shadow:0 1px 2px rgba(43,45,66,.06),0 8px 24px rgba(43,45,66,.06)">
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:8px">
+                  <h2 style="font-family:Epilogue,sans-serif;font-weight:700;font-size:22px;letter-spacing:-.02em;margin:0">Upcoming bookings</h2>
+                  <button type="button" onClick="{{ goBookings }}" style="background:transparent;border:0;padding:6px 0;font-weight:700;font-size:15px;color:#2B2D42;cursor:pointer;border-bottom:2px solid #D49516" style-hover="color:#9B6A6C">See all</button>
+                </div>
+                <sc-if value="{{ noUpcoming }}" hint-placeholder-val="{{ false }}"><div style="padding:28px 0 32px;color:#5A5C72">No upcoming bookings. <a href="/book" data-nav="true" style="font-weight:700;border-bottom:2px solid #D49516">Book a spot</a></div></sc-if>
+                <sc-for list="{{ dashBookings }}" as="b" hint-placeholder-count="3">
+                  <div data-bk-row="true" style="display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px 16px;align-items:center;padding:16px 0;border-top:1px solid #E6E6EA">
+                    <div style="width:58px;text-align:center;background:#F5F5F5;border-radius:12px;padding:8px 0;line-height:1.15"><div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#5A5C72">{{ b.dow }}</div><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:24px">{{ b.dnum }}</div><div style="font-size:12px;color:#5A5C72">{{ b.mon }}</div></div>
+                    <div style="min-width:0">
+                      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#5A5C72"><span aria-hidden="true" style="width:9px;height:10px;background:{{ b.color }};clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span>{{ b.typeLabel }}</span><sc-if value="{{ b.rescheduled }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;font-weight:700;background:#FBF1DC;color:#2B2D42;padding:2px 8px;border-radius:999px">Rescheduled</span></sc-if></div>
+                      <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:18px;letter-spacing:-.02em;line-height:1.25">{{ b.title }}</div>
+                      <div style="font-size:14px;color:#5A5C72">{{ b.when }} · {{ b.meta }}</div>
+                    </div>
+                    <sc-if value="{{ b.notConfirming }}" hint-placeholder-val="{{ true }}">
+                      <div data-bk-actions="true" style="display:flex;gap:8px;align-items:center;justify-content:flex-end;flex-wrap:wrap">
+                        <button type="button" onClick="{{ b.showQr }}" style="background:#2B2D42;color:#F5F5F5;border:0;border-radius:10px;padding:9px 14px;font-weight:700;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:background .2s" style-hover="background:#1E2030"><span aria-hidden="true" style="width:12px;height:12px;border:2px solid currentColor;border-radius:2px;display:inline-block"></span>QR</button>
+                        <button type="button" onClick="{{ b.resched }}" style="background:transparent;color:#2B2D42;border:1.5px solid #D9DAE0;border-radius:10px;padding:8px 12px;font-weight:700;font-size:14px;cursor:pointer;transition:border-color .2s" style-hover="border-color:#2B2D42">Reschedule</button>
+                        <button type="button" onClick="{{ b.askCancel }}" style="background:transparent;color:#7E5456;border:0;padding:8px 6px;font-weight:700;font-size:14px;cursor:pointer" style-hover="color:#2B2D42">Cancel</button>
+                      </div>
+                    </sc-if>
+                    <sc-if value="{{ b.confirming }}" hint-placeholder-val="{{ false }}">
+                      <div role="alertdialog" aria-label="Confirm cancellation" style="grid-column:1/-1;background:#F1E6E6;border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;animation:hive-rise .35s cubic-bezier(.2,.7,.2,1) both">
+                        <div style="flex:1 1 220px;font-size:15px"><strong>Cancel {{ b.title }} on {{ b.dateShort }}?</strong> <span style="color:#5A5C72">{{ b.cancelNote }}</span></div>
+                        <button type="button" onClick="{{ b.keep }}" style="background:#FFFFFF;color:#2B2D42;border:1.5px solid #D7BDBE;border-radius:10px;padding:8px 14px;font-weight:700;font-size:14px;cursor:pointer">Keep booking</button>
+                        <button type="button" onClick="{{ b.doCancel }}" style="background:#9B6A6C;color:#FFFFFF;border:0;border-radius:10px;padding:9px 14px;font-weight:700;font-size:14px;cursor:pointer;transition:background .2s" style-hover="background:#7E5456">Yes, cancel</button>
+                      </div>
+                    </sc-if>
+                  </div>
+                </sc-for>
+              </section>
+
+              <section style="background:#FFFFFF;border-radius:16px;padding:24px;box-shadow:0 1px 2px rgba(43,45,66,.06),0 8px 24px rgba(43,45,66,.06)">
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px">
+                  <h2 style="font-family:Epilogue,sans-serif;font-weight:700;font-size:22px;letter-spacing:-.02em;margin:0">Your events</h2>
+                  <a href="/events" data-nav="true" style="font-weight:700;font-size:15px;border-bottom:2px solid #D49516;padding:6px 0">All events</a>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:12px">
+                  <sc-for list="{{ events }}" as="ev" hint-placeholder-count="2">
+                    <div style="display:flex;gap:14px;align-items:center;background:#F5F5F5;border-radius:14px;padding:12px">
+                      <div style="width:54px;height:60px;flex:none;background:#D49516;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.05"><span style="font-family:Epilogue,sans-serif;font-weight:700;font-size:18px">{{ ev.dnum }}</span><span style="font-size:11px;font-weight:700;text-transform:uppercase">{{ ev.mon }}</span></div>
+                      <div style="min-width:0;flex:1"><div style="font-weight:700;line-height:1.3">{{ ev.title }}</div><div style="font-size:13px;color:#5A5C72">{{ ev.when }}</div></div>
+                      <span style="font-size:12px;font-weight:700;background:#FFFFFF;color:#2B2D42;padding:4px 10px;border-radius:999px;display:inline-flex;align-items:center;gap:6px"><span aria-hidden="true" style="width:7px;height:7px;border-radius:50%;background:#3E9B5F"></span>Going</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </section>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- SCREEN 3 · BOOKINGS -->
+        <sc-if value="{{ isBookings }}" hint-placeholder-val="{{ false }}">
+          <div data-screen-label="03 Bookings" style="display:flex;flex-direction:column;gap:20px;animation:hive-rise .5s cubic-bezier(.2,.7,.2,1) both">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap">
+              <div role="tablist" aria-label="View" style="display:flex;background:#E6E6EA;border-radius:12px;padding:4px">
+                <sc-for list="{{ viewTabs }}" as="vt" hint-placeholder-count="2"><button type="button" role="tab" aria-selected="{{ vt.selected }}" onClick="{{ vt.pick }}" style="border:0;border-radius:9px;padding:8px 18px;font-weight:700;font-size:15px;cursor:pointer;background:{{ vt.bg }};color:#2B2D42;box-shadow:{{ vt.shadow }};transition:background .2s">{{ vt.label }}</button></sc-for>
+              </div>
+              <a href="/book" data-nav="true" style="background:#9B6A6C;color:#FFFFFF;padding:11px 20px;border-radius:12px;font-weight:700;font-size:15px;transition:background .2s" style-hover="background:#7E5456;color:#FFFFFF">New booking</a>
+            </div>
+            <div role="group" aria-label="Filter by type" style="display:flex;gap:8px;flex-wrap:wrap">
+              <sc-for list="{{ filters }}" as="f" hint-placeholder-count="4"><button type="button" aria-pressed="{{ f.selected }}" onClick="{{ f.pick }}" style="border:1.5px solid {{ f.border }};background:{{ f.bg }};color:{{ f.fg }};border-radius:999px;padding:7px 16px;font-weight:700;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:all .2s"><span aria-hidden="true" style="width:9px;height:10px;background:{{ f.dot }};clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span>{{ f.label }} <span style="font-weight:400;opacity:.75">{{ f.count }}</span></button></sc-for>
+            </div>
+
+            <sc-if value="{{ isList }}" hint-placeholder-val="{{ true }}">
+              <section style="background:#FFFFFF;border-radius:16px;padding:8px 24px 8px;box-shadow:0 1px 2px rgba(43,45,66,.06),0 8px 24px rgba(43,45,66,.06)">
+                <div role="tablist" aria-label="When" style="display:flex;gap:24px;border-bottom:1px solid #E6E6EA">
+                  <sc-for list="{{ timeTabs }}" as="tt" hint-placeholder-count="2"><button type="button" role="tab" aria-selected="{{ tt.selected }}" onClick="{{ tt.pick }}" style="background:transparent;border:0;border-bottom:3px solid {{ tt.line }};padding:14px 0 11px;font-weight:700;font-size:15px;color:{{ tt.fg }};cursor:pointer">{{ tt.label }}</button></sc-for>
+                </div>
+                <sc-if value="{{ listEmpty }}" hint-placeholder-val="{{ false }}"><div style="padding:32px 0;color:#5A5C72">Nothing here for this filter.</div></sc-if>
+                <sc-for list="{{ listBookings }}" as="b" hint-placeholder-count="4">
+                  <div data-bk-row="true" style="display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px 16px;align-items:center;padding:16px 0;border-bottom:1px solid #E6E6EA">
+                    <div style="width:58px;text-align:center;background:#F5F5F5;border-radius:12px;padding:8px 0;line-height:1.15;opacity:{{ b.dateOp }}"><div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#5A5C72">{{ b.dow }}</div><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:24px">{{ b.dnum }}</div><div style="font-size:12px;color:#5A5C72">{{ b.mon }}</div></div>
+                    <div style="min-width:0">
+                      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#5A5C72"><span aria-hidden="true" style="width:9px;height:10px;background:{{ b.color }};clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span>{{ b.typeLabel }}</span><sc-if value="{{ b.rescheduled }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;font-weight:700;background:#FBF1DC;color:#2B2D42;padding:2px 8px;border-radius:999px">Rescheduled</span></sc-if><sc-if value="{{ b.isPast }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;font-weight:700;background:#E6E6EA;color:#2B2D42;padding:2px 8px;border-radius:999px">Checked in</span></sc-if></div>
+                      <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:18px;letter-spacing:-.02em;line-height:1.25">{{ b.title }}</div>
+                      <div style="font-size:14px;color:#5A5C72">{{ b.when }} · {{ b.meta }}</div>
+                    </div>
+                    <sc-if value="{{ b.isPast }}" hint-placeholder-val="{{ false }}">
+                      <div data-bk-actions="true" style="display:flex;justify-content:flex-end"><a href="{{ b.rebookHref }}" data-nav="true" style="border:1.5px solid #D9DAE0;border-radius:10px;padding:8px 14px;font-weight:700;font-size:14px;transition:border-color .2s" style-hover="border-color:#2B2D42;color:#2B2D42">Book again</a></div>
+                    </sc-if>
+                    <sc-if value="{{ b.upcomingIdle }}" hint-placeholder-val="{{ true }}">
+                      <div data-bk-actions="true" style="display:flex;gap:8px;align-items:center;justify-content:flex-end;flex-wrap:wrap">
+                        <button type="button" onClick="{{ b.showQr }}" style="background:#2B2D42;color:#F5F5F5;border:0;border-radius:10px;padding:9px 14px;font-weight:700;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:background .2s" style-hover="background:#1E2030"><span aria-hidden="true" style="width:12px;height:12px;border:2px solid currentColor;border-radius:2px;display:inline-block"></span>QR</button>
+                        <button type="button" onClick="{{ b.resched }}" style="background:transparent;color:#2B2D42;border:1.5px solid #D9DAE0;border-radius:10px;padding:8px 12px;font-weight:700;font-size:14px;cursor:pointer;transition:border-color .2s" style-hover="border-color:#2B2D42">Reschedule</button>
+                        <button type="button" onClick="{{ b.askCancel }}" style="background:transparent;color:#7E5456;border:0;padding:8px 6px;font-weight:700;font-size:14px;cursor:pointer" style-hover="color:#2B2D42">Cancel</button>
+                      </div>
+                    </sc-if>
+                    <sc-if value="{{ b.confirming }}" hint-placeholder-val="{{ false }}">
+                      <div role="alertdialog" aria-label="Confirm cancellation" style="grid-column:1/-1;background:#F1E6E6;border-radius:12px;padding:14px 16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;animation:hive-rise .35s cubic-bezier(.2,.7,.2,1) both">
+                        <div style="flex:1 1 220px;font-size:15px"><strong>Cancel {{ b.title }} on {{ b.dateShort }}?</strong> <span style="color:#5A5C72">{{ b.cancelNote }}</span></div>
+                        <button type="button" onClick="{{ b.keep }}" style="background:#FFFFFF;color:#2B2D42;border:1.5px solid #D7BDBE;border-radius:10px;padding:8px 14px;font-weight:700;font-size:14px;cursor:pointer">Keep booking</button>
+                        <button type="button" onClick="{{ b.doCancel }}" style="background:#9B6A6C;color:#FFFFFF;border:0;border-radius:10px;padding:9px 14px;font-weight:700;font-size:14px;cursor:pointer;transition:background .2s" style-hover="background:#7E5456">Yes, cancel</button>
+                      </div>
+                    </sc-if>
+                  </div>
+                </sc-for>
+              </section>
+            </sc-if>
+
+            <sc-if value="{{ isCal }}" hint-placeholder-val="{{ false }}">
+              <div data-dash-bottom="true" style="display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:24px;align-items:start">
+                <section style="background:#FFFFFF;border-radius:16px;padding:22px;box-shadow:0 1px 2px rgba(43,45,66,.06),0 8px 24px rgba(43,45,66,.06)">
+                  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+                    <button type="button" onClick="{{ prevMonth }}" aria-label="Previous month" style="width:40px;height:40px;border-radius:50%;border:1.5px solid #E6E6EA;background:#FFFFFF;cursor:pointer;color:#2B2D42" style-hover="background:#F5F5F5">‹</button>
+                    <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:18px;letter-spacing:-.02em">{{ monthLabel }}</div>
+                    <button type="button" onClick="{{ nextMonth }}" aria-label="Next month" style="width:40px;height:40px;border-radius:50%;border:1.5px solid #E6E6EA;background:#FFFFFF;cursor:pointer;color:#2B2D42" style-hover="background:#F5F5F5">›</button>
+                  </div>
+                  <div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;text-align:center;font-size:12px;font-weight:700;color:#8A8C9C;letter-spacing:.08em;margin-bottom:6px"><span>MO</span><span>TU</span><span>WE</span><span>TH</span><span>FR</span><span>SA</span><span>SU</span></div>
+                  <div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px">
+                    <sc-for list="{{ calDays }}" as="d" hint-placeholder-count="35">
+                      <button type="button" onClick="{{ d.pick }}" disabled="{{ d.empty }}" aria-label="{{ d.aria }}" aria-pressed="{{ d.selected }}" style="min-height:54px;border:0;border-radius:10px;background:{{ d.bg }};color:{{ d.fg }};font-weight:700;font-size:15px;cursor:{{ d.cursor }};box-shadow:{{ d.ring }};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;opacity:{{ d.op }};transition:background .2s">
+                        <span>{{ d.label }}</span>
+                        <span style="display:flex;gap:3px;height:7px"><sc-for list="{{ d.dots }}" as="dc" hint-placeholder-count="0"><span style="width:6px;height:7px;background:{{ dc }};clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span></sc-for></span>
+                      </button>
+                    </sc-for>
+                  </div>
+                  <div style="display:flex;gap:16px;margin-top:14px;font-size:13px;color:#5A5C72;flex-wrap:wrap"><span style="display:flex;align-items:center;gap:6px"><span style="width:9px;height:10px;background:#D49516;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span>Desk</span><span style="display:flex;align-items:center;gap:6px"><span style="width:9px;height:10px;background:#9B6A6C;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span>Room</span><span style="display:flex;align-items:center;gap:6px"><span style="width:9px;height:10px;background:#2B2D42;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span>Pod</span><span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:4px;box-shadow:inset 0 0 0 1.5px #D49516"></span>Today</span></div>
+                </section>
+                <section style="background:#FFFFFF;border-radius:16px;padding:22px;box-shadow:0 1px 2px rgba(43,45,66,.06),0 8px 24px rgba(43,45,66,.06)">
+                  <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#9B6A6C;margin-bottom:6px">{{ calSelLabel }}</div>
+                  <sc-if value="{{ calSelEmpty }}" hint-placeholder-val="{{ false }}"><div style="color:#5A5C72;padding:10px 0">No bookings on this day. <a href="/book" data-nav="true" style="font-weight:700;border-bottom:2px solid #D49516">Book a spot</a></div></sc-if>
+                  <sc-for list="{{ calSelBookings }}" as="b" hint-placeholder-count="1">
+                    <div style="border-top:1px solid #E6E6EA;padding:14px 0;display:flex;flex-direction:column;gap:8px">
+                      <span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#5A5C72"><span aria-hidden="true" style="width:9px;height:10px;background:{{ b.color }};clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span>{{ b.typeLabel }} · {{ b.statusText }}</span>
+                      <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:18px;letter-spacing:-.02em;line-height:1.25">{{ b.title }}</div>
+                      <div style="font-size:14px;color:#5A5C72">{{ b.when }} · {{ b.meta }}</div>
+                      <sc-if value="{{ b.isUpcoming }}" hint-placeholder-val="{{ false }}"><div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" onClick="{{ b.showQr }}" style="background:#2B2D42;color:#F5F5F5;border:0;border-radius:10px;padding:9px 14px;font-weight:700;font-size:14px;cursor:pointer" style-hover="background:#1E2030">Show QR</button><button type="button" onClick="{{ b.resched }}" style="background:transparent;color:#2B2D42;border:1.5px solid #D9DAE0;border-radius:10px;padding:8px 12px;font-weight:700;font-size:14px;cursor:pointer" style-hover="border-color:#2B2D42">Reschedule</button></div></sc-if>
+                    </div>
+                  </sc-for>
+                </section>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+
+        <!-- SCREEN 4 · BILLING -->
+        <sc-if value="{{ isBilling }}" hint-placeholder-val="{{ false }}">
+          <div data-screen-label="04 Billing" style="display:flex;flex-direction:column;gap:24px;animation:hive-rise .5s cubic-bezier(.2,.7,.2,1) both">
+            <section style="background:#FFFFFF;border-radius:16px;padding:24px;box-shadow:0 1px 2px rgba(43,45,66,.06),0 8px 24px rgba(43,45,66,.06)">
+              <h2 style="font-family:Epilogue,sans-serif;font-weight:700;font-size:22px;letter-spacing:-.02em;margin:0 0 12px">Receipts and invoices</h2>
+              <div style="overflow-x:auto;margin:0 -8px">
+                <table style="width:100%;min-width:620px;border-collapse:collapse;font-size:15px">
+                  <thead><tr style="text-align:left;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#5A5C72"><th style="padding:10px 8px;font-weight:700">Date</th><th style="padding:10px 8px;font-weight:700">Item</th><th style="padding:10px 8px;font-weight:700;text-align:right">Amount</th><th style="padding:10px 8px;font-weight:700">Status</th><th style="padding:10px 8px;font-weight:700;text-align:right"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Download</span></th></tr></thead>
+                  <tbody>
+                    <sc-for list="{{ receipts }}" as="r" hint-placeholder-count="5">
+                      <tr style="border-top:1px solid #E6E6EA">
+                        <td style="padding:14px 8px;white-space:nowrap">{{ r.date }}</td>
+                        <td style="padding:14px 8px"><div style="font-weight:700">{{ r.item }}</div><div style="font-size:13px;color:#5A5C72">{{ r.no }}</div></td>
+                        <td style="padding:14px 8px;text-align:right;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap">{{ r.amount }}</td>
+                        <td style="padding:14px 8px"><span style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;padding:4px 10px;border-radius:999px;background:{{ r.chipBg }};color:{{ r.chipFg }}"><span aria-hidden="true" style="width:7px;height:7px;border-radius:50%;background:{{ r.chipDot }}"></span>{{ r.status }}</span></td>
+                        <td style="padding:14px 8px;text-align:right"><a href="{{ r.href }}" download="{{ r.file }}" aria-label="{{ r.aria }}" style="width:40px;height:40px;border-radius:10px;border:1.5px solid #E6E6EA;display:inline-grid;place-items:center;transition:border-color .2s" style-hover="border-color:#2B2D42"><span aria-hidden="true" style="display:flex;flex-direction:column;align-items:center"><span style="width:2px;height:9px;background:#2B2D42"></span><span style="width:8px;height:8px;border-right:2px solid #2B2D42;border-bottom:2px solid #2B2D42;transform:rotate(45deg);margin-top:-7px"></span><span style="width:14px;height:2px;background:#2B2D42;margin-top:3px"></span></span></a></td>
+                      </tr>
+                    </sc-for>
+                  </tbody>
+                </table>
+              </div>
+              <div style="font-size:13px;color:#5A5C72;margin-top:12px">Due items can be paid at the front desk or by MoMo when you check in. Prices in Ghana cedis.</div>
+            </section>
+
+            <div data-two-col="true" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;align-items:start">
+              <section style="background:#FFFFFF;border-radius:16px;padding:24px;box-shadow:0 1px 2px rgba(43,45,66,.06),0 8px 24px rgba(43,45,66,.06);display:flex;flex-direction:column;gap:16px">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px">
+                  <div><h2 style="font-family:Epilogue,sans-serif;font-weight:700;font-size:22px;letter-spacing:-.02em;margin:0">Company billing</h2><div style="font-size:15px;color:#5A5C72;margin-top:4px">Send one invoice a month to a company email.</div></div>
+                  <button type="button" role="switch" aria-checked="{{ companyOn }}" aria-label="Company billing" onClick="{{ toggleCompany }}" style="flex:none;width:52px;height:30px;border-radius:999px;border:0;background:{{ companyTrack }};position:relative;cursor:pointer;transition:background .25s"><span style="position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#FFFFFF;box-shadow:0 1px 3px rgba(43,45,66,.3);transform:translateX({{ companyKnob }}px);transition:transform .25s cubic-bezier(.2,.7,.2,1)"></span></button>
+                </div>
+                <sc-if value="{{ companyOn }}" hint-placeholder-val="{{ false }}">
+                  <form onSubmit="{{ saveCompany }}" novalidate="{{ true }}" style="display:flex;flex-direction:column;gap:12px;animation:hive-rise .35s cubic-bezier(.2,.7,.2,1) both">
+                    <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700">Company email<input type="email" value="{{ companyEmail }}" onChange="{{ setCompanyEmail }}" aria-invalid="{{ companyErr }}" placeholder="accounts@company.com" style="height:50px;border:1.5px solid {{ companyBorder }};border-radius:12px;padding:0 14px;font:inherit;font-size:16px;color:#2B2D42;background:#FFFFFF;outline:none;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#D49516;box-shadow:0 0 0 4px rgba(212,149,22,.2)"><sc-if value="{{ companyErr }}" hint-placeholder-val="{{ false }}"><span role="alert" style="font-weight:400;color:#7E5456">Enter a valid company email.</span></sc-if></label>
+                    <div style="font-size:14px;color:#5A5C72">Invoices for Mensah &amp; Co. Consulting go out on the 1st of each month.</div>
+                    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><button type="submit" style="background:#9B6A6C;color:#FFFFFF;border:0;border-radius:12px;padding:12px 20px;font-weight:700;cursor:pointer;transition:background .2s" style-hover="background:#7E5456">Save</button><sc-if value="{{ companySaved }}" hint-placeholder-val="{{ false }}"><span role="status" style="font-size:14px;font-weight:700;display:inline-flex;align-items:center;gap:6px"><span aria-hidden="true" style="width:8px;height:8px;border-radius:50%;background:#3E9B5F"></span>Saved</span></sc-if></div>
+                  </form>
+                </sc-if>
+                <sc-if value="{{ companyOff }}" hint-placeholder-val="{{ true }}"><div style="font-size:14px;color:#5A5C72">Receipts go to ama.mensah@example.com only.</div></sc-if>
+              </section>
+
+              <section style="background:#FFFFFF;border-radius:16px;padding:24px;box-shadow:0 1px 2px rgba(43,45,66,.06),0 8px 24px rgba(43,45,66,.06);display:flex;flex-direction:column;gap:12px">
+                <h2 style="font-family:Epilogue,sans-serif;font-weight:700;font-size:22px;letter-spacing:-.02em;margin:0 0 4px">Payment methods</h2>
+                <sc-for list="{{ methods }}" as="m" hint-placeholder-count="2">
+                  <div style="border:1.5px solid {{ m.border }};border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:10px">
+                    <div style="display:flex;align-items:center;gap:14px">
+                      <span aria-hidden="true" style="flex:none;width:44px;height:32px;border-radius:7px;background:{{ m.logoBg }};color:{{ m.logoFg }};display:grid;place-items:center;font-family:Epilogue,sans-serif;font-weight:700;font-size:11px">{{ m.logo }}</span>
+                      <div style="flex:1;min-width:0"><div style="font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.02em">{{ m.masked }}</div><div style="font-size:13px;color:#5A5C72">{{ m.sub }}</div></div>
+                      <sc-if value="{{ m.isDefault }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;font-weight:700;background:#FBF1DC;padding:3px 10px;border-radius:999px">Default</span></sc-if>
+                    </div>
+                    <sc-if value="{{ m.idle }}" hint-placeholder-val="{{ true }}"><div style="display:flex;gap:16px;font-size:14px"><sc-if value="{{ m.notDefault }}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{ m.makeDefault }}" style="background:transparent;border:0;padding:0;font-weight:700;color:#2B2D42;cursor:pointer;border-bottom:2px solid #D49516">Make default</button></sc-if><button type="button" onClick="{{ m.askRemove }}" style="background:transparent;border:0;padding:0;font-weight:700;color:#7E5456;cursor:pointer">Remove</button></div></sc-if>
+                    <sc-if value="{{ m.confirming }}" hint-placeholder-val="{{ false }}"><div style="background:#F1E6E6;border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:14px"><span style="flex:1 1 160px;font-weight:700">Remove this method?</span><button type="button" onClick="{{ m.keep }}" style="background:#FFFFFF;border:1.5px solid #D7BDBE;border-radius:8px;padding:6px 12px;font-weight:700;cursor:pointer;color:#2B2D42">Keep</button><button type="button" onClick="{{ m.remove }}" style="background:#9B6A6C;color:#FFFFFF;border:0;border-radius:8px;padding:7px 12px;font-weight:700;cursor:pointer">Remove</button></div></sc-if>
+                  </div>
+                </sc-for>
+                <sc-if value="{{ noMethods }}" hint-placeholder-val="{{ false }}"><div style="color:#5A5C72;font-size:15px">No saved methods.</div></sc-if>
+                <div style="font-size:13px;color:#5A5C72">New methods are saved when you pay at checkout. Card details are held by Paystack, never by The Hive.</div>
+              </section>
+            </div>
+          </div>
+        </sc-if>
+
+        <!-- SCREEN 5 · PROFILE -->
+        <sc-if value="{{ isProfile }}" hint-placeholder-val="{{ false }}">
+          <div data-screen-label="05 Profile" data-two-col="true" style="display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:24px;align-items:start;animation:hive-rise .5s cubic-bezier(.2,.7,.2,1) both">
+            <form onSubmit="{{ saveProfile }}" novalidate="{{ true }}" style="background:#FFFFFF;border-radius:16px;padding:24px;box-shadow:0 1px 2px rgba(43,45,66,.06),0 8px 24px rgba(43,45,66,.06);display:flex;flex-direction:column;gap:16px">
+              <h2 style="font-family:Epilogue,sans-serif;font-weight:700;font-size:22px;letter-spacing:-.02em;margin:0">Your details</h2>
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700">Full name<input type="text" autoComplete="name" value="{{ pName }}" onChange="{{ setPName }}" style="height:50px;border:1.5px solid #D9DAE0;border-radius:12px;padding:0 14px;font:inherit;font-size:16px;color:#2B2D42;background:#FFFFFF;outline:none;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#D49516;box-shadow:0 0 0 4px rgba(212,149,22,.2)"></label>
+              <div data-two-col="true" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px">
+                <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700">Phone<input type="tel" autoComplete="tel" value="{{ pPhone }}" onChange="{{ setPPhone }}" style="height:50px;border:1.5px solid #D9DAE0;border-radius:12px;padding:0 14px;font:inherit;font-size:16px;color:#2B2D42;background:#FFFFFF;outline:none;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#D49516;box-shadow:0 0 0 4px rgba(212,149,22,.2)"></label>
+                <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700">Email<input type="email" autoComplete="email" value="{{ pEmail }}" onChange="{{ setPEmail }}" aria-invalid="{{ pEmailErr }}" style="height:50px;border:1.5px solid {{ pEmailBorder }};border-radius:12px;padding:0 14px;font:inherit;font-size:16px;color:#2B2D42;background:#FFFFFF;outline:none;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#D49516;box-shadow:0 0 0 4px rgba(212,149,22,.2)"><sc-if value="{{ pEmailErr }}" hint-placeholder-val="{{ false }}"><span role="alert" style="font-weight:400;color:#7E5456">That email doesn't look right.</span></sc-if></label>
+              </div>
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700">Company<input type="text" autoComplete="organization" value="{{ pCompany }}" onChange="{{ setPCompany }}" style="height:50px;border:1.5px solid #D9DAE0;border-radius:12px;padding:0 14px;font:inherit;font-size:16px;color:#2B2D42;background:#FFFFFF;outline:none;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#D49516;box-shadow:0 0 0 4px rgba(212,149,22,.2)"></label>
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700"><span>Birthday <span style="font-weight:400;color:#5A5C72">· for a birthday treat at the front desk</span></span><input type="date" value="{{ pBirthday }}" onChange="{{ setPBirthday }}" style="height:50px;border:1.5px solid #D9DAE0;border-radius:12px;padding:0 14px;font:inherit;font-size:16px;color:#2B2D42;background:#FFFFFF;outline:none;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#D49516;box-shadow:0 0 0 4px rgba(212,149,22,.2)"></label>
+              <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:4px"><button type="submit" style="background:#9B6A6C;color:#FFFFFF;border:0;border-radius:12px;padding:13px 24px;font-weight:700;cursor:pointer;transition:background .2s" style-hover="background:#7E5456">Save changes</button><sc-if value="{{ profileSaved }}" hint-placeholder-val="{{ false }}"><span role="status" style="font-size:14px;font-weight:700;display:inline-flex;align-items:center;gap:6px"><span aria-hidden="true" style="width:8px;height:8px;border-radius:50%;background:#3E9B5F"></span>Saved</span></sc-if></div>
+            </form>
+
+            <div style="display:flex;flex-direction:column;gap:24px">
+              <section style="background:#FFFFFF;border-radius:16px;padding:24px;box-shadow:0 1px 2px rgba(43,45,66,.06),0 8px 24px rgba(43,45,66,.06)">
+                <h2 style="font-family:Epilogue,sans-serif;font-weight:700;font-size:22px;letter-spacing:-.02em;margin:0 0 8px">Notifications</h2>
+                <sc-for list="{{ notifs }}" as="nf" hint-placeholder-count="3">
+                  <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px 0;border-top:1px solid #E6E6EA">
+                    <div><div style="font-weight:700">{{ nf.label }}</div><div style="font-size:13px;color:#5A5C72">{{ nf.sub }}</div></div>
+                    <button type="button" role="switch" aria-checked="{{ nf.on }}" aria-label="{{ nf.label }}" onClick="{{ nf.toggle }}" style="flex:none;width:52px;height:30px;border-radius:999px;border:0;background:{{ nf.track }};position:relative;cursor:pointer;transition:background .25s"><span style="position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#FFFFFF;box-shadow:0 1px 3px rgba(43,45,66,.3);transform:translateX({{ nf.knob }}px);transition:transform .25s cubic-bezier(.2,.7,.2,1)"></span></button>
+                  </div>
+                </sc-for>
+              </section>
+              <section style="background:#2B2D42;color:#F5F5F5;border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:12px">
+                <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#D49516">Signed in with SMS</div>
+                <div style="font-size:15px;color:#B9BAC6">No password to remember. Each sign-in uses a one-time code sent to your phone.</div>
+                <div style="display:flex;gap:10px;flex-wrap:wrap"><button type="button" onClick="{{ signOut }}" style="border:1.5px solid #F5F5F5;background:transparent;color:#F5F5F5;padding:11px 20px;border-radius:12px;font-weight:700;cursor:pointer;transition:background .2s,color .2s" style-hover="background:#F5F5F5;color:#2B2D42">Sign out</button><a href="/" data-nav="true" style="color:#F5F5F5;padding:12px 4px;font-weight:700" style-hover="color:#D49516">Back to website</a></div>
+              </section>
+            </div>
+          </div>
+        </sc-if>
+      </main>
+    </div>
+  </div>
+
+  <!-- MOBILE TAB BAR -->
+  <nav data-mob-only="true" aria-label="Portal" style="position:fixed;left:0;right:0;bottom:0;z-index:600;background:#FFFFFF;border-top:1px solid #E6E6EA;box-shadow:0 -8px 30px rgba(43,45,66,.08);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));padding:6px 6px calc(6px + env(safe-area-inset-bottom))">
+    <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="4">
+      <button type="button" onClick="{{ n.go }}" aria-current="{{ n.current }}" style="background:transparent;border:0;min-height:56px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;color:{{ n.tabFg }};font-weight:700;font-size:12px"><span aria-hidden="true" style="width:18px;height:20px;background:{{ n.tabDot }};clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);transition:background .2s"></span>{{ n.short }}</button>
+    </sc-for>
+  </nav>
+</sc-if>
+
+<!-- MODALS -->
+<sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
+  <div onClick="{{ closeModal }}" style="position:fixed;inset:0;z-index:950;background:rgba(30,32,48,.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:18px;animation:hive-fade .25s both">
+    <div role="dialog" aria-modal="true" aria-label="{{ modalTitle }}" onClick="{{ stop }}" style="background:#FFFFFF;border-radius:20px;width:100%;max-width:460px;max-height:calc(100vh - 36px);overflow:auto;padding:26px;position:relative;box-shadow:0 30px 80px rgba(30,32,48,.35);animation:hive-rise .4s cubic-bezier(.2,.7,.2,1) both">
+      <button type="button" onClick="{{ closeModal }}" aria-label="Close" style="position:absolute;top:16px;right:16px;width:40px;height:40px;border-radius:50%;border:0;background:#F5F5F5;color:#2B2D42;font-size:20px;line-height:1;cursor:pointer" style-hover="background:#E6E6EA">×</button>
+
+      <sc-if value="{{ mQr }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px">
+          <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#9B6A6C">Check-in · {{ mB.ref }}</div>
+          <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:24px;letter-spacing:-.02em;line-height:1.15;padding:0 30px">{{ mB.title }}</div>
+          <div style="color:#5A5C72;font-size:15px">{{ mB.dateLong }} · {{ mB.when }}</div>
+          <div role="img" aria-label="QR code for {{ mB.ref }}" style="background:#FFFFFF;padding:14px;border-radius:14px;border:1.5px solid #E6E6EA;display:grid;grid-template-columns:repeat(25,8px)">
+            <sc-for list="{{ qrCells }}" as="q" hint-placeholder-count="0"><span style="width:8px;height:8px;background:{{ q }}"></span></sc-for>
+          </div>
+          <div style="font-weight:700">Show this at the front desk to check in</div>
+          <div style="font-size:13px;color:#5A5C72">Sample QR for demo only.</div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ mResched }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div><div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#9B6A6C">Reschedule</div><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:24px;letter-spacing:-.02em;line-height:1.15;padding-right:40px">{{ mB.title }}</div><div style="font-size:14px;color:#5A5C72">Now: {{ mB.dateShort }} · {{ mB.when }}</div></div>
+          <div><div style="font-size:14px;font-weight:700;margin-bottom:8px">New date</div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:6px"><sc-for list="{{ resDates }}" as="rd" hint-placeholder-count="10"><button type="button" aria-pressed="{{ rd.selected }}" onClick="{{ rd.pick }}" style="border:1.5px solid {{ rd.border }};background:{{ rd.bg }};color:{{ rd.fg }};border-radius:10px;padding:8px 4px;font-weight:700;font-size:13px;cursor:pointer;line-height:1.3;transition:all .2s">{{ rd.label }}</button></sc-for></div></div>
+          <sc-if value="{{ resHourly }}" hint-placeholder-val="{{ false }}"><div><div style="font-size:14px;font-weight:700;margin-bottom:8px">Start time · {{ resDurText }}</div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(68px,1fr));gap:6px"><sc-for list="{{ resTimes }}" as="rt" hint-placeholder-count="8"><button type="button" aria-pressed="{{ rt.selected }}" onClick="{{ rt.pick }}" style="border:1.5px solid {{ rt.border }};background:{{ rt.bg }};color:{{ rt.fg }};border-radius:10px;padding:9px 4px;font-weight:700;font-size:14px;cursor:pointer;font-variant-numeric:tabular-nums;transition:all .2s">{{ rt.label }}</button></sc-for></div></div></sc-if>
+          <button type="button" onClick="{{ confirmResched }}" style="height:52px;background:#9B6A6C;color:#FFFFFF;border:0;border-radius:12px;font-weight:700;font-size:16px;cursor:pointer;transition:background .2s" style-hover="background:#7E5456">Confirm new time</button>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ mInvite }}" hint-placeholder-val="{{ false }}">
+        <sc-if value="{{ inviteIdle }}" hint-placeholder-val="{{ true }}">
+          <form onSubmit="{{ sendInvite }}" novalidate="{{ true }}" style="display:flex;flex-direction:column;gap:14px">
+            <div><div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#9B6A6C">Invite a guest</div><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:24px;letter-spacing:-.02em;line-height:1.15">Bring someone along</div><div style="font-size:14px;color:#5A5C72;margin-top:4px">They'll get an SMS with directions and a check-in code.</div></div>
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700">Guest name<input type="text" value="{{ gName }}" onChange="{{ setGName }}" aria-invalid="{{ gNameErr }}" placeholder="Kofi Asante" style="height:50px;border:1.5px solid {{ gNameBorder }};border-radius:12px;padding:0 14px;font:inherit;font-size:16px;color:#2B2D42;outline:none" style-focus="border-color:#D49516;box-shadow:0 0 0 4px rgba(212,149,22,.2)"></label>
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700">Guest phone<input type="tel" value="{{ gPhone }}" onChange="{{ setGPhone }}" aria-invalid="{{ gPhoneErr }}" placeholder="024 000 0000" style="height:50px;border:1.5px solid {{ gPhoneBorder }};border-radius:12px;padding:0 14px;font:inherit;font-size:16px;color:#2B2D42;outline:none" style-focus="border-color:#D49516;box-shadow:0 0 0 4px rgba(212,149,22,.2)"><sc-if value="{{ gPhoneErr }}" hint-placeholder-val="{{ false }}"><span role="alert" style="font-weight:400;color:#7E5456">Enter a 10-digit Ghana number.</span></sc-if></label>
+            <div><div style="font-size:14px;font-weight:700;margin-bottom:8px">Day</div><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:6px"><sc-for list="{{ gDates }}" as="gd" hint-placeholder-count="5"><button type="button" aria-pressed="{{ gd.selected }}" onClick="{{ gd.pick }}" style="border:1.5px solid {{ gd.border }};background:{{ gd.bg }};color:{{ gd.fg }};border-radius:10px;padding:8px 4px;font-weight:700;font-size:13px;cursor:pointer;line-height:1.3">{{ gd.label }}</button></sc-for></div></div>
+            <button type="submit" style="height:52px;background:#9B6A6C;color:#FFFFFF;border:0;border-radius:12px;font-weight:700;font-size:16px;cursor:pointer;transition:background .2s" style-hover="background:#7E5456">Send invite</button>
+          </form>
+        </sc-if>
+        <sc-if value="{{ inviteSent }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;padding:10px 0">
+            <span aria-hidden="true" style="width:72px;height:80px;background:#D49516;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);display:grid;place-items:center"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#2B2D42" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"></path></svg></span>
+            <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:24px;letter-spacing:-.02em">Invite sent</div>
+            <div style="color:#5A5C72">{{ inviteLine }}</div>
+            <button type="button" onClick="{{ closeModal }}" style="background:#2B2D42;color:#F5F5F5;border:0;border-radius:12px;padding:12px 24px;font-weight:700;cursor:pointer" style-hover="background:#1E2030">Done</button>
+          </div>
+        </sc-if>
+      </sc-if>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+  <div role="status" aria-live="polite" style="position:fixed;left:50%;bottom:{{ toastBottom }};transform:translateX(-50%);z-index:960;background:#2B2D42;color:#F5F5F5;border-radius:12px;padding:12px 18px;font-weight:700;font-size:15px;display:flex;align-items:center;gap:10px;box-shadow:0 14px 40px rgba(30,32,48,.3);animation:hive-rise .35s cubic-bezier(.2,.7,.2,1) both;max-width:calc(100vw - 36px)"><span aria-hidden="true" style="width:10px;height:12px;background:#D49516;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);flex:none"></span>{{ toast }}</div>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;startScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;login&quot;,&quot;dashboard&quot;,&quot;bookings&quot;,&quot;billing&quot;,&quot;profile&quot;],&quot;default&quot;:&quot;login&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Demo&quot;},&quot;daysLeft&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:6,&quot;min&quot;:0,&quot;max&quot;:10,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Demo&quot;},&quot;showSampleBadge&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Demo&quot;}}">
+class Component extends DCLogic {
+  wipeRef = React.createRef(); panelRef = React.createRef(); layer1Ref = React.createRef(); layer2Ref = React.createRef(); layer3Ref = React.createRef();
+  ringRef = React.createRef();
+  numRef = (el) => { if (!el || el === this._numEl) return; this._numEl = el; this.countUp(el, 0); };
+  codeRefs = [0, 1, 2, 3, 4, 5].map(() => React.createRef());
+  TODAY = new Date(2026, 9, 23);
+  TYPES = { desk: { label: 'Desk', color: '#D49516' }, room: { label: 'Meeting room', color: '#9B6A6C' }, pod: { label: 'Pod', color: '#2B2D42' } };
+
+  constructor(p) {
+    super(p);
+    const q = new URLSearchParams(location.search), view = q.get('view');
+    const valid = ['dashboard', 'bookings', 'billing', 'profile'];
+    const start = p.startScreen && p.startScreen !== 'login' ? p.startScreen : 'login';
+    this.state = {
+      screen: start, after: valid.includes(view) ? view : 'dashboard',
+      lg: 'choose', phone: '', phoneErr: false, code: ['', '', '', '', '', ''], verifying: false, resend: 30, busyText: '',
+      bookings: [
+        { id: 'b1', type: 'desk', title: 'Coworking Desk', date: '2026-10-26', s: 8, e: 17, ref: 'HIVE-31042', meta: 'Uses 1 pass day' },
+        { id: 'b2', type: 'room', title: 'Meeting Room A', date: '2026-10-27', s: 10, e: 12, ref: 'HIVE-31077', meta: 'Seats 6 · GHS 500' },
+        { id: 'b3', type: 'pod', title: 'Private Pod 2', date: '2026-10-28', s: 14, e: 15, ref: 'HIVE-31105', meta: 'GHS 60' },
+        { id: 'b4', type: 'room', title: 'Meeting Room B', date: '2026-11-03', s: 9, e: 10, ref: 'HIVE-31160', meta: 'Seats 10 · GHS 250' },
+        { id: 'p1', type: 'desk', title: 'Coworking Desk', date: '2026-10-22', s: 8, e: 17, ref: 'HIVE-30988', meta: 'Used 1 pass day', past: true },
+        { id: 'p2', type: 'desk', title: 'Coworking Desk', date: '2026-10-21', s: 8, e: 17, ref: 'HIVE-30951', meta: 'Used 1 pass day', past: true },
+        { id: 'p3', type: 'pod', title: 'Private Pod 1', date: '2026-10-19', s: 11, e: 12, ref: 'HIVE-30902', meta: 'GHS 60', past: true },
+        { id: 'p4', type: 'room', title: 'Meeting Room B', date: '2026-10-15', s: 14, e: 16, ref: 'HIVE-30840', meta: 'Seats 10 · GHS 500', past: true },
+        { id: 'p5', type: 'desk', title: 'Coworking Desk', date: '2026-10-13', s: 8, e: 17, ref: 'HIVE-30791', meta: 'Used 1 pass day', past: true },
+        { id: 'p6', type: 'desk', title: 'Coworking Desk', date: '2026-10-12', s: 8, e: 17, ref: 'HIVE-30774', meta: 'Used 1 pass day', past: true }
+      ],
+      confirmCancel: '', modal: null, resDate: '', resTime: 0,
+      gName: '', gPhone: '', gDate: '2026-10-26', gErrs: {}, gSent: false,
+      bkView: 'list', bkFilter: 'all', bkTab: 'upcoming', cy: 2026, cm: 9, calSel: '2026-10-26',
+      daysLeft: Math.max(0, Math.min(10, parseInt(p.daysLeft ?? 6, 10))), bannerHidden: false,
+      companyOn: true, companyEmail: 'accounts@mensahco.com', companyErr: false, companySaved: false,
+      methods: [
+        { id: 'momo', logo: 'MTN', logoBg: '#FFCC00', logoFg: '#1D1D1B', masked: '024 ••• ••90', sub: 'MTN MoMo · Ama Mensah' },
+        { id: 'card', logo: 'VISA', logoBg: '#1A1F71', logoFg: '#FFFFFF', masked: '•••• •••• •••• 4242', sub: 'Visa · expires 08/28' }
+      ], defaultMethod: 'momo', confirmRemove: '',
+      pName: 'Ama Mensah', pPhone: '024 455 7890', pEmail: 'ama.mensah@example.com', pCompany: 'Mensah & Co. Consulting', pBirthday: '1994-03-14', pEmailErr: false, profileSaved: false,
+      notif: { email: true, sms: true, news: false }, toast: ''
+    };
+  }
+
+  componentDidMount() {
+    this.reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this._c = [];
+    const on = (t, e, f, o) => { t.addEventListener(e, f, o); this._c.push(() => t.removeEventListener(e, f, o)); };
+    on(document, 'click', (e) => {
+      const a = e.target.closest && e.target.closest('a[data-nav]');
+      if (!a || e.metaKey || e.ctrlKey || e.button !== 0) return;
+      e.preventDefault(); const href = a.getAttribute('href'), w = this.wipeRef.current;
+      if (this.reduced || !w) { location.href = href; return; }
+      w.style.transition = 'transform .55s cubic-bezier(.7,0,.2,1)'; w.style.transform = 'translateX(0)';
+      setTimeout(() => { location.href = href; }, 600);
+    });
+    on(document, 'keydown', (e) => { if (e.key === 'Escape' && this.state.modal) this.setState({ modal: null }); });
+    on(window, 'scroll', () => { if (this.state.screen !== 'login') return; const y = window.scrollY; if (this.layer1Ref.current) this.layer1Ref.current.style.transform = `translateY(${y * 0.15}px)`; if (this.layer2Ref.current) this.layer2Ref.current.style.transform = `translateY(${y * 0.3}px)`; }, { passive: true });
+      }
+  componentWillUnmount() { (this._c || []).forEach((f) => f()); clearInterval(this._rs); clearTimeout(this._tt); clearTimeout(this._v); }
+  animateRing(from = 0) { if (this._numEl && this._numEl.isConnected) this.countUp(this._numEl, from); }
+  countUp(n, from) {
+    setTimeout(() => requestAnimationFrame(() => {
+      const left = this.state.daysLeft;
+      if (this.reduced) { n.textContent = String(left); return; }
+      const t0 = performance.now(), dur = 1400;
+      const step = (t) => { const p = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - p, 3); n.textContent = String(Math.round(from + (left - from) * e)); if (p < 1) requestAnimationFrame(step); };
+      requestAnimationFrame(step);
+    }), 80);
+  }
+  showToast(t) { clearTimeout(this._tt); this.setState({ toast: t }); this._tt = setTimeout(() => this.setState({ toast: '' }), 3200); }
+  enter() { const to = this.state.after; this.setState({ screen: to, lg: 'choose', verifying: false, code: ['', '', '', '', '', ''] }); window.scrollTo(0, 0); }
+  startResend() { clearInterval(this._rs); this.setState({ resend: 30 }); this._rs = setInterval(() => this.setState((st) => { if (st.resend <= 1) clearInterval(this._rs); return { resend: Math.max(0, st.resend - 1) }; }), 1000); }
+  checkCode(code) { if (code.every((c) => c !== '')) { this.setState({ verifying: true }); clearTimeout(this._v); this._v = setTimeout(() => this.enter(), 900); } }
+
+  d(iso) { return new Date(iso + 'T00:00:00'); }
+  iso(dt) { return dt.getFullYear() + '-' + String(dt.getMonth() + 1).padStart(2, '0') + '-' + String(dt.getDate()).padStart(2, '0'); }
+  toT(n) { return String(Math.floor(n)).padStart(2, '0') + ':' + (n % 1 ? '30' : '00'); }
+  weekdays(n, fromIso) { const out = [], dt = this.d(fromIso); while (out.length < n) { dt.setDate(dt.getDate() + 1); if (dt.getDay() !== 0 && dt.getDay() !== 6) out.push(this.iso(dt)); } return out; }
+  short(iso) { return this.d(iso).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }); }
+
+  qr(ref) {
+    let seed = 7; for (const ch of ref) seed = (seed * 31 + ch.charCodeAt(0)) >>> 0;
+    const rnd = () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
+    const N = 25, cells = [];
+    const finder = (r, c) => (i, j) => { if (!(i >= r && i < r + 7 && j >= c && j < c + 7)) return null; const di = i - r, dj = j - c; return di === 0 || di === 6 || dj === 0 || dj === 6 || (di >= 2 && di <= 4 && dj >= 2 && dj <= 4); };
+    const fs = [finder(0, 0), finder(0, N - 7), finder(N - 7, 0)];
+    for (let i = 0; i < N; i++) for (let j = 0; j < N; j++) {
+      let v = null; for (const f of fs) { const r = f(i, j); if (r !== null) { v = r; break; } }
+      if (v === null && ((i < 8 && (j < 8 || j >= N - 8)) || (i >= N - 8 && j < 8))) v = false;
+      if (v === null && (i === 6 || j === 6)) v = (i + j) % 2 === 0;
+      if (v === null) v = rnd() < 0.48;
+      cells.push(v ? '#2B2D42' : '#FFFFFF');
+    }
+    return cells;
+  }
+
+  bookingView(b, s) {
+    const t = this.TYPES[b.type], dt = this.d(b.date), confirming = s.confirmCancel === b.id;
+    return {
+      id: b.id, title: b.title, typeLabel: t.label, color: t.color, ref: b.ref,
+      dow: dt.toLocaleDateString('en-GB', { weekday: 'short' }), dnum: dt.getDate(), mon: dt.toLocaleDateString('en-GB', { month: 'short' }),
+      dateShort: this.short(b.date), dateLong: dt.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }),
+      when: this.toT(b.s) + '–' + this.toT(b.e), meta: b.meta + ' · ' + b.ref, rescheduled: !!b.moved,
+      isPast: !!b.past, isUpcoming: !b.past, upcomingIdle: !b.past && !confirming, confirming, notConfirming: !confirming, dateOp: b.past ? 0.6 : 1,
+      statusText: b.past ? 'Checked in' : b.moved ? 'Rescheduled' : 'Confirmed',
+      cancelNote: b.type === 'desk' ? 'The day goes back on your pass.' : 'You will be refunded to your default payment method.',
+      rebookHref: '/book?space=' + (b.type === 'room' ? 'meeting' : b.type),
+      showQr: () => this.setState({ modal: { type: 'qr', id: b.id } }),
+      resched: () => this.setState({ modal: { type: 'resched', id: b.id }, resDate: b.date, resTime: b.s, confirmCancel: '' }),
+      askCancel: () => this.setState({ confirmCancel: b.id }), keep: () => this.setState({ confirmCancel: '' }),
+      doCancel: () => { const prevLeft = s.daysLeft; this.setState((st) => ({ bookings: st.bookings.filter((x) => x.id !== b.id), confirmCancel: '', daysLeft: b.type === 'desk' ? Math.min(10, st.daysLeft + 1) : st.daysLeft })); if (b.type === 'desk') this.animateRing(prevLeft); this.showToast(b.type === 'desk' ? 'Booking cancelled. 1 day returned to your pass.' : 'Booking cancelled. Refund on its way.'); }
+    };
+  }
+
+  renderVals() {
+    const s = this.state, fmt = (n) => 'GHS ' + n.toLocaleString('en-GB');
+    const v = { wipeRef: this.wipeRef, panelRef: this.panelRef, layer1Ref: this.layer1Ref, layer2Ref: this.layer2Ref, layer3Ref: this.layer3Ref, ringRef: this.ringRef, numRef: this.numRef };
+    v.isLogin = s.screen === 'login'; v.isPortal = !v.isLogin;
+
+    // Login
+    v.onPanelMove = (e) => { if (this.reduced) return; const r = e.currentTarget.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5; [[this.layer1Ref, 14], [this.layer2Ref, 32], [this.layer3Ref, 56]].forEach(([ref, k]) => { if (ref.current) ref.current.style.transform = `translate(${-x * k}px,${-y * k}px)`; }); };
+    v.onPanelLeave = () => [this.layer1Ref, this.layer2Ref, this.layer3Ref].forEach((ref) => { if (ref.current) ref.current.style.transform = ''; });
+    v.lgChoose = s.lg === 'choose'; v.lgPhone = s.lg === 'phone'; v.lgCode = s.lg === 'code'; v.lgBusy = s.lg === 'busy'; v.busyText = s.busyText;
+    v.toChoose = () => this.setState({ lg: 'choose' }); v.toPhone = () => this.setState({ lg: 'phone', code: ['', '', '', '', '', ''], verifying: false });
+    v.googleSignIn = () => { this.setState({ lg: 'busy', busyText: 'Signing in with Google…' }); clearTimeout(this._v); this._v = setTimeout(() => this.enter(), 1200); };
+    v.phone = s.phone; v.phoneErr = s.phoneErr; v.phoneBorder = s.phoneErr ? '#9B6A6C' : '#D9DAE0';
+    v.setPhone = (e) => { const d = e.target.value.replace(/\D/g, '').slice(0, 10); const f = d.length > 5 ? d.slice(0, d.length - 7 > 0 ? d.length - 7 : 2) + ' ' + d.slice(-7, -4) + ' ' + d.slice(-4) : d; this.setState({ phone: d.length >= 9 ? f : d, phoneErr: false }); };
+    v.sendCode = (e) => { e.preventDefault(); let d = s.phone.replace(/\D/g, ''); if (d.length === 10 && d[0] === '0') d = d.slice(1); if (d.length !== 9) return this.setState({ phoneErr: true }); this.setState({ phone: d.slice(0, 2) + ' ' + d.slice(2, 5) + ' ' + d.slice(5), lg: 'code', code: ['', '', '', '', '', ''] }, () => setTimeout(() => this.codeRefs[0].current && this.codeRefs[0].current.focus(), 60)); this.startResend(); };
+    v.verifying = s.verifying; v.canResend = s.resend === 0; v.resendText = s.resend > 0 ? 'Resend code in 0:' + String(s.resend).padStart(2, '0') : "Didn't get it?";
+    v.resend = () => { this.startResend(); this.showToast('New code sent to +233 ' + s.phone); };
+    v.codeBoxes = s.code.map((val, i) => ({
+      ref: this.codeRefs[i], val, aria: 'Digit ' + (i + 1), border: val ? '#2B2D42' : '#D9DAE0',
+      onFocus: (e) => e.target.select(),
+      onChange: (e) => { const dgt = e.target.value.replace(/\D/g, '').slice(-1); const code = s.code.slice(); code[i] = dgt; this.setState({ code }); if (dgt && i < 5) this.codeRefs[i + 1].current && this.codeRefs[i + 1].current.focus(); this.checkCode(code); },
+      onKeyDown: (e) => { if (e.key === 'Backspace' && !s.code[i] && i > 0) { const code = s.code.slice(); code[i - 1] = ''; this.setState({ code }); this.codeRefs[i - 1].current.focus(); e.preventDefault(); } if (e.key === 'ArrowLeft' && i > 0) this.codeRefs[i - 1].current.focus(); if (e.key === 'ArrowRight' && i < 5) this.codeRefs[i + 1].current.focus(); },
+      onPaste: (e) => { const t = (e.clipboardData.getData('text') || '').replace(/\D/g, '').slice(0, 6); if (!t) return; e.preventDefault(); const code = s.code.slice(); for (let k = 0; k < t.length && i + k < 6; k++) code[i + k] = t[k]; this.setState({ code }); const nx = Math.min(5, i + t.length); this.codeRefs[nx].current && this.codeRefs[nx].current.focus(); this.checkCode(code); }
+    }));
+
+    // Shell
+    const titles = { dashboard: ['Dashboard', 'Your Hive'], bookings: ['Bookings', 'Your bookings'], billing: ['Billing', 'Billing'], profile: ['Profile and settings', 'Your profile'] };
+    v.eyebrow = (titles[s.screen] || titles.dashboard)[0]; v.pageTitle = (titles[s.screen] || titles.dashboard)[1];
+    v.showSample = this.props.showSampleBadge ?? true;
+    const goto = (k) => () => { const was = s.screen; this.setState({ screen: k, confirmCancel: '' }); window.scrollTo(0, 0); };
+    v.navItems = [['dashboard', 'Dashboard', 'Home'], ['bookings', 'Bookings', 'Bookings'], ['billing', 'Billing', 'Billing'], ['profile', 'Profile', 'Profile']].map(([k, label, short]) => { const on = s.screen === k; return { label, short, current: on ? 'page' : false, go: goto(k), bg: on ? 'rgba(212,149,22,.16)' : 'transparent', fg: on ? '#F5F5F5' : '#B9BAC6', dot: on ? '#D49516' : '#5A5C72', tabFg: on ? '#2B2D42' : '#8A8C9C', tabDot: on ? '#D49516' : '#D9DAE0' }; });
+    v.signOut = () => { this.setState({ screen: 'login', lg: 'choose', after: 'dashboard', modal: null }); window.scrollTo(0, 0); };
+    v.isDash = s.screen === 'dashboard'; v.isBookings = s.screen === 'bookings'; v.isBilling = s.screen === 'billing'; v.isProfile = s.screen === 'profile';
+    v.goBookings = goto('bookings');
+
+    // Dashboard
+    const h = new Date().getHours(), first = s.pName.trim().split(/\s+/)[0] || 'there';
+    v.greeting = (h < 12 ? 'Good morning, ' : h < 17 ? 'Good afternoon, ' : 'Good evening, ') + first;
+    const validUntil = new Date(2026, 9, 28), daysToEnd = Math.round((validUntil - this.TODAY) / 86400000);
+    v.daysLeft = s.daysLeft; v.passTotal = 10; v.ringOffset = (326.73 * (1 - s.daysLeft / 10)).toFixed(2); v.validUntil = validUntil.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+    v.usedText = (10 - s.daysLeft) + ' days used · started Tue 29 Sep';
+    v.showBanner = daysToEnd <= 7 && !s.bannerHidden; v.bannerText = 'Your pass ends in ' + daysToEnd + ' days. Renew now and keep your rhythm.'; v.hideBanner = () => this.setState({ bannerHidden: true });
+    const upcoming = s.bookings.filter((b) => !b.past).sort((a, b) => (a.date + a.s).localeCompare(b.date + b.s) || a.s - b.s);
+    const past = s.bookings.filter((b) => b.past).sort((a, b) => b.date.localeCompare(a.date));
+    v.dashBookings = upcoming.slice(0, 3).map((b) => this.bookingView(b, s)); v.noUpcoming = upcoming.length === 0;
+    v.events = [{ title: "Members' Breakfast", date: '2026-10-29', when: 'Thu · 8:00am – 9:30am' }, { title: 'End-of-Month Mixer', date: '2026-10-30', when: 'Fri · 5:00pm – 7:00pm' }].map((e) => { const dt = this.d(e.date); return { ...e, dnum: dt.getDate(), mon: dt.toLocaleDateString('en-GB', { month: 'short' }) }; });
+    v.openInvite = () => this.setState({ modal: { type: 'invite' }, gSent: false, gErrs: {}, gName: '', gPhone: '' });
+
+    // Bookings
+    const pass = (b) => s.bkFilter === 'all' || b.type === s.bkFilter;
+    v.viewTabs = [['list', 'List'], ['cal', 'Calendar']].map(([k, label]) => { const on = s.bkView === k; return { label, selected: on, bg: on ? '#FFFFFF' : 'transparent', shadow: on ? '0 1px 3px rgba(43,45,66,.12)' : 'none', pick: () => this.setState({ bkView: k }) }; });
+    v.isList = s.bkView === 'list'; v.isCal = s.bkView === 'cal';
+    const pool = s.bkView === 'list' ? (s.bkTab === 'upcoming' ? upcoming : past) : s.bookings;
+    v.filters = [['all', 'All', '#B9BAC6'], ['desk', 'Desks', '#D49516'], ['room', 'Rooms', '#9B6A6C'], ['pod', 'Pods', '#2B2D42']].map(([k, label, dot]) => { const on = s.bkFilter === k; return { label, dot: on && k === 'all' ? '#D49516' : dot, count: pool.filter((b) => k === 'all' || b.type === k).length, selected: on, bg: on ? '#2B2D42' : '#FFFFFF', fg: on ? '#F5F5F5' : '#2B2D42', border: on ? '#2B2D42' : '#E6E6EA', pick: () => this.setState({ bkFilter: k }) }; });
+    v.timeTabs = [['upcoming', 'Upcoming', upcoming.length], ['past', 'Past', past.length]].map(([k, label, n]) => { const on = s.bkTab === k; return { label: label + ' · ' + n, selected: on, line: on ? '#D49516' : 'transparent', fg: on ? '#2B2D42' : '#8A8C9C', pick: () => this.setState({ bkTab: k, confirmCancel: '' }) }; });
+    v.listBookings = (s.bkTab === 'upcoming' ? upcoming : past).filter(pass).map((b) => this.bookingView(b, s)); v.listEmpty = v.listBookings.length === 0;
+    const firstD = new Date(s.cy, s.cm, 1), startIdx = (firstD.getDay() + 6) % 7, dim = new Date(s.cy, s.cm + 1, 0).getDate(), todayIso = this.iso(this.TODAY);
+    v.monthLabel = firstD.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+    v.prevMonth = () => this.setState(s.cm === 0 ? { cy: s.cy - 1, cm: 11 } : { cm: s.cm - 1 });
+    v.nextMonth = () => this.setState(s.cm === 11 ? { cy: s.cy + 1, cm: 0 } : { cm: s.cm + 1 });
+    const cal = [];
+    for (let i = 0; i < startIdx; i++) cal.push({ label: '', empty: true, selected: false, aria: 'empty', bg: 'transparent', fg: 'transparent', cursor: 'default', ring: 'none', op: 0, dots: [], pick: () => {} });
+    for (let dd = 1; dd <= dim; dd++) {
+      const dt = new Date(s.cy, s.cm, dd), iso = this.iso(dt), wk = dt.getDay() === 0 || dt.getDay() === 6, sel = s.calSel === iso, list = s.bookings.filter((b) => b.date === iso && pass(b));
+      cal.push({ label: dd, empty: false, selected: sel, aria: dt.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' }) + (list.length ? ', ' + list.length + ' booking' + (list.length > 1 ? 's' : '') : ''), bg: sel ? '#FBF1DC' : wk ? '#F5F5F5' : 'transparent', fg: wk ? '#B9BAC6' : '#2B2D42', cursor: 'pointer', ring: sel ? 'inset 0 0 0 1.5px #2B2D42' : iso === todayIso ? 'inset 0 0 0 1.5px #D49516' : 'none', op: 1, dots: list.map((b) => this.TYPES[b.type].color), pick: () => this.setState({ calSel: iso }) });
+    }
+    v.calDays = cal;
+    v.calSelLabel = this.d(s.calSel).toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
+    v.calSelBookings = s.bookings.filter((b) => b.date === s.calSel && pass(b)).sort((a, b) => a.s - b.s).map((b) => this.bookingView(b, s)); v.calSelEmpty = v.calSelBookings.length === 0;
+
+    // Modals
+    const mb = s.modal && s.modal.id ? s.bookings.find((b) => b.id === s.modal.id) : null;
+    v.modalOpen = !!s.modal && (s.modal.type === 'invite' || !!mb);
+    v.mQr = v.modalOpen && s.modal.type === 'qr'; v.mResched = v.modalOpen && s.modal.type === 'resched'; v.mInvite = v.modalOpen && s.modal.type === 'invite';
+    v.modalTitle = v.mQr ? 'Check-in QR' : v.mResched ? 'Reschedule booking' : 'Invite a guest';
+    v.closeModal = () => this.setState({ modal: null }); v.stop = (e) => e.stopPropagation();
+    v.mB = mb ? this.bookingView(mb, s) : { ref: '', title: '', dateLong: '', dateShort: '', when: '' };
+    v.qrCells = v.mQr && mb ? this.qr(mb.ref) : [];
+    const chip = (on) => ({ bg: on ? '#2B2D42' : '#FFFFFF', fg: on ? '#F5F5F5' : '#2B2D42', border: on ? '#2B2D42' : '#E6E6EA' });
+    const dur = mb ? mb.e - mb.s : 1;
+    v.resHourly = !!mb && mb.type !== 'desk'; v.resDurText = dur + (dur === 1 ? ' hour' : ' hours');
+    v.resDates = this.weekdays(10, todayIso).map((iso) => ({ label: this.short(iso), selected: s.resDate === iso, ...chip(s.resDate === iso), pick: () => this.setState({ resDate: iso }) }));
+    const times = []; for (let t = 8; t + dur <= 17; t++) times.push(t);
+    v.resTimes = times.map((t) => ({ label: this.toT(t), selected: s.resTime === t, ...chip(s.resTime === t), pick: () => this.setState({ resTime: t }) }));
+    v.confirmResched = () => { if (!mb) return; const ns = mb.type === 'desk' ? mb.s : s.resTime, ne = mb.type === 'desk' ? mb.e : s.resTime + dur; this.setState((st) => ({ modal: null, bookings: st.bookings.map((b) => b.id === mb.id ? { ...b, date: st.resDate, s: ns, e: ne, moved: true } : b), calSel: st.resDate })); this.showToast('Moved to ' + this.short(s.resDate) + ', ' + this.toT(ns) + '–' + this.toT(ne) + '.'); };
+    const ge = s.gErrs;
+    Object.assign(v, { gName: s.gName, gPhone: s.gPhone, gNameErr: !!ge.name, gPhoneErr: !!ge.phone, gNameBorder: ge.name ? '#9B6A6C' : '#D9DAE0', gPhoneBorder: ge.phone ? '#9B6A6C' : '#D9DAE0', inviteIdle: !s.gSent, inviteSent: s.gSent,
+      setGName: (e) => this.setState({ gName: e.target.value, gErrs: { ...ge, name: false } }), setGPhone: (e) => this.setState({ gPhone: e.target.value, gErrs: { ...ge, phone: false } }) });
+    v.gDates = this.weekdays(5, todayIso).map((iso) => ({ label: this.short(iso), selected: s.gDate === iso, ...chip(s.gDate === iso), pick: () => this.setState({ gDate: iso }) }));
+    v.sendInvite = (e) => { e.preventDefault(); const er = {}; if (s.gName.trim().length < 2) er.name = true; const d = s.gPhone.replace(/\D/g, ''); if (!(d.length === 10 && d[0] === '0')) er.phone = true; if (Object.keys(er).length) return this.setState({ gErrs: er }); this.setState({ gSent: true }); };
+    v.inviteLine = (s.gName.trim().split(/\s+/)[0] || 'Your guest') + ' will get an SMS with directions and a check-in code for ' + this.short(s.gDate) + '.';
+
+    // Billing
+    const rc = [
+      { date: '23 Oct 2026', item: 'Meeting Room A · 2 hrs (27 Oct)', no: 'INV-2026-0418', amt: 500, due: true },
+      { date: '19 Oct 2026', item: 'Private Pod · 1 hr', no: 'RCT-2026-0402', amt: 60 },
+      { date: '15 Oct 2026', item: 'Meeting Room B · 2 hrs', no: 'RCT-2026-0391', amt: 500 },
+      { date: '29 Sep 2026', item: '10-Day Flex Pass', no: 'RCT-2026-0344', amt: 1350 },
+      { date: '01 Sep 2026', item: '5-Day Flex Pass', no: 'RCT-2026-0297', amt: 700 }
+    ];
+    v.receipts = rc.map((r) => { const txt = ['THE HIVE · Tse Addo, Accra', (r.due ? 'INVOICE ' : 'RECEIPT ') + r.no, 'Date: ' + r.date, 'Billed to: ' + s.pName + (s.companyOn ? ' · ' + s.pCompany : ''), '', r.item, 'Amount: ' + fmt(r.amt), 'Status: ' + (r.due ? 'Due' : 'Paid'), '', 'SAMPLE DOCUMENT · info@thehivegh.com · +233 25 607 1000'].join('\n'); return { date: r.date, item: r.item, no: r.no, amount: fmt(r.amt), status: r.due ? 'Due' : 'Paid', chipBg: r.due ? '#F1E6E6' : 'rgba(62,155,95,.12)', chipFg: r.due ? '#7E5456' : '#2B2D42', chipDot: r.due ? '#9B6A6C' : '#3E9B5F', href: 'data:text/plain;charset=utf-8,' + encodeURIComponent(txt), file: r.no + '.txt', aria: 'Download ' + r.no }; });
+    v.companyOn = s.companyOn; v.companyOff = !s.companyOn; v.companyTrack = s.companyOn ? '#9B6A6C' : '#D9DAE0'; v.companyKnob = s.companyOn ? 22 : 0;
+    v.toggleCompany = () => { this.setState({ companyOn: !s.companyOn, companySaved: false }); this.showToast(s.companyOn ? 'Company billing turned off.' : 'Company billing turned on.'); };
+    v.companyEmail = s.companyEmail; v.companyErr = s.companyErr; v.companyBorder = s.companyErr ? '#9B6A6C' : '#D9DAE0'; v.companySaved = s.companySaved;
+    v.setCompanyEmail = (e) => this.setState({ companyEmail: e.target.value, companyErr: false, companySaved: false });
+    v.saveCompany = (e) => { e.preventDefault(); if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(s.companyEmail.trim())) return this.setState({ companyErr: true }); this.setState({ companySaved: true }); };
+    v.methods = s.methods.map((m) => { const def = s.defaultMethod === m.id, conf = s.confirmRemove === m.id; return { ...m, isDefault: def, notDefault: !def, border: def ? '#D49516' : '#E6E6EA', idle: !conf, confirming: conf, makeDefault: () => { this.setState({ defaultMethod: m.id }); this.showToast(m.sub.split(' · ')[0] + ' is now your default.'); }, askRemove: () => this.setState({ confirmRemove: m.id }), keep: () => this.setState({ confirmRemove: '' }), remove: () => { this.setState((st) => { const left = st.methods.filter((x) => x.id !== m.id); return { methods: left, confirmRemove: '', defaultMethod: st.defaultMethod === m.id ? (left[0] ? left[0].id : '') : st.defaultMethod }; }); this.showToast('Payment method removed.'); } }; });
+    v.noMethods = s.methods.length === 0;
+
+    // Profile
+    Object.assign(v, { pName: s.pName, pPhone: s.pPhone, pEmail: s.pEmail, pCompany: s.pCompany, pBirthday: s.pBirthday, pEmailErr: s.pEmailErr, pEmailBorder: s.pEmailErr ? '#9B6A6C' : '#D9DAE0', profileSaved: s.profileSaved,
+      setPName: (e) => this.setState({ pName: e.target.value, profileSaved: false }), setPPhone: (e) => this.setState({ pPhone: e.target.value, profileSaved: false }), setPEmail: (e) => this.setState({ pEmail: e.target.value, pEmailErr: false, profileSaved: false }), setPCompany: (e) => this.setState({ pCompany: e.target.value, profileSaved: false }), setPBirthday: (e) => this.setState({ pBirthday: e.target.value, profileSaved: false }),
+      saveProfile: (e) => { e.preventDefault(); if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(s.pEmail.trim())) return this.setState({ pEmailErr: true }); this.setState({ profileSaved: true }); this.showToast('Profile saved.'); } });
+    v.notifs = [['email', 'Email reminders', 'A reminder the day before each booking'], ['sms', 'SMS check-in codes', 'Your QR and code by text on the day'], ['news', 'Events and member news', 'A short email when new events open']].map(([k, label, sub]) => { const on = s.notif[k]; return { label, sub, on, track: on ? '#9B6A6C' : '#D9DAE0', knob: on ? 22 : 0, toggle: () => { this.setState({ notif: { ...s.notif, [k]: !on } }); this.showToast(label + (on ? ' off.' : ' on.')); } }; });
+
+    v.hasToast = !!s.toast; v.toast = s.toast; v.toastBottom = window.innerWidth <= 900 && v.isPortal ? '92px' : '28px';
+    return v;
+  }
+}
+</script>

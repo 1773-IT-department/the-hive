@@ -1,0 +1,702 @@
+<x-dc>
+<helmet>
+<title>Book a spot · The Hive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@500;700&amp;family=Pontano+Sans:wght@400;700&amp;display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;padding:0;background:#F5F5F5;color:#2B2D42;font-family:'Pontano Sans',sans-serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+a{color:#2B2D42;text-decoration:none}a:hover{color:#9B6A6C}
+button{font:inherit}
+:focus-visible{outline:3px solid #D49516;outline-offset:3px;border-radius:4px}
+input::placeholder{color:#8A8C9C}
+input[type=checkbox]{accent-color:#9B6A6C;width:20px;height:20px;margin:0;cursor:pointer}
+@keyframes hive-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+@keyframes hive-ring{0%{transform:scale(.9);opacity:.7}100%{transform:scale(1.9);opacity:0}}
+@keyframes hive-hex-in{0%{transform:scale(.2) rotate(-25deg);opacity:0}100%{transform:scale(1) rotate(0);opacity:1}}
+@keyframes hive-draw{to{stroke-dashoffset:0}}
+@keyframes hive-confetti{0%{transform:translate3d(0,-40px,0) rotate(0deg);opacity:1}100%{transform:translate3d(var(--dx),420px,0) rotate(720deg);opacity:0}}
+@keyframes hive-rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@media (max-width:1150px){[data-step-label]{display:none!important}}
+@media (max-width:1250px){[data-two-col]{grid-template-columns:minmax(0,1fr)!important}}
+@media (max-width:900px){[data-desk-only]{display:none!important}[data-book-grid]{grid-template-columns:minmax(0,1fr)!important}main{padding-bottom:120px!important}}
+@media (min-width:901px) and (max-width:1250px){[data-two-col]{grid-template-columns:repeat(2,minmax(0,1fr))!important}[data-when-col]{grid-template-columns:minmax(0,1fr)!important}}
+@media (min-width:901px){[data-mob-only]{display:none!important}}
+[data-time-grid]{grid-template-columns:repeat(auto-fill,minmax(68px,1fr))!important}
+@media (max-width:560px){[data-cards]{grid-template-columns:minmax(0,1fr)!important}[data-time-grid]{grid-template-columns:repeat(3,minmax(0,1fr))!important}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.001s!important;transition-duration:.001s!important}}
+</style>
+</helmet>
+
+<div ref="{{ wipeRef }}" data-wipe="true" style="position:fixed;inset:0;background:#D49516;z-index:900;transform:translateX(-101%);display:flex;align-items:center;justify-content:center;pointer-events:none">
+  <img src="https://images.squarespace-cdn.com/content/v1/688633ab5eb7735480a9622d/6c140487-9cba-4324-9f2c-23180ca56305/The+Hive_Primary+Identity_Reverse.png?format=1500w" alt="" aria-hidden="true" style="height:72px;width:auto;max-width:70vw;animation:hive-pulse 1.4s ease-in-out infinite">
+</div>
+
+<!-- HEADER -->
+<header ref="{{ headerRef }}" style="position:fixed;top:0;left:0;right:0;z-index:800;transition:transform .45s cubic-bezier(.2,.7,.2,1)" onMouseLeave="{{ closeMega }}">
+  <div ref="{{ headerBarRef }}" style="background:rgba(43,45,66,.78);backdrop-filter:blur(18px) saturate(1.3);-webkit-backdrop-filter:blur(18px) saturate(1.3);border-bottom:1px solid rgba(255,255,255,.08)">
+    <div ref="{{ headerInnerRef }}" style="max-width:1320px;margin:0 auto;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;gap:24px;transition:padding .35s ease">
+      <a href="/" data-nav="true" aria-label="The Hive home" style="display:flex;align-items:center"><img ref="{{ logoRef }}" src="https://images.squarespace-cdn.com/content/v1/688633ab5eb7735480a9622d/6c140487-9cba-4324-9f2c-23180ca56305/The+Hive_Primary+Identity_Reverse.png?format=1500w" alt="The Hive" style="height:42px;width:auto;transition:height .35s ease;display:block"></a>
+      <nav data-desk-only="true" aria-label="Primary" style="display:flex;align-items:center;gap:6px">
+        <button type="button" onClick="{{ toggleMega }}" onMouseEnter="{{ openMega }}" aria-expanded="{{ megaOpen }}" style="background:transparent;border:0;color:#F5F5F5;padding:10px 14px;border-radius:10px;font-size:16px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:background .2s" style-hover="background:rgba(255,255,255,.1)">Workspaces <span style="display:inline-block;width:7px;height:7px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-2px)"></span></button>
+        <a href="/plans" data-nav="true" onMouseEnter="{{ closeMega }}" style="color:#F5F5F5;padding:10px 14px;border-radius:10px;font-size:16px;transition:background .2s" style-hover="background:rgba(255,255,255,.1);color:#F5F5F5">Plans</a>
+        <a href="/events" data-nav="true" style="color:#F5F5F5;padding:10px 14px;border-radius:10px;font-size:16px;transition:background .2s" style-hover="background:rgba(255,255,255,.1);color:#F5F5F5">Events</a>
+        <a href="/gallery" data-nav="true" style="color:#F5F5F5;padding:10px 14px;border-radius:10px;font-size:16px;transition:background .2s" style-hover="background:rgba(255,255,255,.1);color:#F5F5F5">Gallery</a>
+        <a href="/about" data-nav="true" style="color:#F5F5F5;padding:10px 14px;border-radius:10px;font-size:16px;transition:background .2s" style-hover="background:rgba(255,255,255,.1);color:#F5F5F5">About</a>
+        <a href="/contact" data-nav="true" style="color:#F5F5F5;padding:10px 14px;border-radius:10px;font-size:16px;transition:background .2s" style-hover="background:rgba(255,255,255,.1);color:#F5F5F5">Contact</a>
+      </nav>
+      <div style="display:flex;align-items:center;gap:18px">
+        <a data-desk-only="true" href="/member-portal" data-nav="true" style="color:#F5F5F5;font-size:16px;border-bottom:1px solid transparent;transition:border-color .2s" style-hover="color:#F5F5F5;border-color:#D49516">Member login</a>
+        <span data-desk-only="true" aria-current="page" style="background:#D49516;color:#2B2D42;padding:12px 22px;border-radius:12px;font-weight:700;font-size:16px;display:inline-block">Reserve a spot</span>
+        <button data-mob-only="true" type="button" onClick="{{ openMobile }}" aria-label="Open menu" style="background:transparent;border:0;color:#F5F5F5;width:44px;height:44px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;cursor:pointer;border-radius:10px"><span style="display:block;width:24px;height:2px;background:currentColor"></span><span style="display:block;width:24px;height:2px;background:currentColor"></span></button>
+      </div>
+    </div>
+  </div>
+  <div aria-hidden="{{ megaClosed }}" style="position:absolute;left:0;right:0;top:100%;padding:14px 28px 0;opacity:{{ megaOp }};transform:translateY({{ megaY }}px);pointer-events:{{ megaPe }};transition:opacity .35s ease,transform .45s cubic-bezier(.2,.7,.2,1)">
+    <div style="max-width:1320px;margin:0 auto;background:#FFFFFF;border-radius:16px;box-shadow:0 2px 6px rgba(43,45,66,.06),0 24px 60px rgba(43,45,66,.18);padding:24px;display:grid;grid-template-columns:minmax(0,3fr) minmax(220px,1fr);gap:24px">
+      <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px">
+        <a href="/coworking-desks" data-nav="true" style="display:block;border-radius:12px;overflow:hidden;background:#F5F5F5;color:#2B2D42;transition:transform .3s ease,box-shadow .3s ease" style-hover="transform:translateY(-4px);box-shadow:0 12px 30px rgba(43,45,66,.14);color:#2B2D42"><img src="https://img.magnific.com/free-photo/group-afro-americans-working-together_1303-8970.jpg?w=1400&amp;q=80" alt="" style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block"><div style="padding:14px 16px 16px"><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:17px;letter-spacing:-.02em">Coworking Desks</div><div style="font-size:14px;color:#5A5C72;margin:4px 0 8px">Open desks, fast internet, steady power.</div><div style="font-size:13px;font-weight:700;color:#9B6A6C">From GHS 180/day</div></div></a>
+        <a href="/private-pods" data-nav="true" style="display:block;border-radius:12px;overflow:hidden;background:#F5F5F5;color:#2B2D42;transition:transform .3s ease,box-shadow .3s ease" style-hover="transform:translateY(-4px);box-shadow:0 12px 30px rgba(43,45,66,.14);color:#2B2D42"><img src="https://img.magnific.com/free-photo/african-american-businessman-having-remote-conversation-with-team-discussing-marketing-strategy-online-videocall-meeting-diverse-coworkers-working-company-growth-report-office_482257-66320.jpg?w=1400&amp;q=80" alt="" style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block"><div style="padding:14px 16px 16px"><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:17px;letter-spacing:-.02em">Private Pods</div><div style="font-size:14px;color:#5A5C72;margin:4px 0 8px">Quiet pods for calls and deep focus.</div><div style="font-size:13px;font-weight:700;color:#9B6A6C">From GHS 60/hr</div></div></a>
+        <a href="/meeting-rooms" data-nav="true" style="display:block;border-radius:12px;overflow:hidden;background:#F5F5F5;color:#2B2D42;transition:transform .3s ease,box-shadow .3s ease" style-hover="transform:translateY(-4px);box-shadow:0 12px 30px rgba(43,45,66,.14);color:#2B2D42"><img src="https://img.magnific.com/free-photo/african-american-team-collaborates-financial-project-business-space_482257-119790.jpg?w=1400&amp;q=80" alt="" style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block"><div style="padding:14px 16px 16px"><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:17px;letter-spacing:-.02em">Meeting Rooms</div><div style="font-size:14px;color:#5A5C72;margin:4px 0 8px">Air-conditioned rooms for your team.</div><div style="font-size:13px;font-weight:700;color:#9B6A6C">From GHS 250/hr</div></div></a>
+        <a href="/private-offices" data-nav="true" style="display:block;border-radius:12px;overflow:hidden;background:#F5F5F5;color:#2B2D42;transition:transform .3s ease,box-shadow .3s ease" style-hover="transform:translateY(-4px);box-shadow:0 12px 30px rgba(43,45,66,.14);color:#2B2D42"><img src="https://img.magnific.com/free-photo/black-corporate-team-collaborate-global-investment-strategy_482257-119871.jpg?w=1400&amp;q=80" alt="" style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block"><div style="padding:14px 16px 16px"><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:17px;letter-spacing:-.02em">Private Offices</div><div style="font-size:14px;color:#5A5C72;margin:4px 0 8px">Lockable offices for growing teams.</div><div style="font-size:13px;font-weight:700;color:#9B6A6C">From GHS 6,500/month</div></div></a>
+      </div>
+      <div style="position:relative;border-radius:12px;overflow:hidden;background:#2B2D42;color:#F5F5F5;display:flex;flex-direction:column;min-height:300px">
+        <a href="/gallery" data-nav="true" style="position:relative;flex:1;display:flex;flex-direction:column;justify-content:space-between;padding:16px;min-height:210px;color:#F5F5F5;overflow:hidden;background-image:linear-gradient(180deg,rgba(43,45,66,.05) 0%,rgba(43,45,66,.35) 45%,rgba(43,45,66,.92) 100%),url('/assets/photos/chesterfield-lounge.webp');background-size:100% 100%,cover;background-position:center,center;transition:background-size .6s ease" style-hover="color:#F5F5F5;background-size:100% 100%,112%">
+          <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px">
+            <span style="display:inline-flex;align-items:center;gap:8px;white-space:nowrap;padding:6px 11px;border-radius:999px;background:rgba(43,45,66,.62);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#F5F5F5"><span style="flex:none;width:7px;height:7px;border-radius:50%;background:#D49516"></span>See it for yourself</span>
+            <span style="padding:6px 10px;border-radius:999px;border:1px solid rgba(245,245,245,.55);font-size:12px;font-weight:700;letter-spacing:.04em">360°</span>
+          </div>
+          <div style="display:flex;align-items:flex-end;gap:14px">
+            <span aria-hidden="true" style="flex:none;width:48px;height:48px;border-radius:50%;background:#D49516;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 6px rgba(212,149,22,.25)"><span style="width:0;height:0;border-top:8px solid transparent;border-bottom:8px solid transparent;border-left:13px solid #2B2D42;margin-left:3px"></span></span>
+            <span style="display:flex;flex-direction:column;gap:3px"><span style="font-family:Epilogue,sans-serif;font-weight:700;font-size:21px;line-height:1.1;letter-spacing:-.02em">Take the virtual tour</span><span style="font-size:13px;color:#DADAE0">Walk the whole floor in 2 minutes</span></span>
+          </div>
+        </a>
+        <div style="padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px">
+          <a href="/contact" data-nav="true" style="color:#F5F5F5;font-family:Epilogue,sans-serif;font-weight:500;font-size:17px;letter-spacing:-.02em;display:flex;justify-content:space-between;align-items:center;padding:4px 0" style-hover="color:#D49516">Book a free visit <span aria-hidden="true">→</span></a>
+          <div style="font-size:13px;color:#B9BAC6">Mon–Fri, 8am–5pm · Tse Addo, Accra</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- MOBILE MENU -->
+<div role="dialog" aria-modal="true" aria-hidden="{{ mobileClosed }}" style="position:fixed;inset:0;z-index:850;background:#D49516;color:#2B2D42;display:flex;flex-direction:column;padding:20px 28px 32px;opacity:{{ mobOp }};pointer-events:{{ mobPe }};transform:translateY({{ mobY }}px);transition:opacity .4s ease,transform .5s cubic-bezier(.2,.7,.2,1);overflow:auto">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <img src="https://images.squarespace-cdn.com/content/v1/688633ab5eb7735480a9622d/6c140487-9cba-4324-9f2c-23180ca56305/The+Hive_Primary+Identity_Reverse.png?format=1500w" alt="The Hive" style="height:40px">
+    <button type="button" onClick="{{ closeMobile }}" aria-label="Close menu" style="background:rgba(43,45,66,.12);border:0;color:#2B2D42;width:44px;height:44px;border-radius:50%;cursor:pointer;font-size:22px;line-height:1">×</button>
+  </div>
+  <nav aria-label="Mobile" style="display:flex;flex-direction:column;gap:4px;margin:40px 0 auto">
+    <a href="/workspaces" data-nav="true" style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(34px,8vw,48px);letter-spacing:-.02em;color:#2B2D42;padding:6px 0">Workspaces</a>
+    <a href="/plans" data-nav="true" style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(34px,8vw,48px);letter-spacing:-.02em;color:#2B2D42;padding:6px 0">Plans</a>
+    <a href="/events" data-nav="true" style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(34px,8vw,48px);letter-spacing:-.02em;color:#2B2D42;padding:6px 0">Events</a>
+    <a href="/gallery" data-nav="true" style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(34px,8vw,48px);letter-spacing:-.02em;color:#2B2D42;padding:6px 0">Gallery</a>
+    <a href="/about" data-nav="true" style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(34px,8vw,48px);letter-spacing:-.02em;color:#2B2D42;padding:6px 0">About</a>
+    <a href="/contact" data-nav="true" style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(34px,8vw,48px);letter-spacing:-.02em;color:#2B2D42;padding:6px 0">Contact</a>
+  </nav>
+  <div style="display:flex;flex-direction:column;gap:12px;margin-top:40px">
+    <div style="display:flex;gap:12px;flex-wrap:wrap"><a href="/member-portal" data-nav="true" style="border:1.5px solid #2B2D42;color:#2B2D42;padding:14px 22px;border-radius:12px;font-weight:700;flex:1;text-align:center">Member login</a></div>
+    <div style="font-size:15px;line-height:1.7;border-top:1px solid rgba(43,45,66,.2);padding-top:16px">ICGC Christ Temple East, Teshie Rasta Rd, Tse Addo, Accra<br>Mon–Fri, 8am–5pm<br><a href="tel:+233256071000" style="font-weight:700">+233 25 607 1000</a> · <a href="mailto:info@thehivegh.com" style="font-weight:700">info@thehivegh.com</a></div>
+  </div>
+</div>
+
+<main data-screen-label="Book a spot" style="padding:112px 0 96px;min-height:100vh">
+  <div style="max-width:1320px;margin:0 auto;padding:0 28px">
+
+    <!-- Title + progress -->
+    <div ref="{{ topRef }}" style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:28px">
+      <div>
+        <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#9B6A6C;margin-bottom:10px">Book a spot · Step {{ step }} of 5</div>
+        <h1 style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(34px,4.6vw,56px);line-height:1.02;letter-spacing:-.025em;margin:0">{{ stepTitle }}</h1>
+      </div>
+      <div style="font-size:14px;color:#5A5C72;display:flex;align-items:center;gap:8px"><span aria-hidden="true" style="width:10px;height:12px;background:#D49516;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);display:inline-block"></span>Mon–Fri, 8am–5pm · Tse Addo, Accra</div>
+    </div>
+
+    <ol aria-label="Booking progress" style="list-style:none;margin:0 0 36px;padding:0;display:flex;align-items:center;gap:0">
+      <sc-for list="{{ steps }}" as="st" hint-placeholder-count="5">
+        <li style="display:flex;align-items:center;flex:{{ st.flex }};min-width:0">
+          <button type="button" onClick="{{ st.go }}" disabled="{{ st.locked }}" aria-current="{{ st.current }}" style="display:flex;align-items:center;gap:10px;background:transparent;border:0;padding:0;cursor:{{ st.cursor }};color:#2B2D42;text-align:left;min-width:0">
+            <span aria-hidden="true" style="flex:none;width:34px;height:38px;background:{{ st.bg }};color:{{ st.fg }};clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);display:grid;place-items:center;font-weight:700;font-size:14px;transition:background .35s">
+              <sc-if value="{{ st.done }}" hint-placeholder-val="{{ false }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#F5F5F5" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"></path></svg></sc-if>
+              <sc-if value="{{ st.notDone }}" hint-placeholder-val="{{ true }}"><span>{{ st.n }}</span></sc-if>
+            </span>
+            <span data-step-label="true" style="font-size:14px;font-weight:700;color:{{ st.labelFg }};white-space:nowrap">{{ st.label }}</span>
+          </button>
+          <sc-if value="{{ st.hasLine }}" hint-placeholder-val="{{ true }}"><span aria-hidden="true" style="flex:1;height:2px;margin:0 14px;background:{{ st.lineBg }};border-radius:2px;transition:background .5s;min-width:24px"></span></sc-if>
+        </li>
+      </sc-for>
+    </ol>
+
+    <div data-book-grid="true" style="display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:32px;align-items:start">
+
+      <!-- LEFT: step panel -->
+      <section style="overflow:hidden;padding:2px">
+        <div style="opacity:{{ panelOp }};transform:translateX({{ panelX }}px);transition:{{ panelTr }}">
+
+          <!-- STEP 1 -->
+          <sc-if value="{{ isStep1 }}" hint-placeholder-val="{{ true }}">
+            <div data-screen-label="Step 1 · What do you need">
+              <p style="margin:0 0 20px;color:#5A5C72;font-size:16px">Pick a pass for a desk, or book a room or pod by the hour. Prices in Ghana cedis, taxes included.</p>
+              <div data-cards="true" role="radiogroup" aria-label="What do you need" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px">
+                <sc-for list="{{ items }}" as="it" hint-placeholder-count="6">
+                  <button type="button" role="radio" aria-checked="{{ it.selected }}" onClick="{{ it.pick }}" style="text-align:left;background:{{ it.bg }};color:{{ it.fg }};border:1.5px solid {{ it.border }};border-radius:16px;padding:22px 22px 20px;cursor:pointer;display:flex;flex-direction:column;gap:10px;position:relative;box-shadow:{{ it.shadow }};transition:border-color .25s,background .25s,box-shadow .25s,transform .25s" style-hover="transform:translateY(-2px);box-shadow:0 2px 4px rgba(43,45,66,.06),0 16px 36px rgba(43,45,66,.12)">
+                    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><span style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:{{ it.eyebrow }}">{{ it.kicker }}</span><sc-if value="{{ it.hasTag }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:#2B2D42;background:#D49516;padding:4px 9px;border-radius:999px">{{ it.tag }}</span></sc-if></div>
+                    <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:22px;letter-spacing:-.02em;line-height:1.1">{{ it.name }}</div>
+                    <div style="font-size:14px;color:{{ it.sub }};line-height:1.5">{{ it.desc }}</div>
+                    <div style="display:flex;align-items:baseline;gap:6px;margin-top:4px"><span style="font-family:Epilogue,sans-serif;font-weight:700;font-size:24px;letter-spacing:-.02em">{{ it.priceText }}</span><span style="font-size:14px;color:{{ it.sub }}">{{ it.unit }}</span><sc-if value="{{ it.tbc }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;color:{{ it.tbcFg }};background:{{ it.tbcBg }};padding:2px 8px;border-radius:999px;font-weight:700">[TBC]</span></sc-if></div>
+                    <span aria-hidden="true" style="position:absolute;top:18px;right:18px;width:22px;height:22px;border-radius:50%;border:2px solid {{ it.radioBorder }};background:{{ it.radioBg }};display:{{ it.radioDisplay }};place-items:center;transition:all .25s"><span style="width:8px;height:8px;border-radius:50%;background:#2B2D42;display:block;opacity:{{ it.dotOp }}"></span></span>
+                  </button>
+                </sc-for>
+                <div style="background:#FFFFFF;border:1.5px dashed #D7BDBE;border-radius:16px;padding:22px;display:flex;flex-direction:column;gap:10px">
+                  <span style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#9B6A6C">Teams</span>
+                  <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:22px;letter-spacing:-.02em;line-height:1.1">Private Office</div>
+                  <div style="font-size:14px;color:#5A5C72;line-height:1.5">Lockable offices from GHS 6,500/month, quoted per team within one working day.</div>
+                  <a href="/private-offices#enquire" data-nav="true" style="margin-top:auto;align-self:flex-start;color:#2B2D42;font-weight:700;display:inline-flex;align-items:center;gap:10px;padding:8px 0 2px;border-bottom:2px solid #D49516;transition:gap .2s,color .2s" style-hover="gap:16px;color:#9B6A6C">Enquire instead <span aria-hidden="true">→</span></a>
+                </div>
+              </div>
+              <sc-if value="{{ err1 }}" hint-placeholder-val="{{ false }}"><div role="alert" style="margin-top:16px;font-size:14px;font-weight:700;color:#9B6A6C">Choose a pass, room or pod to continue.</div></sc-if>
+            </div>
+          </sc-if>
+
+          <!-- STEP 2 -->
+          <sc-if value="{{ isStep2 }}" hint-placeholder-val="{{ false }}">
+            <div data-screen-label="Step 2 · When" style="display:flex;flex-direction:column;gap:24px">
+              <sc-if value="{{ isMeeting }}" hint-placeholder-val="{{ false }}">
+                <div>
+                  <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#9B6A6C;margin-bottom:10px">Which room?</div>
+                  <div role="radiogroup" aria-label="Room" style="display:flex;gap:12px;flex-wrap:wrap">
+                    <sc-for list="{{ rooms }}" as="r" hint-placeholder-count="2">
+                      <button type="button" role="radio" aria-checked="{{ r.selected }}" onClick="{{ r.pick }}" style="flex:1 1 200px;text-align:left;background:{{ r.bg }};color:{{ r.fg }};border:1.5px solid {{ r.border }};border-radius:14px;padding:16px 18px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;transition:all .25s"><span><span style="display:block;font-family:Epilogue,sans-serif;font-weight:700;font-size:18px;letter-spacing:-.02em">{{ r.name }}</span><span style="display:block;font-size:14px;color:{{ r.sub }}">{{ r.detail }}</span></span><span style="font-weight:700;font-size:15px;white-space:nowrap">{{ r.rate }}</span></button>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+              <div data-when-col="true" style="display:grid;grid-template-columns:{{ whenCols }};gap:24px;align-items:start">
+                <div style="background:#FFFFFF;border-radius:16px;padding:22px;box-shadow:0 1px 2px rgba(43,45,66,.06),0 8px 24px rgba(43,45,66,.06)">
+                  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+                    <button type="button" onClick="{{ prevMonth }}" disabled="{{ prevLocked }}" aria-label="Previous month" style="width:40px;height:40px;border-radius:50%;border:1.5px solid #E6E6EA;background:#FFFFFF;cursor:pointer;color:#2B2D42;opacity:{{ prevOp }}" style-hover="background:#F5F5F5">‹</button>
+                    <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:18px;letter-spacing:-.02em">{{ monthLabel }}</div>
+                    <button type="button" onClick="{{ nextMonth }}" aria-label="Next month" style="width:40px;height:40px;border-radius:50%;border:1.5px solid #E6E6EA;background:#FFFFFF;cursor:pointer;color:#2B2D42" style-hover="background:#F5F5F5">›</button>
+                  </div>
+                  <div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;text-align:center;font-size:12px;font-weight:700;color:#8A8C9C;letter-spacing:.08em;margin-bottom:6px"><span>MO</span><span>TU</span><span>WE</span><span>TH</span><span>FR</span><span>SA</span><span>SU</span></div>
+                  <div role="grid" aria-label="{{ monthLabel }}" style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px">
+                    <sc-for list="{{ days }}" as="d" hint-placeholder-count="35">
+                      <button type="button" onClick="{{ d.pick }}" disabled="{{ d.disabled }}" aria-label="{{ d.aria }}" aria-pressed="{{ d.selected }}" style="aspect-ratio:1;min-height:40px;border:0;border-radius:10px;background:{{ d.bg }};color:{{ d.fg }};font-weight:700;font-size:15px;cursor:{{ d.cursor }};box-shadow:{{ d.ring }};text-decoration:{{ d.tdec }};opacity:{{ d.op }};transition:background .2s"><span>{{ d.label }}</span></button>
+                    </sc-for>
+                  </div>
+                  <div style="display:flex;gap:16px;margin-top:14px;font-size:13px;color:#5A5C72;flex-wrap:wrap"><span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:4px;box-shadow:inset 0 0 0 1.5px #D49516;display:inline-block"></span>Today</span><span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:4px;background:#2B2D42;display:inline-block"></span>Selected</span><span style="display:flex;align-items:center;gap:6px"><span style="width:12px;height:12px;border-radius:4px;background:#F0F0F2;display:inline-block"></span>Closed</span></div>
+                </div>
+
+                <sc-if value="{{ isPass }}" hint-placeholder-val="{{ true }}">
+                  <div style="display:flex;flex-direction:column;gap:14px">
+                    <div style="background:#2B2D42;color:#F5F5F5;border-radius:16px;padding:22px">
+                      <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#D49516;margin-bottom:8px">Start date</div>
+                      <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:24px;letter-spacing:-.02em;line-height:1.15">{{ dateLabelOrHint }}</div>
+                      <div style="font-size:14px;color:#B9BAC6;margin-top:10px">{{ passNote }}</div>
+                    </div>
+                    <div style="font-size:14px;color:#5A5C72;line-height:1.6">The Hive is open Monday to Friday, 8am to 5pm. Weekends are closed, so they can't be picked.</div>
+                  </div>
+                </sc-if>
+
+                <sc-if value="{{ isHourly }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;flex-direction:column;gap:18px">
+                    <sc-if value="{{ noDate }}" hint-placeholder-val="{{ false }}"><div style="background:#FFFFFF;border:1.5px dashed #D7BDBE;border-radius:16px;padding:28px 22px;text-align:center;color:#5A5C72;font-size:15px">Pick a date to see free times.</div></sc-if>
+                    <sc-if value="{{ hasDate }}" hint-placeholder-val="{{ true }}">
+                      <div>
+                        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:10px"><div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#9B6A6C">Start time · {{ dateShort }}</div><div style="font-size:13px;color:#5A5C72">Grey slots are already booked</div></div>
+                        <div data-time-grid="true" role="radiogroup" aria-label="Start time" style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px">
+                          <sc-for list="{{ slots }}" as="t" hint-placeholder-count="18">
+                            <button type="button" role="radio" aria-checked="{{ t.selected }}" onClick="{{ t.pick }}" disabled="{{ t.disabled }}" aria-label="{{ t.aria }}" style="min-height:42px;border:1.5px solid {{ t.border }};border-radius:10px;background:{{ t.bg }};color:{{ t.fg }};font-weight:700;font-size:14px;cursor:{{ t.cursor }};text-decoration:{{ t.tdec }};transition:background .2s,border-color .2s;font-variant-numeric:tabular-nums">{{ t.label }}</button>
+                          </sc-for>
+                        </div>
+                      </div>
+                      <div>
+                        <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#9B6A6C;margin-bottom:10px">How long?</div>
+                        <div role="radiogroup" aria-label="Duration" style="display:flex;gap:8px">
+                          <sc-for list="{{ durs }}" as="du" hint-placeholder-count="3">
+                            <button type="button" role="radio" aria-checked="{{ du.selected }}" onClick="{{ du.pick }}" disabled="{{ du.disabled }}" style="flex:1;min-height:46px;border:1.5px solid {{ du.border }};border-radius:12px;background:{{ du.bg }};color:{{ du.fg }};font-weight:700;font-size:15px;cursor:{{ du.cursor }};transition:all .2s">{{ du.label }}</button>
+                          </sc-for>
+                        </div>
+                      </div>
+                      <div style="background:#D49516;color:#2B2D42;border-radius:16px;padding:18px 22px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap">
+                        <div><div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700">Live price</div><div style="font-size:14px;margin-top:2px">{{ hourlyBreakdown }}</div></div>
+                        <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:30px;letter-spacing:-.02em;font-variant-numeric:tabular-nums">{{ hourlyTotal }}</div>
+                      </div>
+                    </sc-if>
+                  </div>
+                </sc-if>
+              </div>
+              <sc-if value="{{ err2 }}" hint-placeholder-val="{{ false }}"><div role="alert" style="font-size:14px;font-weight:700;color:#9B6A6C">{{ err2Text }}</div></sc-if>
+            </div>
+          </sc-if>
+
+          <!-- STEP 3 -->
+          <sc-if value="{{ isStep3 }}" hint-placeholder-val="{{ false }}">
+            <div data-screen-label="Step 3 · Your details" style="background:#FFFFFF;border-radius:16px;padding:28px;box-shadow:0 1px 2px rgba(43,45,66,.06),0 8px 24px rgba(43,45,66,.06);display:flex;flex-direction:column;gap:18px">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap">
+                <div style="font-size:15px;color:#5A5C72">We'll send your booking and receipt here.</div>
+                <sc-if value="{{ notMember }}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{ toggleLogin }}" aria-expanded="{{ loginOpen }}" style="background:transparent;border:0;padding:6px 0;color:#2B2D42;font-weight:700;cursor:pointer;border-bottom:2px solid #D49516;font-size:15px" style-hover="color:#9B6A6C">I'm a member, log in</button></sc-if>
+                <sc-if value="{{ isMember }}" hint-placeholder-val="{{ false }}"><div style="display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:#2B2D42;background:rgba(212,149,22,.16);padding:8px 14px;border-radius:999px"><span aria-hidden="true" style="width:10px;height:12px;background:#D49516;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);display:inline-block"></span>Logged in as {{ memberFirst }} · <button type="button" onClick="{{ logout }}" style="background:transparent;border:0;padding:0;font:inherit;font-weight:700;color:#9B6A6C;cursor:pointer;text-decoration:underline;text-underline-offset:3px">Not you?</button></div></sc-if>
+              </div>
+              <sc-if value="{{ loginOpen }}" hint-placeholder-val="{{ false }}">
+                <form onSubmit="{{ doLogin }}" novalidate="{{ true }}" style="background:#2B2D42;color:#F5F5F5;border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:12px">
+                  <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:18px;letter-spacing:-.02em">Member login</div>
+                  <div style="display:flex;gap:10px;flex-wrap:wrap"><input type="email" aria-label="Member email" placeholder="ama@company.com" value="{{ loginEmail }}" onChange="{{ setLoginEmail }}" style="flex:1 1 220px;min-width:0;height:48px;border:1.5px solid rgba(255,255,255,.22);border-radius:12px;padding:0 14px;font:inherit;font-size:15px;color:#F5F5F5;background:rgba(255,255,255,.06);outline:none;transition:border-color .2s" style-focus="border-color:#D49516"><input type="password" aria-label="Password" placeholder="Password" value="{{ loginPw }}" onChange="{{ setLoginPw }}" style="flex:1 1 160px;min-width:0;height:48px;border:1.5px solid rgba(255,255,255,.22);border-radius:12px;padding:0 14px;font:inherit;font-size:15px;color:#F5F5F5;background:rgba(255,255,255,.06);outline:none;transition:border-color .2s" style-focus="border-color:#D49516"><button type="submit" style="background:#D49516;color:#2B2D42;border:0;padding:0 20px;height:48px;border-radius:12px;font-weight:700;cursor:pointer;transition:background .2s" style-hover="background:#E5B45A">Log in</button></div>
+                  <sc-if value="{{ loginErr }}" hint-placeholder-val="{{ false }}"><div role="alert" style="font-size:14px;font-weight:700;color:#F2D79A">Enter the email and password you use for the Member Portal.</div></sc-if>
+                  <div style="font-size:13px;color:#B9BAC6">Sample: any email and password logs in as a demo member.</div>
+                </form>
+              </sc-if>
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700">Full name<input type="text" autoComplete="name" placeholder="Ama Mensah" value="{{ fName }}" onChange="{{ setFName }}" aria-invalid="{{ eName }}" style="height:50px;border:1.5px solid {{ bName }};border-radius:12px;padding:0 14px;font:inherit;font-size:16px;color:#2B2D42;background:#FFFFFF;outline:none;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#2B2D42;box-shadow:0 0 0 4px rgba(212,149,22,.25)"><sc-if value="{{ eName }}" hint-placeholder-val="{{ false }}"><span role="alert" style="font-size:13px;color:#9B6A6C">Please add your full name.</span></sc-if></label>
+              <div data-two-col="true" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px">
+                <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700">Phone<input type="tel" autoComplete="tel" placeholder="024 000 0000" value="{{ fPhone }}" onChange="{{ setFPhone }}" aria-invalid="{{ ePhone }}" style="height:50px;border:1.5px solid {{ bPhone }};border-radius:12px;padding:0 14px;font:inherit;font-size:16px;color:#2B2D42;background:#FFFFFF;outline:none;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#2B2D42;box-shadow:0 0 0 4px rgba(212,149,22,.25)"><sc-if value="{{ ePhone }}" hint-placeholder-val="{{ false }}"><span role="alert" style="font-size:13px;color:#9B6A6C">Enter a Ghana number, e.g. 024 000 0000.</span></sc-if></label>
+                <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700">Email<input type="email" autoComplete="email" placeholder="you@company.com" value="{{ fEmail }}" onChange="{{ setFEmail }}" aria-invalid="{{ eEmail }}" style="height:50px;border:1.5px solid {{ bEmail }};border-radius:12px;padding:0 14px;font:inherit;font-size:16px;color:#2B2D42;background:#FFFFFF;outline:none;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#2B2D42;box-shadow:0 0 0 4px rgba(212,149,22,.25)"><sc-if value="{{ eEmail }}" hint-placeholder-val="{{ false }}"><span role="alert" style="font-size:13px;color:#9B6A6C">That email doesn't look right.</span></sc-if></label>
+              </div>
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700"><span>Company <span style="font-weight:400;color:#8A8C9C">(optional, for invoices)</span></span><input type="text" autoComplete="organization" placeholder="Company name" value="{{ fCompany }}" onChange="{{ setFCompany }}" style="height:50px;border:1.5px solid #E6E6EA;border-radius:12px;padding:0 14px;font:inherit;font-size:16px;color:#2B2D42;background:#FFFFFF;outline:none;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#2B2D42;box-shadow:0 0 0 4px rgba(212,149,22,.25)"></label>
+              <sc-if value="{{ hasCompany }}" hint-placeholder-val="{{ false }}">
+                <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700"><span>Company email <span style="font-weight:400;color:#8A8C9C">(for the receipt)</span></span><input type="email" placeholder="accounts@company.com" value="{{ fCompanyEmail }}" onChange="{{ setFCompanyEmail }}" aria-invalid="{{ eCompanyEmail }}" style="height:50px;border:1.5px solid {{ bCompanyEmail }};border-radius:12px;padding:0 14px;font:inherit;font-size:16px;color:#2B2D42;background:#FFFFFF;outline:none;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#2B2D42;box-shadow:0 0 0 4px rgba(212,149,22,.25)"><sc-if value="{{ eCompanyEmail }}" hint-placeholder-val="{{ false }}"><span role="alert" style="font-size:13px;color:#9B6A6C">Add the company email the receipt should go to.</span></sc-if></label>
+              </sc-if>
+              <label style="display:flex;align-items:center;gap:12px;font-size:15px;cursor:pointer;opacity:{{ toCompanyOp }}"><input type="checkbox" checked="{{ toCompany }}" onChange="{{ setToCompany }}" disabled="{{ noCompany }}"><span>Send the receipt to my company</span></label>
+            </div>
+          </sc-if>
+
+          <!-- STEP 4 -->
+          <sc-if value="{{ isStep4 }}" hint-placeholder-val="{{ false }}">
+            <div data-screen-label="Step 4 · Payment" style="display:flex;flex-direction:column;gap:20px">
+              <sc-if value="{{ notPaying }}" hint-placeholder-val="{{ true }}">
+                <div style="background:#FFFFFF;border-radius:16px;padding:22px 24px;box-shadow:0 1px 2px rgba(43,45,66,.06),0 8px 24px rgba(43,45,66,.06)">
+                  <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#9B6A6C;margin-bottom:12px">Order summary</div>
+                  <div style="display:flex;flex-direction:column;gap:8px;font-size:15px">
+                    <sc-for list="{{ orderRows }}" as="o" hint-placeholder-count="3"><div style="display:flex;justify-content:space-between;gap:16px"><span style="color:#5A5C72">{{ o.label }}</span><span style="font-weight:700;text-align:right">{{ o.value }}</span></div></sc-for>
+                  </div>
+                  <div style="border-top:1px solid #E6E6EA;margin-top:14px;padding-top:14px;display:flex;justify-content:space-between;align-items:baseline"><span style="font-weight:700">Total</span><span style="font-family:Epilogue,sans-serif;font-weight:700;font-size:28px;letter-spacing:-.02em;font-variant-numeric:tabular-nums">{{ totalText }}</span></div>
+                </div>
+
+                <div style="background:#FFFFFF;border-radius:16px;box-shadow:0 1px 2px rgba(43,45,66,.06),0 8px 24px rgba(43,45,66,.06);overflow:hidden">
+                  <div role="tablist" aria-label="Payment method" style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-bottom:1px solid #E6E6EA">
+                    <sc-for list="{{ payTabs }}" as="pt" hint-placeholder-count="3">
+                      <button type="button" role="tab" aria-selected="{{ pt.selected }}" onClick="{{ pt.pick }}" style="background:{{ pt.bg }};border:0;border-bottom:3px solid {{ pt.line }};padding:16px 10px 13px;font-weight:700;font-size:15px;color:{{ pt.fg }};cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:4px"><span>{{ pt.label }}</span><span style="font-size:12px;font-weight:400;color:#8A8C9C">{{ pt.sub }}</span></button>
+                    </sc-for>
+                  </div>
+                  <div style="padding:24px">
+                    <sc-if value="{{ payMomo }}" hint-placeholder-val="{{ true }}">
+                      <div style="display:flex;flex-direction:column;gap:18px">
+                        <div>
+                          <div style="font-size:14px;font-weight:700;margin-bottom:10px">Network</div>
+                          <div role="radiogroup" aria-label="Mobile money network" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px">
+                            <sc-for list="{{ networks }}" as="nw" hint-placeholder-count="3">
+                              <button type="button" role="radio" aria-checked="{{ nw.selected }}" onClick="{{ nw.pick }}" style="display:flex;align-items:center;gap:10px;background:{{ nw.bg }};border:1.5px solid {{ nw.border }};border-radius:12px;padding:10px 12px;font-weight:700;font-size:14px;color:#2B2D42;cursor:pointer;text-align:left;transition:all .2s"><span aria-hidden="true" style="flex:none;width:34px;height:34px;border-radius:8px;background:{{ nw.logoBg }};color:{{ nw.logoFg }};display:grid;place-items:center;font-family:Epilogue,sans-serif;font-weight:700;font-size:{{ nw.logoSize }};letter-spacing:-.02em">{{ nw.logo }}</span>{{ nw.name }}</button>
+                            </sc-for>
+                          </div>
+                        </div>
+                        <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700">Mobile money number<input type="tel" inputMode="numeric" placeholder="{{ momoPlaceholder }}" value="{{ momoPhone }}" onChange="{{ setMomoPhone }}" aria-invalid="{{ eMomo }}" style="height:50px;border:1.5px solid {{ bMomo }};border-radius:12px;padding:0 14px;font:inherit;font-size:18px;letter-spacing:.04em;color:#2B2D42;background:#FFFFFF;outline:none;transition:border-color .2s,box-shadow .2s;font-variant-numeric:tabular-nums" style-focus="border-color:#2B2D42;box-shadow:0 0 0 4px rgba(212,149,22,.25)"><sc-if value="{{ eMomo }}" hint-placeholder-val="{{ false }}"><span role="alert" style="font-size:13px;color:#9B6A6C">Enter the 10-digit number registered with {{ networkName }}.</span></sc-if><sc-if value="{{ momoSame }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ useMyPhone }}" style="align-self:flex-start;background:transparent;border:0;padding:0;font:inherit;font-size:13px;font-weight:700;color:#9B6A6C;cursor:pointer;text-decoration:underline;text-underline-offset:3px">Use {{ fPhone }}</button></sc-if></label>
+                        <div style="font-size:14px;color:#5A5C72;line-height:1.6">You'll get a prompt on your phone. Enter your PIN to approve {{ totalText }} to The Hive.</div>
+                      </div>
+                    </sc-if>
+                    <sc-if value="{{ payCard }}" hint-placeholder-val="{{ false }}">
+                      <div style="display:flex;flex-direction:column;gap:16px">
+                        <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700">Card number<span style="position:relative;display:flex"><input type="text" inputMode="numeric" autoComplete="cc-number" placeholder="1234 5678 9012 3456" value="{{ cardNo }}" onChange="{{ setCardNo }}" aria-invalid="{{ eCard }}" style="flex:1;height:50px;border:1.5px solid {{ bCard }};border-radius:12px;padding:0 64px 0 14px;font:inherit;font-size:18px;letter-spacing:.06em;color:#2B2D42;background:#FFFFFF;outline:none;transition:border-color .2s,box-shadow .2s;font-variant-numeric:tabular-nums" style-focus="border-color:#2B2D42;box-shadow:0 0 0 4px rgba(212,149,22,.25)"><span aria-hidden="true" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);height:26px;min-width:40px;border-radius:6px;background:{{ brandBg }};color:#FFFFFF;display:grid;place-items:center;font-family:Epilogue,sans-serif;font-weight:700;font-size:10px;padding:0 8px;letter-spacing:.02em">{{ brandLabel }}</span></span><sc-if value="{{ eCard }}" hint-placeholder-val="{{ false }}"><span role="alert" style="font-size:13px;color:#9B6A6C">Check the card number, it doesn't pass validation.</span></sc-if></label>
+                        <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px">
+                          <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700">Expiry<input type="text" inputMode="numeric" autoComplete="cc-exp" placeholder="MM / YY" value="{{ cardExp }}" onChange="{{ setCardExp }}" aria-invalid="{{ eExp }}" style="height:50px;border:1.5px solid {{ bExp }};border-radius:12px;padding:0 14px;font:inherit;font-size:18px;letter-spacing:.06em;color:#2B2D42;background:#FFFFFF;outline:none;transition:border-color .2s,box-shadow .2s;font-variant-numeric:tabular-nums" style-focus="border-color:#2B2D42;box-shadow:0 0 0 4px rgba(212,149,22,.25)"><sc-if value="{{ eExp }}" hint-placeholder-val="{{ false }}"><span role="alert" style="font-size:13px;color:#9B6A6C">Use a future date, MM / YY.</span></sc-if></label>
+                          <label style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700"><span style="display:flex;justify-content:space-between"><span>CVV</span><span style="font-weight:400;color:#8A8C9C">3 digits on the back</span></span><input type="password" inputMode="numeric" autoComplete="cc-csc" placeholder="•••" maxLength="{{ cvvMax }}" value="{{ cardCvv }}" onChange="{{ setCardCvv }}" aria-invalid="{{ eCvv }}" style="height:50px;border:1.5px solid {{ bCvv }};border-radius:12px;padding:0 14px;font:inherit;font-size:18px;letter-spacing:.2em;color:#2B2D42;background:#FFFFFF;outline:none;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#2B2D42;box-shadow:0 0 0 4px rgba(212,149,22,.25)"><sc-if value="{{ eCvv }}" hint-placeholder-val="{{ false }}"><span role="alert" style="font-size:13px;color:#9B6A6C">Enter the 3-digit code.</span></sc-if></label>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:10px;font-size:14px;color:#5A5C72"><span aria-hidden="true" style="flex:none;width:18px;height:20px;background:#2B2D42;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);display:grid;place-items:center"><span style="width:6px;height:6px;border-radius:50%;background:#D49516;display:block"></span></span>Card details are encrypted and never stored by The Hive. Visa and Mastercard accepted.</div>
+                      </div>
+                    </sc-if>
+                    <sc-if value="{{ payDesk }}" hint-placeholder-val="{{ false }}">
+                      <div style="display:flex;flex-direction:column;gap:14px">
+                        <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:20px;letter-spacing:-.02em">Reserve now, pay when you arrive.</div>
+                        <p style="margin:0;color:#5A5C72;font-size:15px;line-height:1.6">We'll hold your spot and mark it <strong style="color:#2B2D42">unpaid</strong>. Pay {{ totalText }} in cash, mobile money or card at the front desk when you check in. {{ deskHoldNote }}</p>
+                      </div>
+                    </sc-if>
+                  </div>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#5A5C72"><span aria-hidden="true" style="width:14px;height:14px;border-radius:3px;border:1.5px solid #5A5C72;display:inline-block;position:relative"><span style="position:absolute;left:3px;right:3px;top:-5px;height:7px;border:1.5px solid #5A5C72;border-bottom:0;border-radius:4px 4px 0 0;display:block"></span></span>Secure payment powered by Paystack.</div>
+              </sc-if>
+
+              <sc-if value="{{ paying }}" hint-placeholder-val="{{ false }}">
+                <div role="status" aria-live="polite" style="background:#2B2D42;color:#F5F5F5;border-radius:16px;padding:40px 28px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:20px;min-height:460px;justify-content:center;position:relative;overflow:hidden">
+                  <div aria-hidden="true" style="position:relative;width:180px;height:220px;display:grid;place-items:center">
+                    <span style="position:absolute;width:150px;height:150px;border-radius:50%;border:2px solid #D49516;animation:hive-ring 1.8s ease-out infinite"></span>
+                    <span style="position:absolute;width:150px;height:150px;border-radius:50%;border:2px solid #D49516;animation:hive-ring 1.8s ease-out .6s infinite"></span>
+                    <span style="position:absolute;width:150px;height:150px;border-radius:50%;border:2px solid #D49516;animation:hive-ring 1.8s ease-out 1.2s infinite"></span>
+                    <span style="position:relative;width:104px;height:200px;border-radius:22px;background:#1E2030;border:4px solid #5A5C72;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;animation:hive-pulse 1.8s ease-in-out infinite;box-shadow:0 20px 40px rgba(0,0,0,.35)">
+                      <span style="position:absolute;top:8px;width:34px;height:5px;border-radius:3px;background:#5A5C72"></span>
+                      <span style="width:30px;height:34px;background:#D49516;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span>
+                      <span style="width:56px;height:6px;border-radius:3px;background:#F5F5F5;opacity:.8"></span>
+                      <span style="width:40px;height:6px;border-radius:3px;background:#F5F5F5;opacity:.4"></span>
+                      <span style="margin-top:6px;width:60px;height:18px;border-radius:9px;background:#D49516;display:grid;place-items:center;font-size:9px;font-weight:700;color:#2B2D42;letter-spacing:.08em">APPROVE</span>
+                    </span>
+                  </div>
+                  <div>
+                    <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(22px,2.6vw,30px);letter-spacing:-.02em;line-height:1.15">{{ payingTitle }}</div>
+                    <div style="color:#B9BAC6;margin-top:8px;font-size:16px;max-width:40ch">{{ payingSub }}</div>
+                  </div>
+                  <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:40px;letter-spacing:-.02em;color:#D49516;font-variant-numeric:tabular-nums;line-height:1">{{ countdownText }}</div>
+                  <div style="display:flex;gap:18px;font-size:14px"><button type="button" onClick="{{ cancelPay }}" style="background:transparent;border:0;padding:0;font:inherit;font-weight:700;color:#B9BAC6;cursor:pointer;text-decoration:underline;text-underline-offset:3px" style-hover="color:#F5F5F5">Cancel</button><sc-if value="{{ payMomo }}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{ resendPrompt }}" style="background:transparent;border:0;padding:0;font:inherit;font-weight:700;color:#D49516;cursor:pointer;text-decoration:underline;text-underline-offset:3px">Didn't get a prompt? Resend</button></sc-if></div>
+                </div>
+              </sc-if>
+            </div>
+          </sc-if>
+
+          <!-- STEP 5 -->
+          <sc-if value="{{ isStep5 }}" hint-placeholder-val="{{ false }}">
+            <div data-screen-label="Step 5 · Confirmed" style="position:relative;background:#FFFFFF;border-radius:16px;padding:40px 28px;box-shadow:0 1px 2px rgba(43,45,66,.06),0 8px 24px rgba(43,45,66,.06);overflow:hidden">
+              <div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;overflow:hidden">
+                <sc-for list="{{ confetti }}" as="c" hint-placeholder-count="0"><span style="position:absolute;top:0;left:{{ c.left }};width:{{ c.w }};height:{{ c.h }};background:{{ c.color }};border-radius:{{ c.radius }};--dx:{{ c.dx }};animation:hive-confetti {{ c.dur }} cubic-bezier(.2,.6,.4,1) {{ c.delay }} both;opacity:0"></span></sc-for>
+              </div>
+              <div style="position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px">
+                <div aria-hidden="true" style="width:112px;height:124px;background:#D49516;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);display:grid;place-items:center;animation:hive-hex-in .8s cubic-bezier(.34,1.56,.64,1) both"><svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="#2B2D42" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7" style="stroke-dasharray:30;stroke-dashoffset:30;animation:hive-draw .5s ease-out .55s forwards"></path></svg></div>
+                <div style="animation:hive-rise .7s cubic-bezier(.2,.7,.2,1) .4s both;display:flex;flex-direction:column;align-items:center;gap:14px">
+                  <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#9B6A6C">Booking reference · {{ bookingRef }}</div>
+                  <h2 style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(34px,4.6vw,56px);letter-spacing:-.025em;line-height:1;margin:0">You're booked{{ firstNameSuffix }}</h2>
+                  <div style="font-size:18px;color:#5A5C72;max-width:44ch;text-wrap:pretty">{{ confirmLine }}</div>
+                  <sc-if value="{{ unpaid }}" hint-placeholder-val="{{ false }}"><div style="display:inline-flex;align-items:center;gap:8px;background:#F1E6E6;color:#7E5456;font-weight:700;font-size:14px;padding:8px 14px;border-radius:999px"><span aria-hidden="true" style="width:8px;height:8px;border-radius:50%;background:#9B6A6C;display:inline-block"></span>Unpaid · pay {{ totalText }} at the front desk</div></sc-if>
+                  <sc-if value="{{ isPaid }}" hint-placeholder-val="{{ true }}"><div style="display:inline-flex;align-items:center;gap:8px;background:rgba(62,155,95,.12);color:#2B2D42;font-weight:700;font-size:14px;padding:8px 14px;border-radius:999px"><span aria-hidden="true" style="width:8px;height:8px;border-radius:50%;background:#3E9B5F;display:inline-block"></span>Paid {{ totalText }} · {{ paidVia }}</div></sc-if>
+                </div>
+                <div style="animation:hive-rise .7s cubic-bezier(.2,.7,.2,1) .6s both;margin-top:14px;background:#F5F5F5;border-radius:16px;padding:22px;display:flex;flex-direction:column;align-items:center;gap:14px;width:min(100%,360px)">
+                  <div role="img" aria-label="QR code for booking {{ bookingRef }}" style="background:#FFFFFF;padding:14px;border-radius:12px;display:grid;grid-template-columns:repeat(25,8px);gap:0;box-shadow:0 1px 2px rgba(43,45,66,.06)">
+                    <sc-for list="{{ qrCells }}" as="q" hint-placeholder-count="0"><span style="width:8px;height:8px;background:{{ q }}"></span></sc-for>
+                  </div>
+                  <div style="font-size:14px;font-weight:700;text-align:center">Show this at the front desk to check in</div>
+                </div>
+                <div style="animation:hive-rise .7s cubic-bezier(.2,.7,.2,1) .75s both;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:10px">
+                  <a href="{{ icsHref }}" download="{{ icsName }}" style="border:1.5px solid #2B2D42;color:#2B2D42;padding:12px 20px;border-radius:12px;font-weight:700;font-size:15px;display:inline-flex;align-items:center;transition:background .2s,color .2s" style-hover="background:#2B2D42;color:#F5F5F5">Add to calendar</a>
+                  <a href="https://maps.app.goo.gl/yGtXRa84B5EEi823A" target="_blank" rel="noreferrer" style="border:1.5px solid #2B2D42;color:#2B2D42;padding:12px 20px;border-radius:12px;font-weight:700;font-size:15px;display:inline-flex;align-items:center;transition:background .2s,color .2s" style-hover="background:#2B2D42;color:#F5F5F5">Get directions</a>
+                  <a href="/member-portal?view=bookings" data-nav="true" style="background:#9B6A6C;color:#FFFFFF;padding:13px 20px;border-radius:12px;font-weight:700;font-size:15px;display:inline-flex;align-items:center;transition:background .2s" style-hover="background:#7E5456;color:#FFFFFF">Go to my bookings</a>
+                  <button type="button" onClick="{{ bookAnother }}" style="background:transparent;border:0;color:#2B2D42;padding:12px 8px;font-weight:700;font-size:15px;cursor:pointer;border-bottom:2px solid #D49516;border-radius:0" style-hover="color:#9B6A6C">Book another</button>
+                </div>
+                <div style="animation:hive-rise .7s cubic-bezier(.2,.7,.2,1) .9s both;font-size:14px;color:#5A5C72;margin-top:6px">A receipt has been sent to {{ receiptTo }}.</div>
+              </div>
+            </div>
+          </sc-if>
+        </div>
+
+        <!-- Nav row -->
+        <sc-if value="{{ showNav }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:28px;flex-wrap:wrap">
+            <sc-if value="{{ canBack }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ goBack }}" style="background:transparent;border:0;padding:10px 0;color:#2B2D42;font-weight:700;font-size:15px;cursor:pointer;display:inline-flex;align-items:center;gap:8px" style-hover="color:#9B6A6C"><span aria-hidden="true">←</span> Back</button></sc-if>
+            <sc-if value="{{ noBack }}" hint-placeholder-val="{{ true }}"><a href="/plans" data-nav="true" style="padding:10px 0;font-weight:700;font-size:15px;display:inline-flex;align-items:center;gap:8px"><span aria-hidden="true">←</span> Back to plans</a></sc-if>
+            <button type="button" onClick="{{ goNext }}" style="background:{{ nextBg }};color:{{ nextFg }};border:0;padding:15px 28px;border-radius:12px;font-weight:700;font-size:17px;cursor:pointer;display:inline-flex;align-items:center;gap:10px;transition:background .2s;min-width:200px;justify-content:center" style-hover="background:{{ nextHover }}">{{ nextLabel }} <span aria-hidden="true">→</span></button>
+          </div>
+        </sc-if>
+      </section>
+
+      <!-- RIGHT: sticky summary -->
+      <aside data-desk-only="true" aria-label="Booking summary" style="position:sticky;top:104px">
+        <div style="background:#2B2D42;color:#F5F5F5;border-radius:16px;padding:26px;box-shadow:0 2px 6px rgba(43,45,66,.1),0 24px 60px rgba(43,45,66,.18);position:relative;overflow:hidden">
+          <div aria-hidden="true" style="position:absolute;inset:0;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 66L0 50L0 16L28 0L56 16L56 50Z' fill='none' stroke='%23F5F5F5' stroke-opacity='.1'/%3E%3Cpath d='M28 0L28 34L0 50L0 84L28 100L56 84L56 50L28 34' fill='none' stroke='%23F5F5F5' stroke-opacity='.1'/%3E%3C/svg%3E&quot;);mask-image:radial-gradient(ellipse at 100% 0%,rgba(0,0,0,1),rgba(0,0,0,0) 60%);-webkit-mask-image:radial-gradient(ellipse at 100% 0%,rgba(0,0,0,1),rgba(0,0,0,0) 60%)"></div>
+          <div style="position:relative">
+            <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#D49516;margin-bottom:14px">Your booking</div>
+            <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:26px;letter-spacing:-.02em;line-height:1.1;min-height:30px">{{ sumTitle }}</div>
+            <div style="font-size:14px;color:#B9BAC6;margin-top:6px">{{ sumSub }}</div>
+            <div style="display:flex;flex-direction:column;margin-top:20px;border-top:1px solid rgba(255,255,255,.12)">
+              <sc-for list="{{ sumRows }}" as="row" hint-placeholder-count="3">
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.12);font-size:15px"><span style="color:#B9BAC6">{{ row.label }}</span><span style="display:flex;align-items:center;gap:10px;text-align:right"><span style="font-weight:700;color:{{ row.fg }}">{{ row.value }}</span><sc-if value="{{ row.editable }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ row.edit }}" aria-label="Edit {{ row.label }}" style="background:transparent;border:0;padding:0;font:inherit;font-size:13px;font-weight:700;color:#D49516;cursor:pointer;text-decoration:underline;text-underline-offset:3px">Edit</button></sc-if></span></div>
+              </sc-for>
+            </div>
+            <sc-if value="{{ hasDiscount }}" hint-placeholder-val="{{ false }}"><div style="display:flex;justify-content:space-between;padding:12px 0 0;font-size:14px;color:#B9BAC6"><span>Member rate</span><span style="color:#D49516;font-weight:700">− {{ discountText }}</span></div></sc-if>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-top:16px"><span style="font-weight:700">Total</span><span style="font-family:Epilogue,sans-serif;font-weight:700;font-size:34px;letter-spacing:-.02em;font-variant-numeric:tabular-nums;color:#D49516">{{ totalText }}</span></div>
+            <div style="font-size:13px;color:#B9BAC6;margin-top:4px">{{ totalNote }}</div>
+          </div>
+        </div>
+        <div style="margin-top:14px;font-size:13px;color:#5A5C72;line-height:1.6;padding:0 6px">Need help? <a href="https://wa.me/233256071000" target="_blank" rel="noreferrer" style="font-weight:700;border-bottom:2px solid #D49516">WhatsApp us</a> or call <a href="tel:+233256071000" style="font-weight:700">+233 25 607 1000</a>, Mon–Fri 8am–5pm.</div>
+      </aside>
+    </div>
+  </div>
+</main>
+
+<!-- MOBILE SUMMARY BAR -->
+<div data-mob-only="true" style="position:fixed;left:0;right:0;bottom:0;z-index:700;background:#2B2D42;color:#F5F5F5;box-shadow:0 -10px 40px rgba(43,45,66,.25);transform:translateY({{ barY }}px);transition:transform .4s cubic-bezier(.2,.7,.2,1)">
+  <button type="button" onClick="{{ toggleBar }}" aria-expanded="{{ barOpen }}" style="width:100%;background:transparent;border:0;color:#F5F5F5;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;cursor:pointer;text-align:left">
+    <span style="min-width:0"><span style="display:block;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:#B9BAC6;font-weight:700">Your booking</span><span style="display:block;font-weight:700;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ sumTitle }}</span></span>
+    <span style="display:flex;align-items:center;gap:12px"><span style="font-family:Epilogue,sans-serif;font-weight:700;font-size:22px;letter-spacing:-.02em;color:#D49516;font-variant-numeric:tabular-nums">{{ totalText }}</span><span aria-hidden="true" style="display:inline-block;width:9px;height:9px;border-left:2px solid #F5F5F5;border-top:2px solid #F5F5F5;transform:{{ barChev }};transition:transform .3s;margin-top:4px"></span></span>
+  </button>
+  <div style="max-height:{{ barH }};overflow:hidden;transition:max-height .45s cubic-bezier(.2,.7,.2,1)">
+    <div style="padding:0 20px 20px;border-top:1px solid rgba(255,255,255,.12)">
+      <sc-for list="{{ sumRows }}" as="row" hint-placeholder-count="3"><div style="display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.12);font-size:15px"><span style="color:#B9BAC6">{{ row.label }}</span><span style="font-weight:700;color:{{ row.fg }}">{{ row.value }}</span></div></sc-for>
+      <div style="font-size:13px;color:#B9BAC6;margin-top:10px">{{ totalNote }}</div>
+    </div>
+  </div>
+</div>
+
+<footer style="background:#2B2D42;color:#F5F5F5">
+  <div style="max-width:1320px;margin:0 auto;padding:40px 28px;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;font-size:14px;color:#B9BAC6">
+    <img src="https://images.squarespace-cdn.com/content/v1/688633ab5eb7735480a9622d/6c140487-9cba-4324-9f2c-23180ca56305/The+Hive_Primary+Identity_Reverse.png?format=1500w" alt="The Hive" style="height:36px">
+    <div>ICGC Christ Temple East, Teshie Rasta Rd, Tse Addo, Accra · Mon–Fri, 8am–5pm</div>
+    <div style="display:flex;gap:18px;flex-wrap:wrap"><a href="/plans" data-nav="true" style="color:#F5F5F5" style-hover="color:#D49516">Plans</a><a href="/contact" data-nav="true" style="color:#F5F5F5" style-hover="color:#D49516">Contact</a><a href="/member-portal" data-nav="true" style="color:#F5F5F5" style-hover="color:#D49516">Member login</a><span>© 2026 The Hive</span></div>
+  </div>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;memberDiscount&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Pricing&quot;},&quot;demoPaySeconds&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:7,&quot;min&quot;:2,&quot;max&quot;:30,&quot;unit&quot;:&quot;s&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Payment demo&quot;}}">
+class Component extends DCLogic {
+  wipeRef = React.createRef(); headerRef = React.createRef(); headerBarRef = React.createRef(); headerInnerRef = React.createRef(); logoRef = React.createRef(); topRef = React.createRef();
+  ITEMS = [
+    { key: 'day', kicker: 'Day pass', name: 'Day Pass', price: 180, unit: 'one day', desc: 'One weekday at any open desk, 8am to 5pm. Wi-Fi, power and coffee included.', type: 'pass' },
+    { key: 'flex5', kicker: 'Flex pass', name: '5-Day Flex Pass', price: 700, unit: 'any 5 days in 30', desc: 'Five weekdays, used whenever you like within 30 days of your first visit.', type: 'pass' },
+    { key: 'flex10', kicker: 'Flex pass', name: '10-Day Flex Pass', price: 1350, unit: 'any 10 days in 30', desc: 'Ten weekdays in 30 days, with the lowest per-day price of any pass.', type: 'pass', tag: 'Most flexible' },
+    { key: 'all', kicker: 'Monthly', name: 'All-Access Pass', price: 2650, unit: '/ month', desc: 'Unlimited weekdays, priority on pods and rooms, every event. Renews monthly.', type: 'pass', tag: 'Best value' },
+    { key: 'meeting', kicker: 'By the hour', name: 'Meeting Room', price: 250, unit: '/ hour', desc: 'Air-conditioned rooms with a screen, for 6 or 10 people.', type: 'hourly', tbc: true },
+    { key: 'pod', kicker: 'By the hour', name: 'Private Pod', price: 60, unit: '/ hour', desc: 'A quiet, closed pod for calls and deep focus. Seats one.', type: 'hourly', tbc: true }
+  ];
+  BOOKED = { 'meeting-A': [[9, 10.5], [14, 15]], 'meeting-B': [[11, 12], [15.5, 17]], pod: [[10, 11], [15.5, 16.5]] };
+
+  constructor(p) {
+    super(p);
+    const q = new URLSearchParams(location.search), t = new Date();
+    const plan = (q.get('plan') || '').toLowerCase(), space = (q.get('space') || '').toLowerCase(), room = (q.get('room') || 'A').toUpperCase(), time = q.get('time') || '';
+    let item = ['day', 'flex5', 'flex10', 'all'].includes(plan) ? plan : space === 'meeting' ? 'meeting' : space === 'pod' ? 'pod' : space === 'desk' ? 'day' : '';
+    let date = '';
+    if (time && item) { const d = new Date(t); while (d.getDay() === 0 || d.getDay() === 6) d.setDate(d.getDate() + 1); date = this.iso(d); }
+    this.state = {
+      megaOpen: false, mobileOpen: false, barOpen: false,
+      step: item ? 2 : 1, phase: 'idle', dir: 1, err1: false, err2: '',
+      item, room: ['A', 'B'].includes(room) ? room : 'A', cy: t.getFullYear(), cm: t.getMonth(), date, time: /^\d\d:\d\d$/.test(time) ? time : '', dur: 1,
+      fName: '', fPhone: '', fEmail: '', fCompany: '', fCompanyEmail: '', toCompany: false, errs: {}, member: false, loginOpen: false, loginEmail: '', loginPw: '', loginErr: false,
+      pay: 'momo', network: 'mtn', momoPhone: '', cardNo: '', cardExp: '', cardCvv: '', payErrs: {},
+      paying: false, countdown: 60, paid: false, paidVia: '', ref: ''
+    };
+  }
+  iso(d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+
+  componentDidMount() {
+    this.reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this._c = [];
+    const on = (t, e, f, o) => { t.addEventListener(e, f, o); this._c.push(() => t.removeEventListener(e, f, o)); };
+    let lastY = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY, h = this.headerRef.current, inner = this.headerInnerRef.current, logo = this.logoRef.current, bar = this.headerBarRef.current;
+      if (!h) return;
+      const shrink = y > 40;
+      if (inner) inner.style.padding = shrink ? '10px 28px' : '18px 28px';
+      if (logo) logo.style.height = shrink ? '34px' : '42px';
+      if (bar) bar.style.background = shrink ? 'rgba(43,45,66,.92)' : 'rgba(43,45,66,.78)';
+      h.style.transform = (y > lastY + 4 && y > 200 && !this.state.megaOpen) ? 'translateY(-100%)' : 'translateY(0)';
+      lastY = y;
+    };
+    on(window, 'scroll', onScroll, { passive: true }); onScroll();
+    on(document, 'click', (e) => {
+      const a = e.target.closest && e.target.closest('a[data-nav]');
+      if (!a || e.metaKey || e.ctrlKey || e.button !== 0) return;
+      e.preventDefault(); const href = a.getAttribute('href');
+      if (this.reduced) { location.href = href; return; }
+      const w = this.wipeRef.current; if (!w) { location.href = href; return; }
+      w.style.transition = 'transform .55s cubic-bezier(.7,0,.2,1)'; w.style.transform = 'translateX(0)';
+      setTimeout(() => { location.href = href; }, 600);
+    });
+    on(document, 'keydown', (e) => { if (e.key === 'Escape') this.setState({ megaOpen: false, mobileOpen: false, barOpen: false }); });
+  }
+  componentWillUnmount() { (this._c || []).forEach((f) => f()); clearInterval(this._tick); clearTimeout(this._done); document.body.style.overflow = ''; }
+  componentDidUpdate() { const mo = this.state.mobileOpen; if (this._lastMobile !== mo) { this._lastMobile = mo; document.body.style.overflow = mo ? 'hidden' : ''; } }
+
+  go(n) {
+    const s = this.state; if (n === s.step || s.phase !== 'idle') return;
+    const dir = n > s.step ? 1 : -1;
+    const finish = () => {
+      this.setState({ step: n, phase: 'in', dir, barOpen: false }, () => {
+        requestAnimationFrame(() => requestAnimationFrame(() => this.setState({ phase: 'idle' })));
+        const top = this.topRef.current; if (top) { const y = top.getBoundingClientRect().top + window.scrollY - 100; if (window.scrollY > y) window.scrollTo({ top: y, behavior: this.reduced ? 'auto' : 'smooth' }); }
+      });
+    };
+    if (this.reduced) { finish(); return; }
+    this.setState({ phase: 'out', dir }); setTimeout(finish, 220);
+  }
+  itemOf() { return this.ITEMS.find((i) => i.key === this.state.item); }
+  bookedFor() { const s = this.state; return this.BOOKED[s.item === 'meeting' ? 'meeting-' + s.room : 'pod'] || []; }
+  fits(start, dur) { const end = start + dur; if (end > 17) return false; return !this.bookedFor().some(([a, b]) => start < b && end > a); }
+  hourlyRate() { const it = this.itemOf(); if (!it || it.type !== 'hourly') return 0; return it.price; }
+  total() {
+    const it = this.itemOf(); if (!it) return { sub: 0, disc: 0, total: 0 };
+    const sub = it.type === 'hourly' ? it.price * this.state.dur : it.price;
+    const disc = (this.props.memberDiscount ?? true) && this.state.member && it.type === 'hourly' ? Math.round(sub * 0.15) : 0;
+    return { sub, disc, total: sub - disc };
+  }
+  validateDetails() {
+    const s = this.state, e = {};
+    if (s.fName.trim().length < 2) e.name = true;
+    const digits = s.fPhone.replace(/\D/g, ''); if (!(digits.length === 10 && digits[0] === '0') && !(digits.length === 12 && digits.startsWith('233')) && !(digits.length === 9)) e.phone = true;
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(s.fEmail.trim())) e.email = true;
+    if (s.toCompany && s.fCompany.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(s.fCompanyEmail.trim())) e.companyEmail = true;
+    return e;
+  }
+  luhn(n) { let sum = 0, alt = false; for (let i = n.length - 1; i >= 0; i--) { let d = parseInt(n[i], 10); if (alt) { d *= 2; if (d > 9) d -= 9; } sum += d; alt = !alt; } return n.length >= 13 && sum % 10 === 0; }
+  validatePay() {
+    const s = this.state, e = {};
+    if (s.pay === 'momo') { const d = s.momoPhone.replace(/\D/g, ''); if (!(d.length === 10 && d[0] === '0')) e.momo = true; }
+    if (s.pay === 'card') {
+      const n = s.cardNo.replace(/\s/g, ''); if (!/^\d+$/.test(n) || !this.luhn(n)) e.card = true;
+      const m = s.cardExp.match(/^(\d\d)\s*\/\s*(\d\d)$/); if (!m) e.exp = true; else { const mm = +m[1], yy = 2000 + +m[2], now = new Date(); if (mm < 1 || mm > 12 || yy < now.getFullYear() || (yy === now.getFullYear() && mm < now.getMonth() + 1)) e.exp = true; }
+      if (!/^\d{3}$/.test(s.cardCvv)) e.cvv = true;
+    }
+    return e;
+  }
+  startPay() {
+    const e = this.validatePay(); if (Object.keys(e).length) { this.setState({ payErrs: e }); return; }
+    const s = this.state;
+    const ref = 'HIVE-' + String(20000 + Math.floor(Math.random() * 70000));
+    if (s.pay === 'desk') { this.setState({ paid: false, paidVia: '', ref }, () => this.go(5)); return; }
+    const secs = s.pay === 'momo' ? 60 : 20;
+    this.setState({ paying: true, countdown: secs, payErrs: {} });
+    clearInterval(this._tick); clearTimeout(this._done);
+    this._tick = setInterval(() => this.setState((st) => ({ countdown: Math.max(0, st.countdown - 1) })), 1000);
+    const via = s.pay === 'momo' ? ({ mtn: 'MTN MoMo', telecel: 'Telecel Cash', at: 'AirtelTigo Money' }[s.network]) : 'card ending ' + s.cardNo.replace(/\s/g, '').slice(-4);
+    this._done = setTimeout(() => { clearInterval(this._tick); this.setState({ paying: false, paid: true, paidVia: via, ref }, () => this.go(5)); }, s.pay === 'momo' ? Math.max(2, parseInt(this.props.demoPaySeconds ?? 7, 10) || 7) * 1000 : 3000);
+  }
+  qr(ref) {
+    if (this._qr && this._qrRef === ref) return this._qr;
+    let seed = 7; for (const ch of ref) seed = (seed * 31 + ch.charCodeAt(0)) >>> 0;
+    const rnd = () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
+    const N = 25, cells = [];
+    const finder = (r, c) => { const inF = (i, j) => i >= r && i < r + 7 && j >= c && j < c + 7; return (i, j) => { if (!inF(i, j)) return null; const di = i - r, dj = j - c; const ring = di === 0 || di === 6 || dj === 0 || dj === 6; const core = di >= 2 && di <= 4 && dj >= 2 && dj <= 4; return ring || core; }; };
+    const fs = [finder(0, 0), finder(0, N - 7), finder(N - 7, 0)];
+    for (let i = 0; i < N; i++) for (let j = 0; j < N; j++) {
+      let v = null; for (const f of fs) { const r = f(i, j); if (r !== null) { v = r; break; } }
+      if (v === null && ((i < 8 && (j < 8 || j >= N - 8)) || (i >= N - 8 && j < 8))) v = false;
+      if (v === null && (i === 6 || j === 6)) v = (i + j) % 2 === 0;
+      if (v === null) v = rnd() < 0.48;
+      cells.push(v ? '#2B2D42' : '#FFFFFF');
+    }
+    this._qr = cells; this._qrRef = ref; return cells;
+  }
+  confettiBits() {
+    if (this._conf) return this._conf;
+    const colors = ['#D49516', '#9B6A6C', '#2B2D42', '#E5B45A', '#F2D79A'];
+    this._conf = Array.from({ length: 42 }, (_, i) => ({ left: (Math.random() * 100).toFixed(1) + '%', w: (6 + Math.random() * 6).toFixed(0) + 'px', h: (8 + Math.random() * 10).toFixed(0) + 'px', color: colors[i % colors.length], radius: i % 3 === 0 ? '50%' : '2px', dx: ((Math.random() - 0.5) * 160).toFixed(0) + 'px', dur: (2.2 + Math.random() * 1.6).toFixed(2) + 's', delay: (Math.random() * 0.8).toFixed(2) + 's' }));
+    return this._conf;
+  }
+
+  renderVals() {
+    const s = this.state, fmt = (n) => 'GHS ' + n.toLocaleString('en-GB');
+    const it = this.itemOf(), isPass = !!it && it.type === 'pass', isHourly = !!it && it.type === 'hourly', isMeeting = s.item === 'meeting';
+    const v = {
+      megaOpen: s.megaOpen, megaClosed: !s.megaOpen, megaOp: s.megaOpen ? 1 : 0, megaY: s.megaOpen ? 0 : -12, megaPe: s.megaOpen ? 'auto' : 'none',
+      mobileClosed: !s.mobileOpen, mobOp: s.mobileOpen ? 1 : 0, mobPe: s.mobileOpen ? 'auto' : 'none', mobY: s.mobileOpen ? 0 : -20,
+      openMega: () => !s.megaOpen && this.setState({ megaOpen: true }), closeMega: () => s.megaOpen && this.setState({ megaOpen: false }), toggleMega: () => this.setState({ megaOpen: !s.megaOpen }),
+      openMobile: () => this.setState({ mobileOpen: true }), closeMobile: () => this.setState({ mobileOpen: false }),
+      wipeRef: this.wipeRef, headerRef: this.headerRef, headerBarRef: this.headerBarRef, headerInnerRef: this.headerInnerRef, logoRef: this.logoRef, topRef: this.topRef,
+      step: s.step, stepTitle: ['What do you need?', 'When?', 'Your details', 'Payment', 'Confirmed'][s.step - 1],
+      isStep1: s.step === 1, isStep2: s.step === 2, isStep3: s.step === 3, isStep4: s.step === 4, isStep5: s.step === 5,
+      panelOp: s.phase === 'idle' ? 1 : 0, panelX: s.phase === 'out' ? -32 * s.dir : s.phase === 'in' ? 32 * s.dir : 0, panelTr: s.phase === 'in' ? 'none' : 'opacity .22s ease,transform .3s cubic-bezier(.2,.7,.2,1)',
+      isPass, isHourly, isMeeting, err1: s.err1
+    };
+    const labels = ['What do you need?', 'When?', 'Your details', 'Payment', 'Confirmed'];
+    v.steps = labels.map((label, i) => { const n = i + 1, done = n < s.step, cur = n === s.step, locked = !done || s.step === 5; return { n, label, done, notDone: !done, current: cur ? 'step' : false, bg: done ? '#2B2D42' : cur ? '#D49516' : '#E6E6EA', fg: done ? '#F5F5F5' : cur ? '#2B2D42' : '#8A8C9C', labelFg: cur || done ? '#2B2D42' : '#8A8C9C', hasLine: n < 5, lineBg: done ? '#2B2D42' : '#E6E6EA', flex: n < 5 ? '1 1 0%' : '0 0 auto', locked, cursor: locked ? 'default' : 'pointer', go: () => !locked && this.go(n) }; });
+
+    // Step 1
+    v.items = this.ITEMS.map((o) => { const sel = s.item === o.key, dark = sel; return { ...o, selected: sel, hasTag: !!o.tag, tag: o.tag || '', tbc: !!o.tbc, priceText: fmt(o.price), bg: dark ? '#2B2D42' : '#FFFFFF', fg: dark ? '#F5F5F5' : '#2B2D42', border: sel ? '#2B2D42' : '#E6E6EA', eyebrow: dark ? '#D49516' : '#9B6A6C', sub: dark ? '#B9BAC6' : '#5A5C72', shadow: sel ? '0 2px 4px rgba(43,45,66,.06),0 16px 36px rgba(43,45,66,.16)' : '0 1px 2px rgba(43,45,66,.06),0 8px 24px rgba(43,45,66,.06)', radioBorder: sel ? '#D49516' : '#D5D5DC', radioBg: sel ? '#D49516' : '#FFFFFF', radioDisplay: 'grid', dotOp: sel ? 1 : 0, tbcFg: dark ? '#2B2D42' : '#9B6A6C', tbcBg: dark ? '#D49516' : 'rgba(155,106,108,.12)', pick: () => this.setState({ item: o.key, err1: false, err2: '', time: '', dur: 1 }) }; });
+
+    // Step 2
+    const today = new Date(); today.setHours(0, 0, 0, 0); const now = new Date();
+    const first = new Date(s.cy, s.cm, 1), startIdx = (first.getDay() + 6) % 7, dim = new Date(s.cy, s.cm + 1, 0).getDate();
+    v.monthLabel = first.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
+    v.prevLocked = s.cy === today.getFullYear() && s.cm === today.getMonth(); v.prevOp = v.prevLocked ? 0.4 : 1;
+    v.prevMonth = () => { if (v.prevLocked) return; const m = s.cm - 1; this.setState(m < 0 ? { cy: s.cy - 1, cm: 11 } : { cm: m }); };
+    v.nextMonth = () => { const m = s.cm + 1; this.setState(m > 11 ? { cy: s.cy + 1, cm: 0 } : { cm: m }); };
+    const days = [];
+    for (let i = 0; i < startIdx; i++) days.push({ label: '', disabled: true, selected: false, aria: 'empty', bg: 'transparent', fg: 'transparent', cursor: 'default', ring: 'none', tdec: 'none', op: 0, pick: () => {} });
+    for (let d = 1; d <= dim; d++) {
+      const dt = new Date(s.cy, s.cm, d), isoD = this.iso(dt), wk = dt.getDay() === 0 || dt.getDay() === 6, past = dt < today, dis = wk || past, sel = s.date === isoD, isToday = dt.getTime() === today.getTime();
+      days.push({ label: d, disabled: dis, selected: sel, aria: dt.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long' }) + (wk ? ', closed' : past ? ', past' : ''), bg: sel ? '#2B2D42' : wk ? '#F0F0F2' : 'transparent', fg: sel ? '#F5F5F5' : dis ? '#B9BAC6' : '#2B2D42', cursor: dis ? 'not-allowed' : 'pointer', ring: isToday && !sel ? 'inset 0 0 0 1.5px #D49516' : 'none', tdec: wk ? 'line-through' : 'none', op: 1, pick: () => { if (!dis) this.setState({ date: isoD, time: '', err2: '' }); } });
+    }
+    v.days = days;
+    const selDate = s.date ? new Date(s.date + 'T00:00:00') : null, selIsToday = selDate && selDate.getTime() === today.getTime();
+    const dateLong = selDate ? selDate.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }) : '';
+    const dateShort = selDate ? selDate.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' }) : '';
+    v.dateShort = dateShort; v.hasDate = !!s.date; v.noDate = !s.date;
+    v.dateLabelOrHint = s.date ? dateLong : 'Pick a weekday on the calendar';
+    v.passNote = it ? ({ day: 'Valid for the day you pick, 8am to 5pm.', flex5: 'Your 30-day window starts on this date.', flex10: 'Your 30-day window starts on this date.', all: 'Billed monthly from this date. Pause or stop before the next month.' }[it.key] || '') : '';
+    v.whenCols = isPass ? 'minmax(0,1.2fr) minmax(0,1fr)' : 'minmax(0,1fr) minmax(0,1fr)';
+    v.rooms = [{ key: 'A', name: 'Room A', detail: 'Seats 6 · screen, whiteboard' }, { key: 'B', name: 'Room B', detail: 'Seats 10 · screen, video call kit' }].map((r) => { const sel = s.room === r.key; return { ...r, selected: sel, rate: 'GHS 250/hr', bg: sel ? '#2B2D42' : '#FFFFFF', fg: sel ? '#F5F5F5' : '#2B2D42', sub: sel ? '#B9BAC6' : '#5A5C72', border: sel ? '#2B2D42' : '#E6E6EA', pick: () => this.setState({ room: r.key, time: '', err2: '' }) }; });
+    const toNum = (t) => { const [h, m] = t.split(':').map(Number); return h + m / 60; }, toT = (n) => String(Math.floor(n)).padStart(2, '0') + ':' + (n % 1 ? '30' : '00');
+    const nowNum = now.getHours() + now.getMinutes() / 60;
+    const slots = [];
+    for (let h = 8; h < 17; h += 0.5) {
+      const label = toT(h), booked = this.bookedFor().some(([a, b]) => h >= a && h < b), passed = selIsToday && h <= nowNum, cant = !this.fits(h, 1), dis = booked || passed || cant, sel = s.time === label;
+      const startN = s.time ? toNum(s.time) : -1, inRange = startN >= 0 && h > startN && h < startN + s.dur;
+      slots.push({ label, selected: sel, disabled: dis, aria: label + (booked ? ', booked' : passed ? ', passed' : cant ? ', too late to start' : ''), bg: sel ? '#2B2D42' : inRange ? '#F2D79A' : booked ? '#E6E6EA' : dis ? '#F5F5F5' : '#FFFFFF', fg: sel ? '#F5F5F5' : booked ? '#8A8C9C' : dis ? '#B9BAC6' : '#2B2D42', border: sel ? '#2B2D42' : inRange ? '#E5B45A' : booked ? '#E6E6EA' : '#E6E6EA', cursor: dis ? 'not-allowed' : 'pointer', tdec: booked ? 'line-through' : 'none', pick: () => { if (dis) return; let dur = s.dur; while (dur > 1 && !this.fits(h, dur)) dur--; this.setState({ time: label, dur, err2: '' }); } });
+    }
+    v.slots = slots;
+    const startN = s.time ? toNum(s.time) : -1;
+    v.durs = [1, 2, 3].map((d) => { const dis = startN < 0 ? false : !this.fits(startN, d), sel = s.dur === d; return { label: d + (d === 1 ? ' hour' : ' hours'), selected: sel, disabled: dis, bg: sel ? '#2B2D42' : dis ? '#F5F5F5' : '#FFFFFF', fg: sel ? '#F5F5F5' : dis ? '#B9BAC6' : '#2B2D42', border: sel ? '#2B2D42' : '#E6E6EA', cursor: dis ? 'not-allowed' : 'pointer', pick: () => !dis && this.setState({ dur: d }) }; });
+    const rate = this.hourlyRate(), tot = this.total();
+    v.hourlyBreakdown = (s.time ? s.time + '–' + toT(startN + s.dur) + ' · ' : 'Pick a start time · ') + s.dur + (s.dur === 1 ? ' hour' : ' hours') + ' × GHS ' + rate + ' [TBC]';
+    v.hourlyTotal = fmt(rate * s.dur);
+    v.err2 = !!s.err2; v.err2Text = s.err2;
+
+    // Step 3
+    const e = s.errs;
+    Object.assign(v, { fName: s.fName, fPhone: s.fPhone, fEmail: s.fEmail, fCompany: s.fCompany, fCompanyEmail: s.fCompanyEmail, toCompany: s.toCompany, hasCompany: !!s.fCompany.trim() && s.toCompany, noCompany: !s.fCompany.trim(), toCompanyOp: s.fCompany.trim() ? 1 : 0.5,
+      eName: !!e.name, ePhone: !!e.phone, eEmail: !!e.email, eCompanyEmail: !!e.companyEmail, bName: e.name ? '#9B6A6C' : '#E6E6EA', bPhone: e.phone ? '#9B6A6C' : '#E6E6EA', bEmail: e.email ? '#9B6A6C' : '#E6E6EA', bCompanyEmail: e.companyEmail ? '#9B6A6C' : '#E6E6EA',
+      isMember: s.member, notMember: !s.member, memberFirst: s.fName.split(' ')[0] || 'member', loginOpen: s.loginOpen, loginEmail: s.loginEmail, loginPw: s.loginPw, loginErr: s.loginErr,
+      toggleLogin: () => this.setState({ loginOpen: !s.loginOpen, loginErr: false }), setLoginEmail: (ev) => this.setState({ loginEmail: ev.target.value, loginErr: false }), setLoginPw: (ev) => this.setState({ loginPw: ev.target.value, loginErr: false }),
+      doLogin: (ev) => { ev.preventDefault(); if (!s.loginEmail.trim() || !s.loginPw) return this.setState({ loginErr: true }); this.setState({ member: true, loginOpen: false, fName: 'Ama Mensah', fPhone: '024 455 7890', fEmail: s.loginEmail.trim(), fCompany: 'Mensah & Co. Consulting', fCompanyEmail: 'accounts@mensahco.com', toCompany: true, errs: {} }); },
+      logout: () => this.setState({ member: false, fName: '', fPhone: '', fEmail: '', fCompany: '', fCompanyEmail: '', toCompany: false }),
+      setFName: (ev) => this.setState({ fName: ev.target.value, errs: { ...e, name: false } }), setFPhone: (ev) => this.setState({ fPhone: ev.target.value, errs: { ...e, phone: false } }), setFEmail: (ev) => this.setState({ fEmail: ev.target.value, errs: { ...e, email: false } }),
+      setFCompany: (ev) => this.setState({ fCompany: ev.target.value, toCompany: ev.target.value.trim() ? s.toCompany : false }), setFCompanyEmail: (ev) => this.setState({ fCompanyEmail: ev.target.value, errs: { ...e, companyEmail: false } }), setToCompany: (ev) => this.setState({ toCompany: ev.target.checked }) });
+
+    // Step 4
+    const pe = s.payErrs, netName = { mtn: 'MTN MoMo', telecel: 'Telecel Cash', at: 'AirtelTigo Money' }[s.network];
+    v.totalText = fmt(tot.total); v.hasDiscount = tot.disc > 0; v.discountText = fmt(tot.disc);
+    v.orderRows = [{ label: it ? it.name + (isMeeting ? ' · Room ' + s.room : '') : 'Space', value: it ? fmt(tot.sub) : '—' }];
+    if (isHourly) v.orderRows.push({ label: 'Time', value: (s.date ? dateShort + ' · ' : '') + s.time + '–' + toT(startN + s.dur) + ' (' + s.dur + (s.dur === 1 ? ' hr' : ' hrs') + ')' }); else v.orderRows.push({ label: it && it.key === 'day' ? 'Date' : 'Starts', value: dateShort || '—' });
+    if (tot.disc) v.orderRows.push({ label: 'Member rate (15%)', value: '− ' + fmt(tot.disc) });
+    v.payTabs = [{ key: 'momo', label: 'Mobile Money', sub: 'MTN · Telecel · AT' }, { key: 'card', label: 'Card', sub: 'Visa · Mastercard' }, { key: 'desk', label: 'Front desk', sub: 'Pay on arrival' }].map((t) => { const sel = s.pay === t.key; return { ...t, selected: sel, bg: sel ? '#FFFFFF' : '#F5F5F5', fg: sel ? '#2B2D42' : '#5A5C72', line: sel ? '#D49516' : 'transparent', pick: () => this.setState({ pay: t.key, payErrs: {} }) }; });
+    v.payMomo = s.pay === 'momo'; v.payCard = s.pay === 'card'; v.payDesk = s.pay === 'desk';
+    v.networks = [{ key: 'mtn', name: 'MTN MoMo', logo: 'MTN', logoBg: '#FFCC00', logoFg: '#1D1D1B', logoSize: '10px' }, { key: 'telecel', name: 'Telecel Cash', logo: 'T', logoBg: '#E60000', logoFg: '#FFFFFF', logoSize: '16px' }, { key: 'at', name: 'AirtelTigo Money', logo: 'AT', logoBg: 'linear-gradient(135deg,#ED1C24 50%,#0033A0 50%)', logoFg: '#FFFFFF', logoSize: '11px' }].map((n) => { const sel = s.network === n.key; return { ...n, selected: sel, bg: sel ? 'rgba(212,149,22,.12)' : '#FFFFFF', border: sel ? '#D49516' : '#E6E6EA', pick: () => this.setState({ network: n.key }) }; });
+    v.networkName = netName; v.momoPlaceholder = { mtn: '024 000 0000', telecel: '020 000 0000', at: '027 000 0000' }[s.network];
+    v.momoPhone = s.momoPhone; v.eMomo = !!pe.momo; v.bMomo = pe.momo ? '#9B6A6C' : '#E6E6EA'; v.momoSame = !!s.fPhone && s.momoPhone !== s.fPhone;
+    v.setMomoPhone = (ev) => this.setState({ momoPhone: ev.target.value.replace(/[^\d\s+]/g, '').slice(0, 15), payErrs: { ...pe, momo: false } }); v.useMyPhone = () => this.setState({ momoPhone: s.fPhone, payErrs: { ...pe, momo: false } });
+    const digits = s.cardNo.replace(/\D/g, ''), brand = /^4/.test(digits) ? 'visa' : /^(5[1-5]|2[2-7])/.test(digits) ? 'mc' : '';
+    v.cardNo = s.cardNo; v.cardExp = s.cardExp; v.cardCvv = s.cardCvv; v.cvvMax = 3; v.brandLabel = brand === 'visa' ? 'VISA' : brand === 'mc' ? 'MC' : 'CARD'; v.brandBg = brand === 'visa' ? '#1A1F71' : brand === 'mc' ? '#EB001B' : '#B9BAC6';
+    v.eCard = !!pe.card; v.eExp = !!pe.exp; v.eCvv = !!pe.cvv; v.bCard = pe.card ? '#9B6A6C' : '#E6E6EA'; v.bExp = pe.exp ? '#9B6A6C' : '#E6E6EA'; v.bCvv = pe.cvv ? '#9B6A6C' : '#E6E6EA';
+    v.setCardNo = (ev) => { const d = ev.target.value.replace(/\D/g, '').slice(0, 19); this.setState({ cardNo: d.replace(/(\d{4})(?=\d)/g, '$1 '), payErrs: { ...pe, card: false } }); };
+    v.setCardExp = (ev) => { let d = ev.target.value.replace(/\D/g, '').slice(0, 4); if (d.length === 1 && +d > 1) d = '0' + d; this.setState({ cardExp: d.length > 2 ? d.slice(0, 2) + ' / ' + d.slice(2) : d, payErrs: { ...pe, exp: false } }); };
+    v.setCardCvv = (ev) => this.setState({ cardCvv: ev.target.value.replace(/\D/g, '').slice(0, 3), payErrs: { ...pe, cvv: false } });
+    v.deskHoldNote = isHourly ? 'Hourly bookings are held for 15 minutes past the start time.' : 'Day and flex passes are held until noon on the start date.';
+    v.paying = s.paying; v.notPaying = !s.paying;
+    v.payingTitle = s.pay === 'momo' ? 'Approve the payment prompt on your phone' : 'Checking with your bank…';
+    v.payingSub = s.pay === 'momo' ? 'We sent a ' + netName + ' request for ' + fmt(tot.total) + ' to ' + s.momoPhone + '. Enter your PIN to approve it.' : 'Verifying your card for ' + fmt(tot.total) + '. This takes a few seconds.';
+    v.countdownText = Math.floor(s.countdown / 60) + ':' + String(s.countdown % 60).padStart(2, '0');
+    v.cancelPay = () => { clearInterval(this._tick); clearTimeout(this._done); this.setState({ paying: false }); };
+    v.resendPrompt = () => this.setState({ countdown: 60 });
+
+    // Step 5
+    const ref = s.ref || 'HIVE-24817';
+    v.bookingRef = ref; v.unpaid = s.step === 5 && !s.paid; v.isPaid = s.paid; v.paidVia = s.paidVia;
+    v.firstNameSuffix = s.fName.trim() ? ', ' + s.fName.trim().split(/\s+/)[0] + '.' : '.';
+    v.confirmLine = it ? (isHourly ? it.name + (isMeeting ? ' · Room ' + s.room : '') + ' on ' + dateLong + ', ' + s.time + ' to ' + toT(startN + s.dur) + '.' : it.name + (it.key === 'day' ? ' for ' : ' starting ') + dateLong + '. Check in from 8am at the front desk.') : '';
+    v.receiptTo = s.toCompany && s.fCompanyEmail ? s.fEmail + ' and ' + s.fCompanyEmail : s.fEmail || 'your email';
+    v.qrCells = s.step === 5 ? this.qr(ref) : []; v.confetti = s.step === 5 && !this.reduced ? this.confettiBits() : [];
+    const icsDate = (s.date || this.iso(new Date())).replace(/-/g, ''), st = isHourly && s.time ? s.time.replace(':', '') + '00' : '080000', en = isHourly && s.time ? toT(startN + s.dur).replace(':', '') + '00' : '170000';
+    const ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//The Hive//Booking//EN', 'BEGIN:VEVENT', 'UID:' + ref + '@thehivegh.com', 'DTSTART:' + icsDate + 'T' + st, 'DTEND:' + icsDate + 'T' + en, 'SUMMARY:The Hive · ' + (it ? it.name : 'Booking') + ' (' + ref + ')', 'LOCATION:The Hive, ICGC Christ Temple East, Teshie Rasta Rd, Tse Addo, Accra', 'DESCRIPTION:Show your QR code at the front desk to check in.', 'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
+    v.icsHref = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics); v.icsName = ref + '.ics';
+    v.bookAnother = () => { clearInterval(this._tick); this.setState({ item: '', date: '', time: '', dur: 1, paid: false, paidVia: '', ref: '', payErrs: {}, momoPhone: '', cardNo: '', cardExp: '', cardCvv: '' }, () => this.go(1)); };
+
+    // Summary
+    v.sumTitle = it ? it.name + (isMeeting ? ' · Room ' + s.room : '') : 'Nothing picked yet';
+    v.sumSub = it ? (isHourly ? 'GHS ' + it.price + ' per hour [TBC]' : it.unit === '/ month' ? fmt(it.price) + ' per month' : fmt(it.price) + ' · ' + it.unit) : 'Choose a pass, room or pod to start.';
+    const rows = [];
+    const edit = (n) => () => s.step < 5 && this.go(n);
+    rows.push({ label: 'Space', value: it ? it.name : '—', fg: it ? '#F5F5F5' : '#8A8C9C', editable: !!it && s.step > 1 && s.step < 5, edit: edit(1) });
+    rows.push({ label: isHourly ? 'Date' : it && it.key === 'day' ? 'Date' : 'Start date', value: dateShort || '—', fg: dateShort ? '#F5F5F5' : '#8A8C9C', editable: !!s.date && s.step > 2 && s.step < 5, edit: edit(2) });
+    if (isHourly) rows.push({ label: 'Time', value: s.time ? s.time + '–' + toT(startN + s.dur) : '—', fg: s.time ? '#F5F5F5' : '#8A8C9C', editable: !!s.time && s.step > 2 && s.step < 5, edit: edit(2) });
+    if (s.step >= 3) rows.push({ label: 'Booked by', value: s.fName.trim() || '—', fg: s.fName.trim() ? '#F5F5F5' : '#8A8C9C', editable: !!s.fName.trim() && s.step > 3 && s.step < 5, edit: edit(3) });
+    if (s.step >= 4) rows.push({ label: 'Payment', value: s.step === 5 ? (s.paid ? 'Paid · ' + s.paidVia : 'Unpaid · front desk') : { momo: netName, card: 'Card', desk: 'At the front desk' }[s.pay], fg: '#F5F5F5', editable: false, edit: () => {} });
+    v.sumRows = rows;
+    v.totalNote = it ? (isHourly ? 'Hourly rates are indicative until confirmed [TBC].' : 'Taxes and levies included. No extras at the door.') : 'Total updates as you choose.';
+    v.barOpen = s.barOpen; v.barH = s.barOpen ? '320px' : '0px'; v.barChev = s.barOpen ? 'rotate(225deg)' : 'rotate(45deg)'; v.barY = s.step === 5 ? 200 : 0; v.toggleBar = () => this.setState({ barOpen: !s.barOpen });
+
+    // Nav
+    v.showNav = s.step < 5 && !s.paying; v.canBack = s.step > 1; v.noBack = s.step === 1; v.goBack = () => this.go(s.step - 1);
+    const payLabel = s.pay === 'desk' ? 'Reserve, pay at the desk' : 'Pay ' + fmt(tot.total);
+    v.nextLabel = ['Continue', 'Continue', 'Continue to payment', payLabel][s.step - 1] || 'Continue';
+    v.nextBg = s.step === 4 ? '#D49516' : '#9B6A6C'; v.nextFg = s.step === 4 ? '#2B2D42' : '#FFFFFF'; v.nextHover = s.step === 4 ? '#E5B45A' : '#7E5456';
+    v.goNext = () => {
+      if (s.step === 1) { if (!it) return this.setState({ err1: true }); return this.go(2); }
+      if (s.step === 2) { if (!s.date) return this.setState({ err2: isPass ? 'Pick a start date to continue.' : 'Pick a date to continue.' }); if (isHourly && !s.time) return this.setState({ err2: 'Pick a start time to continue.' }); return this.go(3); }
+      if (s.step === 3) { const er = this.validateDetails(); if (Object.keys(er).length) return this.setState({ errs: er }); return this.go(4); }
+      if (s.step === 4) this.startPay();
+    };
+    return v;
+  }
+}
+</script>

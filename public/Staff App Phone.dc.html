@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@500;700&family=Pontano+Sans:wght@400;700&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;padding:0;color:#2B2D42;font-family:'Pontano Sans',sans-serif;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+a{color:#2B2D42;text-decoration:none}a:hover{color:#9B6A6C}
+button,input,textarea{font:inherit}
+:focus-visible{outline:3px solid #D49516;outline-offset:2px}
+input::placeholder,textarea::placeholder{color:#8A8C9C}
+@keyframes hive-pop{0%{transform:scale(.3);opacity:0}70%{transform:scale(1.08);opacity:1}100%{transform:scale(1)}}
+@keyframes hive-tick{from{opacity:0;transform:translateY(-4px) rotate(45deg) scale(.3)}to{opacity:1;transform:translateY(-4px) rotate(45deg) scale(1)}}
+@keyframes hive-rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes hive-scan{0%,100%{top:24%}50%{top:68%}}
+*::-webkit-scrollbar{display:none}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.001s!important;transition-duration:.001s!important}}
+</style>
+</helmet>
+
+<div style="width:390px;height:844px;border-radius:52px;background:#1E2030;padding:10px;box-shadow:0 30px 70px rgba(43,45,66,.28),0 2px 6px rgba(43,45,66,.2)">
+<div style="position:relative;width:100%;height:100%;border-radius:42px;overflow:hidden;background:#F5F5F5;display:flex;flex-direction:column">
+
+  <!-- status bar -->
+  <div style="flex:none;height:44px;padding:0 26px;display:flex;align-items:center;justify-content:space-between;font-weight:700;font-size:15px;background:#FFFFFF">
+    <span>9:41</span>
+    <span style="width:96px;height:26px;border-radius:14px;background:#1E2030"></span>
+    <span style="display:flex;gap:4px;align-items:center"><span style="width:18px;height:10px;border:1.5px solid #2B2D42;border-radius:3px;position:relative"><span style="position:absolute;inset:1px 4px 1px 1px;background:#2B2D42;border-radius:1px"></span></span></span>
+  </div>
+  <div style="flex:none;background:#FBF1DC;color:#2B2D42;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-align:center;padding:5px 0;border-bottom:1px solid #F2D79A">Sample data · not real guests</div>
+
+  <!-- content -->
+  <div ref="{{ scrollRef }}" style="flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;scrollbar-width:none;overscroll-behavior:contain">
+
+    <!-- TODAY -->
+    <sc-if value="{{ isToday }}" hint-placeholder-val="{{ true }}">
+      <div data-screen-label="Today" style="padding:20px 20px 28px;display:flex;flex-direction:column;gap:20px">
+        <div>
+          <div style="font-size:16px;color:#5A5C72">Friday 23 October</div>
+          <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:30px;letter-spacing:-.02em;line-height:1.1">Good morning, Doreen</div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px">
+          <div style="background:#2B2D42;color:#F5F5F5;border-radius:16px;padding:14px 12px 12px;display:flex;flex-direction:column;gap:4px"><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:40px;line-height:1;letter-spacing:-.03em">{{ dE }}</div><div style="font-size:14px;font-weight:700;line-height:1.2">Expected today</div></div>
+          <div style="background:#D49516;color:#2B2D42;border-radius:16px;padding:14px 12px 12px;display:flex;flex-direction:column;gap:4px"><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:40px;line-height:1;letter-spacing:-.03em">{{ dC }}</div><div style="font-size:14px;font-weight:700;line-height:1.2">Checked in</div></div>
+          <div style="background:#FFFFFF;color:#2B2D42;border-radius:16px;padding:14px 12px 12px;display:flex;flex-direction:column;gap:4px;border:2px solid #D7BDBE"><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:40px;line-height:1;letter-spacing:-.03em;color:#7E5456">{{ dU }}</div><div style="font-size:14px;font-weight:700;line-height:1.2">Unpaid</div></div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;justify-content:space-between;align-items:baseline"><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:20px;letter-spacing:-.02em">Arrivals</div><div style="font-size:14px;color:#5A5C72">Tap a name</div></div>
+          <sc-for list="{{ todayList }}" as="p" hint-placeholder-count="6">
+            <button type="button" onClick="{{ p.open }}" style="display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:#FFFFFF;border:0;border-radius:14px;padding:12px 14px;min-height:68px;cursor:pointer;box-shadow:0 1px 2px rgba(43,45,66,.06);transition:transform .1s ease" style-active="transform:scale(.98)">
+              <span style="flex:none;width:40px;height:44px;background:#FBF1DC;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);display:grid;place-items:center;font-weight:700;font-size:14px">{{ p.initials }}</span>
+              <span style="flex:1;min-width:0;display:flex;flex-direction:column"><span style="font-weight:700;font-size:17px;color:#2B2D42">{{ p.name }}</span><span style="font-size:14px;color:#5A5C72;line-height:1.3">{{ p.booking }}</span></span>
+              <span style="flex:none;font-size:13px;font-weight:700;padding:6px 10px;border-radius:999px;background:{{ p.chipBg }};color:{{ p.chipFg }}">{{ p.chip }}</span>
+            </button>
+          </sc-for>
+        </div>
+
+        <div style="background:#FFFFFF;border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:14px;border-top:4px solid #D49516">
+          <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:20px;letter-spacing:-.02em">Needs your attention</div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <span style="flex:none;width:12px;height:14px;background:#D49516;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span>
+            <span style="flex:1;font-size:17px">2 renewals due this week</span>
+            <button type="button" onClick="{{ goFollow }}" style="flex:none;height:44px;padding:0 16px;border-radius:12px;border:1.5px solid #2B2D42;background:transparent;color:#2B2D42;font-weight:700;font-size:15px;cursor:pointer;transition:transform .1s" style-active="transform:scale(.96)">Remind</button>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px">
+            <span style="flex:none;width:12px;height:14px;background:#D49516;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span>
+            <span style="flex:1;font-size:17px">Coffee running low</span>
+            <button type="button" onClick="{{ goCheck }}" style="flex:none;height:44px;padding:0 16px;border-radius:12px;border:1.5px solid #2B2D42;background:transparent;color:#2B2D42;font-weight:700;font-size:15px;cursor:pointer;transition:transform .1s" style-active="transform:scale(.96)">See stock</button>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- CHECK IN -->
+    <sc-if value="{{ isCheckin }}" hint-placeholder-val="{{ false }}">
+      <div data-screen-label="Check in" style="padding:20px 20px 28px;display:flex;flex-direction:column;gap:16px">
+        <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:30px;letter-spacing:-.02em;line-height:1.1">Check in a guest</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;background:#E6E6EA;padding:5px;border-radius:14px">
+          <button type="button" onClick="{{ modeScan }}" style="height:48px;border:0;border-radius:10px;font-weight:700;font-size:16px;cursor:pointer;background:{{ scanTabBg }};color:#2B2D42;transition:background .15s">Scan QR code</button>
+          <button type="button" onClick="{{ modeSearch }}" style="height:48px;border:0;border-radius:10px;font-weight:700;font-size:16px;cursor:pointer;background:{{ searchTabBg }};color:#2B2D42;transition:background .15s">Search name</button>
+        </div>
+
+        <sc-if value="{{ showScanIdle }}" hint-placeholder-val="{{ true }}">
+          <button type="button" onClick="{{ doScan }}" aria-label="Tap to scan" style="position:relative;width:100%;aspect-ratio:1/1.05;border:0;border-radius:20px;overflow:hidden;cursor:pointer;background:#1E2030;background-image:repeating-linear-gradient(135deg,rgba(255,255,255,.035) 0 12px,transparent 12px 24px);padding:0">
+            <span style="position:absolute;left:14px;top:12px;font-family:ui-monospace,Menlo,monospace;font-size:12px;color:#8A8C9C">camera view</span>
+            <svg viewBox="0 0 100 110" style="position:absolute;left:50%;top:46%;width:52%;transform:translate(-50%,-50%)"><polygon points="50,3 95,28 95,82 50,107 5,82 5,28" fill="none" stroke="#D49516" stroke-width="2.5" stroke-linejoin="round"></polygon></svg>
+            <span style="position:absolute;left:22%;right:22%;height:3px;border-radius:2px;background:#D49516;box-shadow:0 0 14px #D49516;animation:hive-scan 2.2s ease-in-out infinite;opacity:{{ scanLineOp }}"></span>
+            <span style="position:absolute;left:0;right:0;bottom:16px;text-align:center;color:#F5F5F5;font-size:16px;font-weight:700">{{ scanHint }}</span>
+          </button>
+          <button type="button" onClick="{{ doScan }}" style="width:100%;height:64px;border:0;border-radius:14px;background:#9B6A6C;color:#FFFFFF;font-weight:700;font-size:20px;cursor:pointer;transition:transform .1s,background .2s" style-hover="background:#7E5456" style-active="transform:scale(.97)">{{ scanBtn }}</button>
+          <div style="font-size:15px;color:#5A5C72;text-align:center">Point the camera at the QR code in the guest’s booking email.</div>
+        </sc-if>
+
+        <sc-if value="{{ showScanDone }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#FFFFFF;border-radius:20px;padding:32px 20px 22px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center">
+            <div style="width:96px;height:96px;border-radius:50%;background:#2E9E5B;display:grid;place-items:center;animation:hive-pop .35s cubic-bezier(.2,.7,.2,1) both"><div style="width:22px;height:42px;border-right:7px solid #FFFFFF;border-bottom:7px solid #FFFFFF;animation:hive-tick .22s .15s ease-out both"></div></div>
+            <div style="font-size:15px;font-weight:700;color:#1F6B3E;letter-spacing:.08em;text-transform:uppercase">Checked in</div>
+            <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:28px;letter-spacing:-.02em;line-height:1.1">{{ scanRes.name }}</div>
+            <div style="font-size:16px;color:#5A5C72">{{ scanRes.plan }}</div>
+            <sc-if value="{{ scanRes.hasDays }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex;flex-direction:column;gap:10px;align-items:center;animation:hive-rise .3s .2s both">
+                <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:24px;letter-spacing:-.02em">{{ scanRes.line }}</div>
+                <div style="display:flex;gap:5px">
+                  <sc-for list="{{ scanRes.dots }}" as="d" hint-placeholder-count="10"><span style="width:18px;height:20px;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);background:{{ d.bg }}"></span></sc-for>
+                </div>
+              </div>
+            </sc-if>
+            <button type="button" onClick="{{ scanReset }}" style="width:100%;height:64px;margin-top:10px;border:0;border-radius:14px;background:#2B2D42;color:#FFFFFF;font-weight:700;font-size:20px;cursor:pointer;transition:transform .1s" style-active="transform:scale(.97)">Done</button>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ showSearch }}" hint-placeholder-val="{{ false }}">
+          <input type="search" value="{{ q }}" onChange="{{ setQ }}" placeholder="Type a name or phone number" style="width:100%;height:60px;border:1.5px solid #D9DAE0;border-radius:14px;padding:0 18px;font-size:18px;color:#2B2D42;background:#FFFFFF;outline:none" style-focus="border-color:#D49516;box-shadow:0 0 0 4px rgba(212,149,22,.2)">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <sc-for list="{{ results }}" as="r" hint-placeholder-count="4">
+              <div style="background:#FFFFFF;border-radius:14px;padding:14px;display:flex;align-items:center;gap:12px">
+                <div style="flex:1;min-width:0"><div style="font-weight:700;font-size:17px">{{ r.name }}</div><div style="font-size:14px;color:#5A5C72;line-height:1.3">{{ r.phone }} · {{ r.booking }}</div></div>
+                <sc-if value="{{ r.canCheck }}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{ r.check }}" style="flex:none;height:52px;padding:0 18px;border:0;border-radius:12px;background:#9B6A6C;color:#FFFFFF;font-weight:700;font-size:16px;cursor:pointer;transition:transform .1s" style-active="transform:scale(.95)">Check in</button></sc-if>
+                <sc-if value="{{ r.mustPay }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ r.open }}" style="flex:none;height:52px;padding:0 16px;border:1.5px solid #9B6A6C;border-radius:12px;background:#F1E6E6;color:#7E5456;font-weight:700;font-size:16px;cursor:pointer;transition:transform .1s" style-active="transform:scale(.95)">Take payment</button></sc-if>
+                <sc-if value="{{ r.isIn }}" hint-placeholder-val="{{ false }}"><span style="flex:none;font-size:14px;font-weight:700;padding:8px 12px;border-radius:999px;background:#E3F4EA;color:#1F6B3E">Arrived</span></sc-if>
+              </div>
+            </sc-for>
+            <sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}"><div style="text-align:center;color:#5A5C72;padding:20px 0;font-size:16px">No one found. Try the phone number.</div></sc-if>
+          </div>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <!-- SELL -->
+    <sc-if value="{{ isSell }}" hint-placeholder-val="{{ false }}">
+      <div data-screen-label="Sell" style="padding:20px 20px 28px;display:flex;flex-direction:column;gap:14px">
+        <sc-if value="{{ sellMenu }}" hint-placeholder-val="{{ true }}">
+          <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:30px;letter-spacing:-.02em;line-height:1.1;margin-bottom:4px">What are you selling?</div>
+          <button type="button" onClick="{{ pickDay }}" style="width:100%;min-height:104px;border:0;border-radius:18px;background:#D49516;color:#2B2D42;text-align:left;padding:18px 20px;cursor:pointer;display:flex;flex-direction:column;justify-content:center;gap:2px;transition:transform .1s" style-active="transform:scale(.97)"><span style="font-family:Epilogue,sans-serif;font-weight:700;font-size:24px;letter-spacing:-.02em">Sell a Day Pass</span><span style="font-size:17px;font-weight:700">GHS 180</span></button>
+          <button type="button" onClick="{{ pickFlex }}" style="width:100%;min-height:104px;border:0;border-radius:18px;background:#2B2D42;color:#F5F5F5;text-align:left;padding:18px 20px;cursor:pointer;display:flex;flex-direction:column;justify-content:center;gap:2px;transition:transform .1s" style-active="transform:scale(.97)"><span style="font-family:Epilogue,sans-serif;font-weight:700;font-size:24px;letter-spacing:-.02em">Sell a Flex Pass</span><span style="font-size:17px;color:#B9BAC6">5 days GHS 700 · 10 days GHS 1,350</span></button>
+          <button type="button" onClick="{{ pickRoom }}" style="width:100%;min-height:104px;border:0;border-radius:18px;background:#9B6A6C;color:#FFFFFF;text-align:left;padding:18px 20px;cursor:pointer;display:flex;flex-direction:column;justify-content:center;gap:2px;transition:transform .1s" style-active="transform:scale(.97)"><span style="font-family:Epilogue,sans-serif;font-weight:700;font-size:24px;letter-spacing:-.02em">Book a room or pod</span><span style="font-size:17px">See free times today</span></button>
+          <button type="button" onClick="{{ pickCash }}" style="width:100%;min-height:104px;border:2px solid #2B2D42;border-radius:18px;background:#FFFFFF;color:#2B2D42;text-align:left;padding:18px 20px;cursor:pointer;display:flex;flex-direction:column;justify-content:center;gap:2px;transition:transform .1s" style-active="transform:scale(.97)"><span style="font-family:Epilogue,sans-serif;font-weight:700;font-size:24px;letter-spacing:-.02em">Record cash payment</span><span style="font-size:17px;color:#5A5C72">For anything else paid in cash</span></button>
+        </sc-if>
+
+        <sc-if value="{{ sellGuest }}" hint-placeholder-val="{{ false }}">
+          <button type="button" onClick="{{ sellBack }}" style="align-self:flex-start;height:44px;padding:0 4px;border:0;background:transparent;color:#2B2D42;font-weight:700;font-size:17px;cursor:pointer">← Back</button>
+          <div style="background:#2B2D42;color:#F5F5F5;border-radius:16px;padding:16px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px">
+            <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:22px;letter-spacing:-.02em">{{ itemTitle }}</div>
+            <div style="font-weight:700;font-size:18px;color:#D49516;white-space:nowrap">{{ itemPrice }}</div>
+          </div>
+          <sc-if value="{{ isFlex }}" hint-placeholder-val="{{ false }}">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <button type="button" onClick="{{ flex5 }}" style="height:64px;border-radius:14px;border:2px solid {{ f5b }};background:{{ f5bg }};color:#2B2D42;font-weight:700;font-size:17px;cursor:pointer;transition:transform .1s" style-active="transform:scale(.96)">5 days</button>
+              <button type="button" onClick="{{ flex10 }}" style="height:64px;border-radius:14px;border:2px solid {{ f10b }};background:{{ f10bg }};color:#2B2D42;font-weight:700;font-size:17px;cursor:pointer;transition:transform .1s" style-active="transform:scale(.96)">10 days</button>
+            </div>
+          </sc-if>
+          <sc-if value="{{ isCash }}" hint-placeholder-val="{{ false }}">
+            <label style="display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:16px">Amount in GHS<input type="number" inputMode="decimal" value="{{ amount }}" onChange="{{ setAmount }}" placeholder="0" style="height:60px;border:1.5px solid #D9DAE0;border-radius:14px;padding:0 18px;font-size:22px;font-weight:700;color:#2B2D42;background:#FFFFFF;outline:none" style-focus="border-color:#D49516;box-shadow:0 0 0 4px rgba(212,149,22,.2)"></label>
+          </sc-if>
+          <div style="font-weight:700;font-size:18px;margin-top:4px">Who is it for?</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <sc-for list="{{ guests }}" as="g" hint-placeholder-count="4">
+              <button type="button" onClick="{{ g.pick }}" style="width:100%;min-height:56px;border-radius:14px;border:2px solid {{ g.border }};background:{{ g.bg }};color:#2B2D42;text-align:left;padding:8px 16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:10px;transition:transform .1s" style-active="transform:scale(.98)"><span style="font-weight:700;font-size:17px">{{ g.name }}</span><span style="font-size:14px;color:#5A5C72">{{ g.note }}</span></button>
+            </sc-for>
+          </div>
+          <sc-if value="{{ isNewGuest }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <input type="text" value="{{ newName }}" onChange="{{ setNewName }}" placeholder="Guest’s full name" style="height:56px;border:1.5px solid #D9DAE0;border-radius:14px;padding:0 16px;font-size:17px;color:#2B2D42;background:#FFFFFF;outline:none" style-focus="border-color:#D49516;box-shadow:0 0 0 4px rgba(212,149,22,.2)">
+              <input type="email" value="{{ newEmail }}" onChange="{{ setNewEmail }}" placeholder="Email for the receipt" style="height:56px;border:1.5px solid #D9DAE0;border-radius:14px;padding:0 16px;font-size:17px;color:#2B2D42;background:#FFFFFF;outline:none" style-focus="border-color:#D49516;box-shadow:0 0 0 4px rgba(212,149,22,.2)">
+            </div>
+          </sc-if>
+          <sc-if value="{{ showPay }}" hint-placeholder-val="{{ true }}">
+            <div style="font-weight:700;font-size:18px;margin-top:4px">How are they paying?</div>
+            <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+              <sc-for list="{{ payOpts }}" as="o" hint-placeholder-count="3">
+                <button type="button" onClick="{{ o.pick }}" style="height:64px;border-radius:14px;border:2px solid {{ o.border }};background:{{ o.bg }};color:#2B2D42;font-weight:700;font-size:18px;cursor:pointer;transition:transform .1s" style-active="transform:scale(.95)">{{ o.label }}</button>
+              </sc-for>
+            </div>
+          </sc-if>
+          <button type="button" onClick="{{ sellConfirm }}" disabled="{{ sellBlocked }}" style="width:100%;height:68px;margin-top:6px;border:0;border-radius:14px;background:{{ confirmBg }};color:#FFFFFF;font-weight:700;font-size:20px;cursor:pointer;transition:transform .1s,background .2s" style-active="transform:scale(.97)">{{ confirmLabel }}</button>
+        </sc-if>
+
+        <sc-if value="{{ sellDone }}" hint-placeholder-val="{{ false }}">
+          <div style="background:#FFFFFF;border-radius:20px;padding:40px 20px 22px;margin-top:20px;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center">
+            <div style="width:96px;height:96px;border-radius:50%;background:#2E9E5B;display:grid;place-items:center;animation:hive-pop .35s cubic-bezier(.2,.7,.2,1) both"><div style="width:22px;height:42px;border-right:7px solid #FFFFFF;border-bottom:7px solid #FFFFFF;animation:hive-tick .22s .15s ease-out both"></div></div>
+            <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:34px;letter-spacing:-.02em;line-height:1">Paid.</div>
+            <div style="font-size:18px;max-width:26ch">Receipt sent to the guest’s email.</div>
+            <div style="font-size:15px;color:#5A5C72;line-height:1.5">{{ doneLine }}<br>{{ doneEmail }}</div>
+            <button type="button" onClick="{{ sellReset }}" style="width:100%;height:64px;margin-top:10px;border:0;border-radius:14px;background:#2B2D42;color:#FFFFFF;font-weight:700;font-size:20px;cursor:pointer;transition:transform .1s" style-active="transform:scale(.97)">Done</button>
+          </div>
+        </sc-if>
+      </div>
+    </sc-if>
+
+    <!-- MORE -->
+    <sc-if value="{{ isMoreHome }}" hint-placeholder-val="{{ false }}">
+      <div data-screen-label="More" style="padding:20px 20px 28px;display:flex;flex-direction:column;gap:14px">
+        <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:30px;letter-spacing:-.02em;line-height:1.1;margin-bottom:4px">More</div>
+        <button type="button" onClick="{{ goRooms }}" style="width:100%;min-height:96px;border:0;border-radius:18px;background:#FFFFFF;color:#2B2D42;text-align:left;padding:18px 20px;cursor:pointer;display:flex;flex-direction:column;justify-content:center;gap:2px;box-shadow:0 1px 2px rgba(43,45,66,.06);transition:transform .1s" style-active="transform:scale(.97)"><span style="font-family:Epilogue,sans-serif;font-weight:700;font-size:22px;letter-spacing:-.02em">Rooms today</span><span style="font-size:16px;color:#5A5C72">See bookings, book a walk-in</span></button>
+        <button type="button" onClick="{{ goFollow }}" style="width:100%;min-height:96px;border:0;border-radius:18px;background:#FFFFFF;color:#2B2D42;text-align:left;padding:18px 20px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:12px;box-shadow:0 1px 2px rgba(43,45,66,.06);transition:transform .1s" style-active="transform:scale(.97)"><span style="display:flex;flex-direction:column;gap:2px"><span style="font-family:Epilogue,sans-serif;font-weight:700;font-size:22px;letter-spacing:-.02em">Follow-ups</span><span style="font-size:16px;color:#5A5C72">Messages ready to send</span></span><span style="flex:none;min-width:36px;height:36px;padding:0 10px;border-radius:999px;background:#D49516;color:#2B2D42;font-weight:700;display:grid;place-items:center">{{ pendingCount }}</span></button>
+        <button type="button" onClick="{{ goCheck }}" style="width:100%;min-height:96px;border:0;border-radius:18px;background:#FFFFFF;color:#2B2D42;text-align:left;padding:18px 20px;cursor:pointer;display:flex;flex-direction:column;justify-content:center;gap:2px;box-shadow:0 1px 2px rgba(43,45,66,.06);transition:transform .1s" style-active="transform:scale(.97)"><span style="font-family:Epilogue,sans-serif;font-weight:700;font-size:22px;letter-spacing:-.02em">Daily checklist</span><span style="font-size:16px;color:#5A5C72">Opening, closing and stock</span></button>
+        <button type="button" onClick="{{ openProblem }}" style="width:100%;min-height:72px;border:2px solid #9B6A6C;border-radius:18px;background:#F1E6E6;color:#7E5456;font-weight:700;font-size:19px;cursor:pointer;transition:transform .1s" style-active="transform:scale(.97)">Report a problem</button>
+      </div>
+    </sc-if>
+
+    <!-- ROOMS -->
+    <sc-if value="{{ isRooms }}" hint-placeholder-val="{{ false }}">
+      <div data-screen-label="Rooms" style="padding:12px 20px 28px;display:flex;flex-direction:column;gap:14px">
+        <button type="button" onClick="{{ backMore }}" style="align-self:flex-start;height:44px;padding:0 4px;border:0;background:transparent;color:#2B2D42;font-weight:700;font-size:17px;cursor:pointer">← More</button>
+        <div><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:30px;letter-spacing:-.02em;line-height:1.1">Rooms today</div><div style="font-size:16px;color:#5A5C72">Tap a free time to book a walk-in</div></div>
+        <div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px">
+          <sc-for list="{{ resTabs }}" as="t" hint-placeholder-count="5">
+            <button type="button" onClick="{{ t.pick }}" style="height:52px;padding:0 2px;white-space:nowrap;border-radius:12px;border:0;background:{{ t.bg }};color:{{ t.fg }};font-weight:700;font-size:14px;cursor:pointer;transition:transform .1s,background .15s" style-active="transform:scale(.95)">{{ t.label }}</button>
+          </sc-for>
+        </div>
+        <div style="font-weight:700;font-size:17px">{{ resName }} · {{ resRate }}</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <sc-for list="{{ segs }}" as="s" hint-placeholder-count="8">
+            <div style="display:flex;gap:10px;align-items:stretch">
+              <div style="flex:none;width:48px;font-size:14px;font-weight:700;color:#5A5C72;padding-top:14px">{{ s.time }}</div>
+              <sc-if value="{{ s.booked }}" hint-placeholder-val="{{ false }}">
+                <div style="flex:1;height:{{ s.h }}px;border-radius:12px;background:{{ s.bg }};color:{{ s.fg }};padding:7px 14px;display:flex;flex-direction:column;justify-content:center;overflow:hidden;line-height:1.25"><span style="font-weight:700;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ s.name }}</span><span style="font-size:14px;opacity:.85">{{ s.range }}</span></div>
+              </sc-if>
+              <sc-if value="{{ s.free }}" hint-placeholder-val="{{ true }}">
+                <button type="button" onClick="{{ s.book }}" style="flex:1;height:52px;border-radius:12px;border:2px dashed #B9BAC6;background:#FFFFFF;color:#2B2D42;font-weight:700;font-size:16px;cursor:pointer;text-align:left;padding:0 14px;display:flex;justify-content:space-between;align-items:center;transition:transform .1s,border-color .15s" style-hover="border-color:#D49516" style-active="transform:scale(.98)"><span>Free</span><span style="color:#9B6A6C">Book +</span></button>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- FOLLOW-UPS -->
+    <sc-if value="{{ isFollow }}" hint-placeholder-val="{{ false }}">
+      <div data-screen-label="Follow-ups" style="padding:12px 20px 28px;display:flex;flex-direction:column;gap:14px">
+        <button type="button" onClick="{{ backMore }}" style="align-self:flex-start;height:44px;padding:0 4px;border:0;background:transparent;color:#2B2D42;font-weight:700;font-size:17px;cursor:pointer">← More</button>
+        <div><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:30px;letter-spacing:-.02em;line-height:1.1">Follow-ups</div><div style="font-size:16px;color:#5A5C72">{{ followSub }}</div></div>
+        <sc-for list="{{ follows }}" as="f" hint-placeholder-count="3">
+          <div style="background:#FFFFFF;border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:12px;opacity:{{ f.op }};transition:opacity .2s">
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+              <div><div style="font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;color:#9B6A6C">{{ f.type }}</div><div style="font-weight:700;font-size:18px">{{ f.name }}</div></div>
+              <sc-if value="{{ f.done }}" hint-placeholder-val="{{ false }}"><span style="font-size:14px;font-weight:700;padding:6px 12px;border-radius:999px;background:#E3F4EA;color:#1F6B3E">Sent</span></sc-if>
+            </div>
+            <div style="background:#F5F5F5;border-radius:4px 14px 14px 14px;padding:12px 14px;font-size:16px;line-height:1.45">{{ f.text }}</div>
+            <sc-if value="{{ f.pending }}" hint-placeholder-val="{{ true }}">
+              <a href="{{ f.href }}" target="_blank" rel="noreferrer" onClick="{{ f.send }}" style="height:60px;border-radius:14px;background:#25D366;color:#2B2D42;font-weight:700;font-size:18px;display:flex;align-items:center;justify-content:center;gap:10px;transition:transform .1s,background .2s" style-hover="background:#1EBE5A;color:#2B2D42" style-active="transform:scale(.97)"><span style="width:10px;height:10px;border-radius:50%;background:#2B2D42"></span>Send on WhatsApp</a>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </sc-if>
+
+    <!-- CHECKLIST -->
+    <sc-if value="{{ isCheck }}" hint-placeholder-val="{{ false }}">
+      <div data-screen-label="Daily checklist" style="padding:12px 20px 28px;display:flex;flex-direction:column;gap:14px">
+        <button type="button" onClick="{{ backMore }}" style="align-self:flex-start;height:44px;padding:0 4px;border:0;background:transparent;color:#2B2D42;font-weight:700;font-size:17px;cursor:pointer">← More</button>
+        <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:30px;letter-spacing:-.02em;line-height:1.1">Daily checklist</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;background:#E6E6EA;padding:5px;border-radius:14px">
+          <button type="button" onClick="{{ clOpen }}" style="height:48px;border:0;border-radius:10px;font-weight:700;font-size:16px;cursor:pointer;background:{{ clOpenBg }};color:#2B2D42;transition:background .15s">Opening</button>
+          <button type="button" onClick="{{ clClose }}" style="height:48px;border:0;border-radius:10px;font-weight:700;font-size:16px;cursor:pointer;background:{{ clCloseBg }};color:#2B2D42;transition:background .15s">Closing</button>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;justify-content:space-between;font-weight:700;font-size:16px"><span>{{ clLabel }}</span><span>{{ clDone }} of {{ clTotal }} done</span></div>
+          <div style="height:12px;border-radius:6px;background:#E6E6EA;overflow:hidden"><div style="height:100%;width:{{ clPct }}%;background:#2E9E5B;border-radius:6px;transition:width .25s cubic-bezier(.2,.7,.2,1)"></div></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <sc-for list="{{ clItems }}" as="c" hint-placeholder-count="5">
+            <button type="button" onClick="{{ c.toggle }}" style="width:100%;min-height:64px;border:0;border-radius:14px;background:#FFFFFF;color:#2B2D42;text-align:left;padding:10px 16px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:transform .1s" style-active="transform:scale(.98)">
+              <span style="flex:none;width:36px;height:36px;border-radius:10px;border:2.5px solid {{ c.box }};background:{{ c.fill }};display:grid;place-items:center;transition:background .12s,border-color .12s"><span style="width:10px;height:18px;border-right:3.5px solid #FFFFFF;border-bottom:3.5px solid #FFFFFF;transform:translateY(-2px) rotate(45deg) scale({{ c.tick }});transition:transform .15s cubic-bezier(.2,.7,.2,1)"></span></span>
+              <span style="font-size:18px;font-weight:700;text-decoration:{{ c.deco }};color:{{ c.fg }}">{{ c.label }}</span>
+            </button>
+          </sc-for>
+        </div>
+
+        <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:22px;letter-spacing:-.02em;margin-top:10px">Stock levels</div>
+        <div style="background:#FFFFFF;border-radius:16px;padding:6px 16px">
+          <sc-for list="{{ stock }}" as="k" hint-placeholder-count="4">
+            <div style="padding:14px 0;border-bottom:1px solid #E6E6EA;display:flex;flex-direction:column;gap:8px">
+              <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+                <div><div style="font-weight:700;font-size:17px">{{ k.name }}</div><div style="font-size:14px;color:{{ k.noteFg }};font-weight:700">{{ k.note }}</div></div>
+                <sc-if value="{{ k.canReorder }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ k.reorder }}" style="flex:none;height:48px;padding:0 18px;border:0;border-radius:12px;background:#D49516;color:#2B2D42;font-weight:700;font-size:16px;cursor:pointer;transition:transform .1s" style-active="transform:scale(.95)">Reorder</button></sc-if>
+                <sc-if value="{{ k.ordered }}" hint-placeholder-val="{{ false }}"><span style="flex:none;font-size:14px;font-weight:700;padding:6px 12px;border-radius:999px;background:#E3F4EA;color:#1F6B3E">Ordered</span></sc-if>
+              </div>
+              <div style="height:12px;border-radius:6px;background:#E6E6EA;overflow:hidden"><div style="height:100%;width:{{ k.level }}%;background:{{ k.bar }};border-radius:6px"></div></div>
+            </div>
+          </sc-for>
+        </div>
+        <button type="button" onClick="{{ openProblem }}" style="width:100%;min-height:68px;margin-top:6px;border:2px solid #9B6A6C;border-radius:14px;background:#F1E6E6;color:#7E5456;font-weight:700;font-size:19px;cursor:pointer;transition:transform .1s" style-active="transform:scale(.97)">Report a problem</button>
+      </div>
+    </sc-if>
+  </div>
+
+  <!-- tab bar -->
+  <nav aria-label="Staff app" style="flex:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));background:#FFFFFF;border-top:1px solid #E6E6EA;padding:6px 8px 20px;position:relative">
+    <button type="button" onClick="{{ tabToday }}" style="height:64px;border:0;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:{{ tc.today }};transition:transform .1s" style-active="transform:scale(.92)"><span style="width:44px;height:30px;border-radius:15px;background:{{ tb.today }};display:grid;place-items:center;transition:background .15s"><span style="width:16px;height:18px;background:currentColor;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span></span><span style="font-size:14px;font-weight:700">Today</span></button>
+    <button type="button" onClick="{{ tabCheckin }}" style="height:64px;border:0;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:{{ tc.checkin }};transition:transform .1s" style-active="transform:scale(.92)"><span style="width:44px;height:30px;border-radius:15px;background:{{ tb.checkin }};display:grid;place-items:center;transition:background .15s"><span style="width:16px;height:16px;border:3px solid currentColor;border-radius:3px"></span></span><span style="font-size:14px;font-weight:700">Check in</span></button>
+    <button type="button" onClick="{{ tabSell }}" style="height:64px;border:0;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:{{ tc.sell }};transition:transform .1s" style-active="transform:scale(.92)"><span style="width:44px;height:30px;border-radius:15px;background:{{ tb.sell }};display:grid;place-items:center;transition:background .15s"><span style="width:17px;height:17px;border:3px solid currentColor;border-radius:50%"></span></span><span style="font-size:14px;font-weight:700">Sell</span></button>
+    <button type="button" onClick="{{ tabMore }}" style="height:64px;border:0;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:{{ tc.more }};transition:transform .1s" style-active="transform:scale(.92)"><span style="width:44px;height:30px;border-radius:15px;background:{{ tb.more }};display:flex;align-items:center;justify-content:center;gap:3px;transition:background .15s"><span style="width:5px;height:5px;border-radius:50%;background:currentColor"></span><span style="width:5px;height:5px;border-radius:50%;background:currentColor"></span><span style="width:5px;height:5px;border-radius:50%;background:currentColor"></span></span><span style="font-size:14px;font-weight:700">More</span></button>
+    <span style="position:absolute;left:50%;bottom:7px;width:120px;height:5px;margin-left:-60px;border-radius:3px;background:#2B2D42"></span>
+  </nav>
+
+  <!-- bottom sheet -->
+  <div style="position:absolute;inset:0;z-index:50;pointer-events:{{ sheetPe }}">
+    <div onClick="{{ closeSheet }}" style="position:absolute;inset:0;background:rgba(30,32,48,.5);opacity:{{ sheetOp }};transition:opacity .22s ease"></div>
+    <div style="position:absolute;left:0;right:0;bottom:0;max-height:90%;overflow-y:auto;background:#FFFFFF;border-radius:26px 26px 0 0;padding:10px 20px 30px;transform:translateY({{ sheetY }});transition:transform .26s cubic-bezier(.2,.7,.2,1);box-shadow:0 -10px 40px rgba(30,32,48,.2)">
+      <div style="display:flex;justify-content:center;padding:4px 0 10px"><span style="width:44px;height:5px;border-radius:3px;background:#D9DAE0"></span></div>
+
+      <sc-if value="{{ shPerson }}" hint-placeholder-val="{{ false }}">
+        <sc-if value="{{ shForm }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <div style="display:flex;gap:14px;align-items:center">
+              <span style="flex:none;width:60px;height:66px;background:#D49516;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);display:grid;place-items:center;font-weight:700;font-size:20px">{{ sel.initials }}</span>
+              <div style="min-width:0"><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:26px;letter-spacing:-.02em;line-height:1.1">{{ sel.name }}</div><div style="font-size:15px;color:#5A5C72">{{ sel.phone }}</div></div>
+            </div>
+            <div style="background:#F5F5F5;border-radius:14px;padding:14px 16px;display:flex;flex-direction:column;gap:4px">
+              <div style="font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#5A5C72">Booked today</div>
+              <div style="font-weight:700;font-size:18px">{{ sel.booking }}</div>
+              <div style="font-size:15px;color:#5A5C72">{{ sel.passLine }}</div>
+            </div>
+            <sc-if value="{{ sel.unpaid }}" hint-placeholder-val="{{ false }}">
+              <div style="font-weight:700;font-size:18px">Not paid yet · {{ sel.amountLabel }}</div>
+              <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+                <sc-for list="{{ shPayOpts }}" as="o" hint-placeholder-count="3">
+                  <button type="button" onClick="{{ o.pick }}" style="height:60px;border-radius:14px;border:2px solid {{ o.border }};background:{{ o.bg }};color:#2B2D42;font-weight:700;font-size:17px;cursor:pointer;transition:transform .1s" style-active="transform:scale(.95)">{{ o.label }}</button>
+                </sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{ sel.canCheck }}" hint-placeholder-val="{{ true }}">
+              <button type="button" onClick="{{ checkSel }}" disabled="{{ selBlocked }}" style="width:100%;height:72px;border:0;border-radius:16px;background:{{ selBtnBg }};color:#FFFFFF;font-weight:700;font-size:22px;cursor:pointer;transition:transform .1s,background .2s" style-active="transform:scale(.97)">{{ selBtnLabel }}</button>
+            </sc-if>
+            <sc-if value="{{ sel.isIn }}" hint-placeholder-val="{{ false }}">
+              <div style="height:64px;border-radius:16px;background:#E3F4EA;color:#1F6B3E;font-weight:700;font-size:19px;display:grid;place-items:center">Already checked in</div>
+            </sc-if>
+            <button type="button" onClick="{{ closeSheet }}" style="width:100%;height:52px;border:0;border-radius:14px;background:transparent;color:#2B2D42;font-weight:700;font-size:17px;cursor:pointer">Close</button>
+          </div>
+        </sc-if>
+      </sc-if>
+
+      <sc-if value="{{ shRoom }}" hint-placeholder-val="{{ false }}">
+        <sc-if value="{{ shForm }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <div><div style="font-size:13px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#9B6A6C">Walk-in booking</div><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:26px;letter-spacing:-.02em;line-height:1.15">{{ walkTitle }}</div></div>
+            <div style="font-weight:700;font-size:17px">How long?</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+              <button type="button" onClick="{{ len1 }}" style="height:60px;border-radius:14px;border:2px solid {{ l1b }};background:{{ l1bg }};color:#2B2D42;font-weight:700;font-size:17px;cursor:pointer;transition:transform .1s" style-active="transform:scale(.96)">1 hour</button>
+              <button type="button" onClick="{{ len2 }}" disabled="{{ len2Off }}" style="height:60px;border-radius:14px;border:2px solid {{ l2b }};background:{{ l2bg }};color:{{ l2fg }};font-weight:700;font-size:17px;cursor:pointer;transition:transform .1s" style-active="transform:scale(.96)">2 hours</button>
+            </div>
+            <input type="text" value="{{ walkName }}" onChange="{{ setWalkName }}" placeholder="Guest’s name" style="height:56px;border:1.5px solid #D9DAE0;border-radius:14px;padding:0 16px;font-size:17px;color:#2B2D42;background:#FFFFFF;outline:none" style-focus="border-color:#D49516;box-shadow:0 0 0 4px rgba(212,149,22,.2)">
+            <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+              <sc-for list="{{ walkPayOpts }}" as="o" hint-placeholder-count="3">
+                <button type="button" onClick="{{ o.pick }}" style="height:60px;border-radius:14px;border:2px solid {{ o.border }};background:{{ o.bg }};color:#2B2D42;font-weight:700;font-size:17px;cursor:pointer;transition:transform .1s" style-active="transform:scale(.95)">{{ o.label }}</button>
+              </sc-for>
+            </div>
+            <button type="button" onClick="{{ walkConfirm }}" disabled="{{ walkBlocked }}" style="width:100%;height:72px;border:0;border-radius:16px;background:{{ walkBtnBg }};color:#FFFFFF;font-weight:700;font-size:21px;cursor:pointer;transition:transform .1s,background .2s" style-active="transform:scale(.97)">{{ walkBtnLabel }}</button>
+            <button type="button" onClick="{{ closeSheet }}" style="width:100%;height:52px;border:0;border-radius:14px;background:transparent;color:#2B2D42;font-weight:700;font-size:17px;cursor:pointer">Cancel</button>
+          </div>
+        </sc-if>
+      </sc-if>
+
+      <sc-if value="{{ shProblem }}" hint-placeholder-val="{{ false }}">
+        <sc-if value="{{ shForm }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:26px;letter-spacing:-.02em;line-height:1.15">Report a problem</div>
+            <div style="font-weight:700;font-size:17px">1. Where is it?</div>
+            <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+              <sc-for list="{{ areas }}" as="a" hint-placeholder-count="6">
+                <button type="button" onClick="{{ a.pick }}" style="height:52px;border-radius:12px;border:2px solid {{ a.border }};background:{{ a.bg }};color:#2B2D42;font-weight:700;font-size:15px;cursor:pointer;transition:transform .1s" style-active="transform:scale(.95)">{{ a.label }}</button>
+              </sc-for>
+            </div>
+            <div style="font-weight:700;font-size:17px">2. Add a photo</div>
+            <label style="position:relative;height:96px;border-radius:14px;border:2px dashed #B9BAC6;background:#F5F5F5;display:flex;align-items:center;justify-content:center;gap:12px;cursor:pointer;overflow:hidden;font-weight:700;font-size:17px">
+              <input type="file" accept="image/*" capture="environment" onChange="{{ setPhoto }}" style="position:absolute;opacity:0;width:1px;height:1px">
+              <sc-if value="{{ hasPhoto }}" hint-placeholder-val="{{ false }}"><img src="{{ photoUrl }}" alt="Problem photo" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"><span style="position:absolute;right:10px;bottom:10px;background:#FFFFFF;border-radius:999px;padding:4px 12px;font-size:14px">Change photo</span></sc-if>
+              <sc-if value="{{ noPhoto }}" hint-placeholder-val="{{ true }}"><span>Take or choose a photo</span></sc-if>
+            </label>
+            <div style="font-weight:700;font-size:17px">3. What happened?</div>
+            <textarea rows="3" value="{{ probText }}" onChange="{{ setProbText }}" placeholder="For example: the AC in Room B is not cooling" style="border:1.5px solid #D9DAE0;border-radius:14px;padding:14px 16px;font-size:17px;color:#2B2D42;background:#FFFFFF;outline:none;resize:none" style-focus="border-color:#D49516;box-shadow:0 0 0 4px rgba(212,149,22,.2)"></textarea>
+            <button type="button" onClick="{{ sendProblem }}" disabled="{{ probBlocked }}" style="width:100%;height:72px;border:0;border-radius:16px;background:{{ probBtnBg }};color:#FFFFFF;font-weight:700;font-size:21px;cursor:pointer;transition:transform .1s,background .2s" style-active="transform:scale(.97)">Send report</button>
+            <button type="button" onClick="{{ closeSheet }}" style="width:100%;height:52px;border:0;border-radius:14px;background:transparent;color:#2B2D42;font-weight:700;font-size:17px;cursor:pointer">Cancel</button>
+          </div>
+        </sc-if>
+      </sc-if>
+
+      <sc-if value="{{ shDone }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;padding:16px 0 4px">
+          <div style="width:96px;height:96px;border-radius:50%;background:#2E9E5B;display:grid;place-items:center;animation:hive-pop .35s cubic-bezier(.2,.7,.2,1) both"><div style="width:22px;height:42px;border-right:7px solid #FFFFFF;border-bottom:7px solid #FFFFFF;animation:hive-tick .22s .15s ease-out both"></div></div>
+          <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:28px;letter-spacing:-.02em;line-height:1.1">{{ doneTitle }}</div>
+          <div style="font-size:17px;color:#5A5C72;max-width:28ch">{{ doneText }}</div>
+          <button type="button" onClick="{{ closeSheet }}" style="width:100%;height:64px;margin-top:10px;border:0;border-radius:14px;background:#2B2D42;color:#FFFFFF;font-weight:700;font-size:20px;cursor:pointer;transition:transform .1s" style-active="transform:scale(.97)">Done</button>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:844},&quot;screen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;today&quot;,&quot;checkin&quot;,&quot;sell&quot;,&quot;rooms&quot;,&quot;followups&quot;,&quot;checklist&quot;],&quot;default&quot;:&quot;today&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const PEOPLE = [
+  { id: 'p1', name: 'Kwame Asante', phone: '024 555 0101', booking: 'Day Pass', status: 'arrived', today: true, at: '8:12' },
+  { id: 'p2', name: 'Efua Owusu', phone: '020 555 0134', booking: '10-Day Flex Pass', status: 'expected', today: true, left: 7, total: 10 },
+  { id: 'p3', name: 'Nana Yeboah', phone: '026 555 0178', booking: 'Meeting Room A · 10:00 to 12:00', status: 'expected', today: true },
+  { id: 'p4', name: 'Akosua Darko', phone: '024 555 0192', booking: 'Day Pass', status: 'unpaid', today: true, amount: 180, email: 'akosua.d@example.com' },
+  { id: 'p5', name: 'Yaw Mensah', phone: '027 555 0145', booking: 'Pod 2 · 14:00 to 15:00', status: 'unpaid', today: true, amount: 60, email: 'yaw.mensah@example.com' },
+  { id: 'p6', name: 'Abena Ofori', phone: '055 555 0110', booking: '5-Day Flex Pass', status: 'arrived', today: true, left: 3, total: 5, at: '8:40' },
+  { id: 'p7', name: 'Kofi Boateng', phone: '050 555 0166', booking: 'Meeting Room B · 13:00 to 15:00', status: 'expected', today: true },
+  { id: 'p8', name: 'Selorm Agbeko', phone: '024 412 3456', booking: '10-Day Flex Pass', status: 'expected', today: false, left: 4, total: 10 },
+  { id: 'p9', name: 'Esi Nyarko', phone: '020 998 7766', booking: 'All-Access Pass', status: 'expected', today: false },
+];
+const RES = { A: { name: 'Meeting Room A', short: 'Room A', rate: 250 }, B: { name: 'Meeting Room B', short: 'Room B', rate: 250 }, P1: { name: 'Pod 1', short: 'Pod 1', rate: 60 }, P2: { name: 'Pod 2', short: 'Pod 2', rate: 60 }, P3: { name: 'Pod 3', short: 'Pod 3', rate: 60 } };
+const BOOKINGS = {
+  A: [{ s: 10, e: 12, n: 'Nana Yeboah' }, { s: 15, e: 16, n: 'Hive team meeting' }],
+  B: [{ s: 9, e: 10, n: 'Ghana Tech Lab' }, { s: 13, e: 15, n: 'Kofi Boateng' }],
+  P1: [{ s: 9, e: 11, n: 'Ama Serwaa' }],
+  P2: [{ s: 14, e: 15, n: 'Yaw Mensah' }],
+  P3: [],
+};
+const FOLLOWS = [
+  { id: 'f1', type: 'Renewal reminder', name: 'Efua Owusu', phone: '233240000001', text: 'Hi Efua, this is Doreen from The Hive. Your 10-Day Flex Pass ends on Friday 30 October. Would you like me to renew it for you? Just reply here. Thank you!' },
+  { id: 'f2', type: 'Renewal reminder', name: 'Esi Nyarko', phone: '233240000002', text: 'Hi Esi, Doreen here from The Hive. Your All-Access Pass renews on Tuesday 27 October (GHS 2,650). Reply YES and I will send the MoMo details.' },
+  { id: 'f3', type: 'Thank you · first visit', name: 'Selorm Agbeko', phone: '233240000003', text: 'Hi Selorm, thank you for working with us at The Hive yesterday! I hope the day went well. If you need anything for your next visit, message me here. Doreen' },
+  { id: 'f4', type: 'Birthday', name: 'Abena Ofori', phone: '233240000004', text: 'Happy birthday, Abena! Everyone at The Hive wishes you a wonderful year. There is a small treat waiting for you at the front desk. Doreen' },
+];
+const CL = {
+  open: ['Lights and AC on', 'Coffee station ready', 'Meeting rooms tidy', 'Printer paper stocked', 'Wi-Fi working', 'Front door unlocked'],
+  close: ['Lights and AC off', 'Coffee station cleaned', 'Meeting rooms reset', 'Bins emptied', 'Windows and doors locked'],
+};
+const STOCK = [
+  { id: 'coffee', name: 'Coffee', level: 18, note: 'About 2 days left' },
+  { id: 'toffee', name: 'Toffees', level: 55, note: 'Fine for this week' },
+  { id: 'paper', name: 'Printer paper', level: 24, note: '3 reams left' },
+  { id: 'water', name: 'Water', level: 80, note: 'Fine for this week' },
+];
+const AREAS = ['Wi-Fi', 'Power', 'AC', 'Kitchen', 'Toilets', 'Meeting room', 'Pods', 'Printer', 'Other'];
+const PAYS = ['Cash', 'MoMo', 'Card'];
+const pad = (h) => (h < 10 ? '0' : '') + h + ':00';
+const ghs = (n) => 'GHS ' + Number(n).toLocaleString('en-GB');
+const initials = (n) => n.split(' ').map((w) => w[0]).join('').slice(0, 2);
+
+class Component extends DCLogic {
+  state = {
+    tab: 'today', more: null, people: PEOPLE, disp: { e: 0, c: 0, u: 0 },
+    sheet: null, sheetOpen: false, sheetDone: false, done: { t: '', x: '' }, selId: null, selPay: null,
+    ciMode: 'scan', scan: 'idle', scanRes: null, q: '',
+    sell: { step: 'menu', kind: null, flex: '10', guest: null, newName: '', newEmail: '', pay: null, amount: '' }, lastSale: null,
+    room: 'A', bookings: BOOKINGS, walk: { res: 'A', s: 8, len: 1, name: '', pay: null },
+    follows: FOLLOWS.map((f) => ({ ...f, done: false })), clTab: 'open', ticks: { 'open-0': true, 'open-1': true }, ordered: {},
+    prob: { area: null, photo: null, text: '' },
+  };
+  scrollRef = React.createRef();
+
+  componentDidMount() {
+    const map = { today: ['today', null], checkin: ['checkin', null], sell: ['sell', null], rooms: ['more', 'rooms'], followups: ['more', 'follow'], checklist: ['more', 'check'], more: ['more', null] };
+    const m = map[this.props.screen];
+    if (m) this.setState({ tab: m[0], more: m[1] });
+    this.tween(650);
+  }
+  componentDidUpdate() {
+    const s = this.state;
+    if (this._pp && this._pp !== s.people) this.tween(400);
+    this._pp = s.people;
+    const view = s.tab + '|' + s.more;
+    if (this._pv && this._pv !== view && this.scrollRef.current) this.scrollRef.current.scrollTop = 0;
+    this._pv = view;
+  }
+  componentWillUnmount() { clearInterval(this._iv); clearTimeout(this._t); }
+  counts() {
+    const p = this.state.people;
+    return { e: 12 + p.filter((x) => !x.today && x.status === 'arrived').length, c: 5 + p.filter((x) => x.status === 'arrived').length, u: p.filter((x) => x.status === 'unpaid').length };
+  }
+  tween(dur) {
+    clearInterval(this._iv);
+    const from = this._disp || { e: 0, c: 0, u: 0 }, t0 = Date.now();
+    const step = () => {
+      const to = this.counts(), k = Math.min(1, (Date.now() - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+      const d = k >= 1 ? to : { e: Math.round(from.e + (to.e - from.e) * e), c: Math.round(from.c + (to.c - from.c) * e), u: Math.round(from.u + (to.u - from.u) * e) };
+      this._disp = d;
+      this.setState({ disp: d });
+      if (k >= 1) clearInterval(this._iv);
+    };
+    this._iv = setInterval(step, 16);
+    step();
+  }
+  patchPerson(id, patch) { this.setState((s) => ({ people: s.people.map((p) => (p.id === id ? { ...p, ...patch } : p)) })); }
+  checkIn(p) { this.patchPerson(p.id, { status: 'arrived', at: '9:41', left: p.total ? p.left - 1 : p.left }); }
+  openSheet(type, extra) { this.setState({ sheet: type, sheetOpen: true, sheetDone: false, ...extra }); }
+  finish(t, x) { this.setState({ sheetDone: true, done: { t, x } }); }
+  go(tab, more) { this.setState({ tab, more: more || null }); }
+
+  renderVals() {
+    const s = this.state, people = s.people;
+    const chip = { arrived: ['Arrived', '#E3F4EA', '#1F6B3E'], expected: ['Expected', '#E6E6EA', '#2B2D42'], unpaid: ['Unpaid', '#F1E6E6', '#7E5456'] };
+    const passLine = (p) => (p.total ? `${p.left} of ${p.total} days left` : p.status === 'arrived' ? `Checked in at ${p.at}` : 'Single booking');
+    const todayList = people.filter((p) => p.today || p.status === 'arrived').map((p) => ({
+      ...p, initials: initials(p.name), chip: chip[p.status][0], chipBg: chip[p.status][1], chipFg: chip[p.status][2],
+      open: () => this.openSheet('person', { selId: p.id, selPay: null }),
+    }));
+    const tabs = ['today', 'checkin', 'sell', 'more'];
+    const tc = {}, tb = {};
+    tabs.forEach((t) => { tc[t] = s.tab === t ? '#2B2D42' : '#8A8C9C'; tb[t] = s.tab === t ? '#F2D79A' : 'transparent'; });
+    const opt = (cur, set) => PAYS.map((l) => ({ label: l, pick: () => set(l), border: cur === l ? '#2B2D42' : '#E6E6EA', bg: cur === l ? '#FBF1DC' : '#FFFFFF' }));
+
+    // check in
+    const q = s.q.trim().toLowerCase(), qd = q.replace(/\D/g, '');
+    const results = people.filter((p) => !q || p.name.toLowerCase().includes(q) || (qd && p.phone.replace(/\D/g, '').includes(qd))).map((p) => ({
+      ...p, canCheck: p.status === 'expected', mustPay: p.status === 'unpaid', isIn: p.status === 'arrived',
+      check: () => this.checkIn(p), open: () => this.openSheet('person', { selId: p.id, selPay: null }),
+    }));
+    let scanRes = s.scanRes;
+    if (scanRes) scanRes = { ...scanRes, dots: Array.from({ length: scanRes.total || 0 }, (_, i) => ({ bg: i < scanRes.left ? '#D49516' : '#E6E6EA' })) };
+    const doScan = () => {
+      if (s.scan !== 'idle') return;
+      this.setState({ scan: 'scanning' });
+      this._t = setTimeout(() => {
+        const p = this.state.people.find((x) => x.status === 'expected' && x.total) || this.state.people.find((x) => x.status === 'expected');
+        let res;
+        if (p) { this.checkIn(p); res = { name: p.name, plan: p.booking, hasDays: !!p.total, left: p.total ? p.left - 1 : 0, total: p.total || 0 }; }
+        else res = { name: 'Everyone is in', plan: 'No more expected guests today', hasDays: false, left: 0, total: 0 };
+        res.line = res.hasDays ? `${res.left} of ${res.total} days left` : '';
+        this.setState({ scan: 'done', scanRes: res });
+      }, 650);
+    };
+
+    // selected person
+    const sp = people.find((p) => p.id === s.selId) || people[0];
+    const sel = { ...sp, initials: initials(sp.name), passLine: passLine(sp), unpaid: sp.status === 'unpaid', canCheck: sp.status !== 'arrived', isIn: sp.status === 'arrived', amountLabel: ghs(sp.amount || 0) };
+    const selBlocked = sel.unpaid && !s.selPay;
+
+    // sell
+    const sl = s.sell, setSell = (patch) => this.setState((st) => ({ sell: { ...st.sell, ...patch } }));
+    const unpaidGuests = people.filter((p) => p.status === 'unpaid');
+    const gl = [...unpaidGuests.map((p) => ({ key: p.id, name: p.name, email: p.email, note: 'Unpaid today' })), { key: 'p8', name: 'Selorm Agbeko', email: 'selorm.a@example.com', note: 'Recent guest' }, { key: 'new', name: 'New guest', email: '', note: 'Type name' }];
+    const guests = gl.map((g) => ({ ...g, pick: () => setSell({ guest: g.key }), border: sl.guest === g.key ? '#2B2D42' : '#E6E6EA', bg: sl.guest === g.key ? '#FBF1DC' : '#FFFFFF' }));
+    const price = sl.kind === 'day' ? 180 : sl.kind === 'flex' ? (sl.flex === '5' ? 700 : 1350) : Number(sl.amount) || 0;
+    const itemTitle = sl.kind === 'day' ? 'Day Pass' : sl.kind === 'flex' ? `${sl.flex}-Day Flex Pass` : 'Cash payment';
+    const isNewGuest = sl.guest === 'new';
+    const guestOk = sl.guest && (!isNewGuest || sl.newName.trim());
+    const payOk = sl.kind === 'cash' ? price > 0 : !!sl.pay;
+    const sellBlocked = !(guestOk && payOk);
+    const sellConfirm = () => {
+      if (sellBlocked) return;
+      const g = gl.find((x) => x.key === sl.guest);
+      const name = isNewGuest ? sl.newName.trim() : g.name, email = isNewGuest ? sl.newEmail.trim() || 'the guest’s email' : g.email;
+      const p = people.find((x) => x.id === sl.guest);
+      if (p && p.status === 'unpaid') this.patchPerson(p.id, { status: 'expected' });
+      this.setState({ lastSale: { line: `${itemTitle} · ${ghs(price)} · ${sl.kind === 'cash' ? 'Cash' : sl.pay} · ${name}`, email } });
+      setSell({ step: 'done' });
+    };
+    const startSell = (kind) => setSell({ step: 'guest', kind, guest: null, newName: '', newEmail: '', pay: null, amount: '' });
+
+    // rooms
+    const bk = s.bookings[s.room], segs = [];
+    for (let h = 8; h < 17;) {
+      const b = bk.find((x) => x.s <= h && h < x.e);
+      if (b) { segs.push({ booked: true, free: false, time: pad(b.s), name: b.n, range: `${pad(b.s)} to ${pad(b.e)}`, h: (b.e - b.s) * 60 - 8, bg: b.walk ? '#D49516' : '#2B2D42', fg: b.walk ? '#2B2D42' : '#F5F5F5' }); h = b.e; }
+      else { const hh = h; segs.push({ booked: false, free: true, time: pad(h), book: () => this.openSheet('room', { walk: { res: s.room, s: hh, len: 1, name: '', pay: null } }) }); h++; }
+    }
+    const resTabs = Object.keys(RES).map((k) => ({ label: RES[k].short, pick: () => this.setState({ room: k }), bg: s.room === k ? '#2B2D42' : '#FFFFFF', fg: s.room === k ? '#F5F5F5' : '#2B2D42' }));
+    const w = s.walk, wr = RES[w.res], wb = s.bookings[w.res];
+    const can2 = w.s + 1 < 17 && !wb.some((x) => x.s <= w.s + 1 && w.s + 1 < x.e);
+    const setWalk = (patch) => this.setState((st) => ({ walk: { ...st.walk, ...patch } }));
+    const walkBlocked = !(w.name.trim() && w.pay);
+    const sel1 = w.len === 1;
+
+    // follow-ups
+    const pending = s.follows.filter((f) => !f.done).length;
+    const follows = s.follows.map((f) => ({
+      ...f, pending: !f.done, op: f.done ? 0.6 : 1, href: `https://wa.me/${f.phone}?text=${encodeURIComponent(f.text)}`,
+      send: () => setTimeout(() => this.setState((st) => ({ follows: st.follows.map((x) => (x.id === f.id ? { ...x, done: true } : x)) })), 300),
+    }));
+
+    // checklist
+    const list = CL[s.clTab];
+    const clItems = list.map((label, i) => {
+      const key = `${s.clTab}-${i}`, on = !!s.ticks[key];
+      return { label, toggle: () => this.setState((st) => ({ ticks: { ...st.ticks, [key]: !on } })), box: on ? '#2E9E5B' : '#B9BAC6', fill: on ? '#2E9E5B' : '#FFFFFF', tick: on ? 1 : 0, deco: on ? 'line-through' : 'none', fg: on ? '#5A5C72' : '#2B2D42' };
+    });
+    const clDone = clItems.filter((c) => c.tick).length;
+    const stock = STOCK.map((k) => {
+      const low = k.level < 30, ord = !!s.ordered[k.id];
+      return { ...k, canReorder: low && !ord, ordered: ord, bar: low ? '#D49516' : '#2B2D42', note: low ? (ord ? 'Reorder sent to manager' : 'Running low · ' + k.note) : k.note, noteFg: low ? '#A8750F' : '#5A5C72', reorder: () => this.setState((st) => ({ ordered: { ...st.ordered, [k.id]: true } })) };
+    });
+
+    // problem
+    const pr = s.prob, setProb = (patch) => this.setState((st) => ({ prob: { ...st.prob, ...patch } }));
+    const probBlocked = !(pr.area && pr.text.trim());
+
+    return {
+      scrollRef: this.scrollRef,
+      isToday: s.tab === 'today', isCheckin: s.tab === 'checkin', isSell: s.tab === 'sell',
+      isMoreHome: s.tab === 'more' && !s.more, isRooms: s.tab === 'more' && s.more === 'rooms', isFollow: s.tab === 'more' && s.more === 'follow', isCheck: s.tab === 'more' && s.more === 'check',
+      tc, tb,
+      tabToday: () => this.go('today'), tabCheckin: () => this.setState({ tab: 'checkin' }),
+      tabSell: () => this.setState((st) => ({ tab: 'sell', sell: st.tab === 'sell' ? { ...st.sell, step: 'menu' } : st.sell })),
+      tabMore: () => this.go('more'),
+      dE: s.disp.e, dC: s.disp.c, dU: s.disp.u, todayList,
+      goFollow: () => this.go('more', 'follow'), goCheck: () => this.go('more', 'check'), goRooms: () => this.go('more', 'rooms'), backMore: () => this.go('more'),
+
+      modeScan: () => this.setState({ ciMode: 'scan' }), modeSearch: () => this.setState({ ciMode: 'search' }),
+      scanTabBg: s.ciMode === 'scan' ? '#FFFFFF' : 'transparent', searchTabBg: s.ciMode === 'search' ? '#FFFFFF' : 'transparent',
+      showScanIdle: s.ciMode === 'scan' && s.scan !== 'done', showScanDone: s.ciMode === 'scan' && s.scan === 'done', showSearch: s.ciMode === 'search',
+      scanLineOp: s.scan === 'scanning' ? 1 : 0.55, scanHint: s.scan === 'scanning' ? 'Reading code…' : 'Hold the QR code inside the hexagon',
+      scanBtn: s.scan === 'scanning' ? 'Scanning…' : 'Tap to scan', doScan, scanRes: scanRes || { dots: [] }, scanReset: () => this.setState({ scan: 'idle', scanRes: null }),
+      q: s.q, setQ: (e) => this.setState({ q: e.target.value }), results, noResults: results.length === 0,
+
+      sellMenu: sl.step === 'menu', sellGuest: sl.step === 'guest', sellDone: sl.step === 'done',
+      pickDay: () => startSell('day'), pickFlex: () => startSell('flex'), pickCash: () => startSell('cash'), pickRoom: () => this.go('more', 'rooms'),
+      sellBack: () => setSell({ step: 'menu' }), sellReset: () => setSell({ step: 'menu' }),
+      itemTitle, itemPrice: sl.kind === 'cash' ? (price ? ghs(price) : 'Enter amount') : ghs(price),
+      isFlex: sl.kind === 'flex', isCash: sl.kind === 'cash', showPay: sl.kind !== 'cash',
+      flex5: () => setSell({ flex: '5' }), flex10: () => setSell({ flex: '10' }),
+      f5b: sl.flex === '5' ? '#2B2D42' : '#E6E6EA', f5bg: sl.flex === '5' ? '#FBF1DC' : '#FFFFFF', f10b: sl.flex === '10' ? '#2B2D42' : '#E6E6EA', f10bg: sl.flex === '10' ? '#FBF1DC' : '#FFFFFF',
+      amount: sl.amount, setAmount: (e) => setSell({ amount: e.target.value }),
+      guests, isNewGuest, newName: sl.newName, newEmail: sl.newEmail,
+      setNewName: (e) => setSell({ newName: e.target.value }), setNewEmail: (e) => setSell({ newEmail: e.target.value }),
+      payOpts: opt(sl.pay, (l) => setSell({ pay: l })),
+      sellBlocked, sellConfirm, confirmBg: sellBlocked ? '#D7BDBE' : '#9B6A6C', confirmLabel: price ? `Confirm · ${ghs(price)}` : 'Confirm',
+      doneLine: s.lastSale ? s.lastSale.line : '', doneEmail: s.lastSale ? s.lastSale.email : '',
+
+      resTabs, resName: RES[s.room].name, resRate: ghs(RES[s.room].rate) + ' per hour', segs,
+      walkTitle: `${wr.name} · ${pad(w.s)} to ${pad(w.s + w.len)}`,
+      len1: () => setWalk({ len: 1 }), len2: () => can2 && setWalk({ len: 2 }), len2Off: !can2,
+      l1b: sel1 ? '#2B2D42' : '#E6E6EA', l1bg: sel1 ? '#FBF1DC' : '#FFFFFF', l2b: !sel1 ? '#2B2D42' : '#E6E6EA', l2bg: !sel1 ? '#FBF1DC' : can2 ? '#FFFFFF' : '#F5F5F5', l2fg: can2 ? '#2B2D42' : '#B9BAC6',
+      walkName: w.name, setWalkName: (e) => setWalk({ name: e.target.value }), walkPayOpts: opt(w.pay, (l) => setWalk({ pay: l })),
+      walkBlocked, walkBtnBg: walkBlocked ? '#D7BDBE' : '#9B6A6C', walkBtnLabel: `Book and take ${ghs(wr.rate * w.len)}`,
+      walkConfirm: () => {
+        if (walkBlocked) return;
+        this.setState((st) => ({ bookings: { ...st.bookings, [w.res]: [...st.bookings[w.res], { s: w.s, e: w.s + w.len, n: w.name.trim(), walk: true }] } }));
+        this.finish('Booked.', `${w.name.trim()} has ${wr.name} from ${pad(w.s)} to ${pad(w.s + w.len)}. Paid by ${w.pay}.`);
+      },
+
+      pendingCount: pending, followSub: pending ? `${pending} messages ready. Tap to open WhatsApp.` : 'All sent for today. Well done.', follows,
+
+      clOpen: () => this.setState({ clTab: 'open' }), clClose: () => this.setState({ clTab: 'close' }),
+      clOpenBg: s.clTab === 'open' ? '#FFFFFF' : 'transparent', clCloseBg: s.clTab === 'close' ? '#FFFFFF' : 'transparent',
+      clLabel: s.clTab === 'open' ? 'Opening (by 8:00)' : 'Closing (from 17:00)', clItems, clDone, clTotal: list.length, clPct: Math.round((clDone / list.length) * 100), stock,
+
+      openProblem: () => this.openSheet('problem', {}),
+      areas: AREAS.map((l) => ({ label: l, pick: () => setProb({ area: l }), border: pr.area === l ? '#2B2D42' : '#E6E6EA', bg: pr.area === l ? '#FBF1DC' : '#FFFFFF' })),
+      hasPhoto: !!pr.photo, noPhoto: !pr.photo, photoUrl: pr.photo || '',
+      setPhoto: (e) => { const f = e.target.files && e.target.files[0]; if (f) setProb({ photo: URL.createObjectURL(f) }); },
+      probText: pr.text, setProbText: (e) => setProb({ text: e.target.value }),
+      probBlocked, probBtnBg: probBlocked ? '#D7BDBE' : '#9B6A6C',
+      sendProblem: () => { if (probBlocked) return; this.finish('Report sent.', `The manager has your report about ${pr.area}. You will get a WhatsApp when it is fixed.`); setProb({ area: null, photo: null, text: '' }); },
+
+      sheetPe: s.sheetOpen ? 'auto' : 'none', sheetOp: s.sheetOpen ? 1 : 0, sheetY: s.sheetOpen ? '0' : '105%',
+      closeSheet: () => this.setState({ sheetOpen: false }),
+      shForm: !s.sheetDone, shDone: s.sheetDone, shPerson: s.sheet === 'person', shRoom: s.sheet === 'room', shProblem: s.sheet === 'problem',
+      doneTitle: s.done.t, doneText: s.done.x,
+      sel, shPayOpts: opt(s.selPay, (l) => this.setState({ selPay: l })), selBlocked,
+      selBtnBg: selBlocked ? '#D7BDBE' : '#9B6A6C', selBtnLabel: sel.unpaid ? `Paid ${sel.amountLabel} · Check in` : 'Check in',
+      checkSel: () => {
+        if (selBlocked) return;
+        this.checkIn(sp);
+        const days = sp.total ? ` ${sp.left - 1} of ${sp.total} days left.` : '';
+        this.finish(`${sp.name.split(' ')[0]} is checked in.`, sel.unpaid ? `Paid ${sel.amountLabel} by ${s.selPay}. Receipt sent to the guest’s email.` : `Welcome them in.${days}`);
+      },
+    };
+  }
+}
+</script>
+</body>
+</html>

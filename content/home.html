@@ -1,0 +1,667 @@
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@500;700&family=Pontano+Sans:wght@400;700&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;padding:0;background:#F5F5F5;color:#2B2D42;font-family:'Pontano Sans',sans-serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+a{color:#2B2D42;text-decoration:none}a:hover{color:#9B6A6C}
+button{font:inherit}
+:focus-visible{outline:3px solid #D49516;outline-offset:3px;border-radius:4px}
+input::placeholder{color:#8A8C9C}
+video::-webkit-media-controls,video::-webkit-media-controls-enclosure,video::-webkit-media-controls-panel{display:none!important;-webkit-appearance:none}
+@keyframes hive-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+@keyframes hive-ping{0%{transform:scale(.6);opacity:.9}100%{transform:scale(2.6);opacity:0}}
+@keyframes hive-cue{0%{transform:translateY(-14px);opacity:0}30%{opacity:1}100%{transform:translateY(14px);opacity:0}}
+@media (max-width:600px){[data-hexgrid]{--hw:calc((100vw - 76px)/3)!important}}
+@media (max-width:900px){[data-hero-grid]{grid-template-columns:minmax(0,1fr)!important}[data-hero-cols]{height:min(60vh,520px)!important}[data-desk-only]{display:none!important}[data-hs-outer]{height:auto!important}[data-hs-inner]{position:static!important;height:auto!important;overflow:visible!important;padding:72px 0!important}[data-hs-track]{flex-direction:column!important;transform:none!important;padding:0 28px!important}[data-hs-track]>*{width:100%!important}[data-hs-dots]{display:none!important}[data-hex-row2]{margin-top:-42px!important}}
+@media (min-width:901px){[data-mob-only]{display:none!important}[data-hero-grid]{grid-template-columns:minmax(0,1.3fr) minmax(0,1fr)!important}}
+@media (min-width:901px) and (max-width:1200px){[data-hero-grid] h1{font-size:clamp(44px,5.4vw,84px)!important}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.001s!important;transition-duration:.001s!important}}
+</style>
+</helmet>
+
+<div ref="{{ progressRef }}" data-progress="true" style="position:fixed;top:0;left:0;height:3px;width:0;background:#D49516;z-index:1000;pointer-events:none"></div>
+<div ref="{{ wipeRef }}" data-wipe="true" style="position:fixed;inset:0;background:#D49516;z-index:900;transform:translateX(-101%);display:flex;align-items:center;justify-content:center;pointer-events:none">
+  <img src="https://images.squarespace-cdn.com/content/v1/688633ab5eb7735480a9622d/6c140487-9cba-4324-9f2c-23180ca56305/The+Hive_Primary+Identity_Reverse.png?format=1500w" alt="" aria-hidden="true" style="height:72px;width:auto;max-width:70vw;animation:hive-pulse 1.4s ease-in-out infinite">
+</div>
+
+<!-- HEADER -->
+<header ref="{{ headerRef }}" style="position:fixed;top:0;left:0;right:0;z-index:800;transition:transform .45s cubic-bezier(.2,.7,.2,1)" onMouseLeave="{{ closeMega }}">
+  <div ref="{{ headerBarRef }}" style="background:rgba(43,45,66,.78);backdrop-filter:blur(18px) saturate(1.3);-webkit-backdrop-filter:blur(18px) saturate(1.3);border-bottom:1px solid rgba(255,255,255,.08);transition:padding .35s ease">
+    <div style="max-width:1320px;margin:0 auto;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;gap:24px;transition:padding .35s ease" ref="{{ headerInnerRef }}">
+      <a href="/" data-nav="true" aria-label="The Hive home" style="display:flex;align-items:center">
+        <img ref="{{ logoRef }}" src="https://images.squarespace-cdn.com/content/v1/688633ab5eb7735480a9622d/6c140487-9cba-4324-9f2c-23180ca56305/The+Hive_Primary+Identity_Reverse.png?format=1500w" alt="The Hive" style="height:42px;width:auto;transition:height .35s ease;display:block">
+      </a>
+      <nav data-desk-only="true" aria-label="Primary" style="display:flex;align-items:center;gap:6px">
+        <button type="button" onClick="{{ toggleMega }}" onMouseEnter="{{ openMega }}" aria-expanded="{{ megaOpen }}" style="background:transparent;border:0;color:#F5F5F5;padding:10px 14px;border-radius:10px;font-size:16px;cursor:pointer;display:flex;align-items:center;gap:6px;transition:background .2s" style-hover="background:rgba(255,255,255,.1)">Workspaces <span style="display:inline-block;width:7px;height:7px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-2px)"></span></button>
+        <a href="/plans" data-nav="true" onMouseEnter="{{ closeMega }}" style="color:#F5F5F5;padding:10px 14px;border-radius:10px;font-size:16px;transition:background .2s" style-hover="background:rgba(255,255,255,.1);color:#F5F5F5">Plans</a>
+        <a href="/events" data-nav="true" style="color:#F5F5F5;padding:10px 14px;border-radius:10px;font-size:16px;transition:background .2s" style-hover="background:rgba(255,255,255,.1);color:#F5F5F5">Events</a>
+        <a href="/gallery" data-nav="true" style="color:#F5F5F5;padding:10px 14px;border-radius:10px;font-size:16px;transition:background .2s" style-hover="background:rgba(255,255,255,.1);color:#F5F5F5">Gallery</a>
+        <a href="/about" data-nav="true" style="color:#F5F5F5;padding:10px 14px;border-radius:10px;font-size:16px;transition:background .2s" style-hover="background:rgba(255,255,255,.1);color:#F5F5F5">About</a>
+        <a href="/contact" data-nav="true" style="color:#F5F5F5;padding:10px 14px;border-radius:10px;font-size:16px;transition:background .2s" style-hover="background:rgba(255,255,255,.1);color:#F5F5F5">Contact</a>
+      </nav>
+      <div style="display:flex;align-items:center;gap:18px">
+        <a data-desk-only="true" href="/member-portal" data-nav="true" style="color:#F5F5F5;font-size:16px;border-bottom:1px solid transparent;transition:border-color .2s" style-hover="color:#F5F5F5;border-color:#D49516">Member login</a>
+        <a data-desk-only="true" href="/book" data-nav="true" style="background:#9B6A6C;color:#FFFFFF;padding:12px 22px;border-radius:12px;font-weight:700;font-size:16px;display:inline-block;transition:background .2s" style-hover="background:#7E5456;color:#FFFFFF">Reserve a spot</a>
+        <button data-mob-only="true" type="button" onClick="{{ openMobile }}" aria-label="Open menu" style="background:transparent;border:0;color:#F5F5F5;width:44px;height:44px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:6px;cursor:pointer;border-radius:10px">
+          <span style="display:block;width:24px;height:2px;background:currentColor"></span><span style="display:block;width:24px;height:2px;background:currentColor"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div aria-hidden="{{ megaClosed }}" style="position:absolute;left:0;right:0;top:100%;padding:14px 28px 0;opacity:{{ megaOp }};transform:translateY({{ megaY }}px);pointer-events:{{ megaPe }};transition:opacity .35s ease,transform .45s cubic-bezier(.2,.7,.2,1)">
+    <div style="max-width:1320px;margin:0 auto;background:#FFFFFF;border-radius:16px;box-shadow:0 2px 6px rgba(43,45,66,.06),0 24px 60px rgba(43,45,66,.18);padding:24px;display:grid;grid-template-columns:minmax(0,3fr) minmax(220px,1fr);gap:24px">
+      <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px">
+        <a href="/coworking-desks" data-nav="true" style="display:block;border-radius:12px;overflow:hidden;background:#F5F5F5;color:#2B2D42;transition:transform .3s ease,box-shadow .3s ease" style-hover="transform:translateY(-4px);box-shadow:0 12px 30px rgba(43,45,66,.14);color:#2B2D42"><img src="https://img.magnific.com/free-photo/group-afro-americans-working-together_1303-8970.jpg?w=1400&q=80" alt="" style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block"><div style="padding:14px 16px 16px"><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:17px;letter-spacing:-.02em">Coworking Desks</div><div style="font-size:14px;color:#5A5C72;margin:4px 0 8px">Open desks, fast internet, steady power.</div><div style="font-size:13px;font-weight:700;color:#9B6A6C">From GHS 180/day</div></div></a>
+        <a href="/private-pods" data-nav="true" style="display:block;border-radius:12px;overflow:hidden;background:#F5F5F5;color:#2B2D42;transition:transform .3s ease,box-shadow .3s ease" style-hover="transform:translateY(-4px);box-shadow:0 12px 30px rgba(43,45,66,.14);color:#2B2D42"><img src="https://img.magnific.com/free-photo/african-american-businessman-having-remote-conversation-with-team-discussing-marketing-strategy-online-videocall-meeting-diverse-coworkers-working-company-growth-report-office_482257-66320.jpg?w=1400&q=80" alt="" style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block"><div style="padding:14px 16px 16px"><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:17px;letter-spacing:-.02em">Private Pods</div><div style="font-size:14px;color:#5A5C72;margin:4px 0 8px">Quiet pods for calls and deep focus.</div><div style="font-size:13px;font-weight:700;color:#9B6A6C">From GHS 60/hr</div></div></a>
+        <a href="/meeting-rooms" data-nav="true" style="display:block;border-radius:12px;overflow:hidden;background:#F5F5F5;color:#2B2D42;transition:transform .3s ease,box-shadow .3s ease" style-hover="transform:translateY(-4px);box-shadow:0 12px 30px rgba(43,45,66,.14);color:#2B2D42"><img src="https://img.magnific.com/free-photo/african-american-team-collaborates-financial-project-business-space_482257-119790.jpg?w=1400&q=80" alt="" style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block"><div style="padding:14px 16px 16px"><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:17px;letter-spacing:-.02em">Meeting Rooms</div><div style="font-size:14px;color:#5A5C72;margin:4px 0 8px">Air-conditioned rooms for your team.</div><div style="font-size:13px;font-weight:700;color:#9B6A6C">From GHS 250/hr</div></div></a>
+        <a href="/private-offices" data-nav="true" style="display:block;border-radius:12px;overflow:hidden;background:#F5F5F5;color:#2B2D42;transition:transform .3s ease,box-shadow .3s ease" style-hover="transform:translateY(-4px);box-shadow:0 12px 30px rgba(43,45,66,.14);color:#2B2D42"><img src="https://img.magnific.com/free-photo/black-corporate-team-collaborate-global-investment-strategy_482257-119871.jpg?w=1400&q=80" alt="" style="width:100%;aspect-ratio:4/3;object-fit:cover;display:block"><div style="padding:14px 16px 16px"><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:17px;letter-spacing:-.02em">Private Offices</div><div style="font-size:14px;color:#5A5C72;margin:4px 0 8px">Lockable offices for growing teams.</div><div style="font-size:13px;font-weight:700;color:#9B6A6C">From GHS 6,500/month</div></div></a>
+      </div>
+      <div style="position:relative;border-radius:12px;overflow:hidden;background:#2B2D42;color:#F5F5F5;display:flex;flex-direction:column;min-height:300px">
+        <a href="/gallery" data-nav="true" style="position:relative;flex:1;display:flex;flex-direction:column;justify-content:space-between;padding:16px;min-height:210px;color:#F5F5F5;overflow:hidden;background-image:linear-gradient(180deg,rgba(43,45,66,.05) 0%,rgba(43,45,66,.35) 45%,rgba(43,45,66,.92) 100%),url('/assets/photos/chesterfield-lounge.webp');background-size:100% 100%,cover;background-position:center,center;transition:background-size .6s ease" style-hover="color:#F5F5F5;background-size:100% 100%,112%">
+          <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px">
+            <span style="display:inline-flex;align-items:center;gap:8px;white-space:nowrap;padding:6px 11px;border-radius:999px;background:rgba(43,45,66,.62);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#F5F5F5"><span style="flex:none;width:7px;height:7px;border-radius:50%;background:#D49516"></span>See it for yourself</span>
+            <span style="padding:6px 10px;border-radius:999px;border:1px solid rgba(245,245,245,.55);font-size:12px;font-weight:700;letter-spacing:.04em">360°</span>
+          </div>
+          <div style="display:flex;align-items:flex-end;gap:14px">
+            <span aria-hidden="true" style="flex:none;width:48px;height:48px;border-radius:50%;background:#D49516;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 6px rgba(212,149,22,.25)"><span style="width:0;height:0;border-top:8px solid transparent;border-bottom:8px solid transparent;border-left:13px solid #2B2D42;margin-left:3px"></span></span>
+            <span style="display:flex;flex-direction:column;gap:3px"><span style="font-family:Epilogue,sans-serif;font-weight:700;font-size:21px;line-height:1.1;letter-spacing:-.02em">Take the virtual tour</span><span style="font-size:13px;color:#DADAE0">Walk the whole floor in 2 minutes</span></span>
+          </div>
+        </a>
+        <div style="padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px">
+          <a href="/contact" data-nav="true" style="color:#F5F5F5;font-family:Epilogue,sans-serif;font-weight:500;font-size:17px;letter-spacing:-.02em;display:flex;justify-content:space-between;align-items:center;padding:4px 0" style-hover="color:#D49516">Book a free visit <span aria-hidden="true">→</span></a>
+          <div style="font-size:13px;color:#B9BAC6">Mon–Fri, 8am–5pm · Tse Addo, Accra</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- MOBILE MENU -->
+<div role="dialog" aria-modal="true" aria-hidden="{{ mobileClosed }}" style="position:fixed;inset:0;z-index:850;background:#D49516;color:#2B2D42;display:flex;flex-direction:column;padding:20px 28px 32px;opacity:{{ mobOp }};pointer-events:{{ mobPe }};transform:translateY({{ mobY }}px);transition:opacity .4s ease,transform .5s cubic-bezier(.2,.7,.2,1);overflow:auto">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <img src="https://images.squarespace-cdn.com/content/v1/688633ab5eb7735480a9622d/6c140487-9cba-4324-9f2c-23180ca56305/The+Hive_Primary+Identity_Reverse.png?format=1500w" alt="The Hive" style="height:40px">
+    <button type="button" onClick="{{ closeMobile }}" aria-label="Close menu" style="background:rgba(43,45,66,.12);border:0;color:#2B2D42;width:44px;height:44px;border-radius:50%;cursor:pointer;font-size:22px;line-height:1">×</button>
+  </div>
+  <nav aria-label="Mobile" style="display:flex;flex-direction:column;gap:4px;margin:40px 0 auto">
+    <a href="/workspaces" data-nav="true" style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(34px,8vw,48px);letter-spacing:-.02em;color:#2B2D42;padding:6px 0;opacity:{{ mobOp }};transform:translateY({{ mobLinkY }}px);transition:opacity .5s ease .05s,transform .6s cubic-bezier(.2,.7,.2,1) .05s">Workspaces</a>
+    <a href="/plans" data-nav="true" style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(34px,8vw,48px);letter-spacing:-.02em;color:#2B2D42;padding:6px 0;opacity:{{ mobOp }};transform:translateY({{ mobLinkY }}px);transition:opacity .5s ease .1s,transform .6s cubic-bezier(.2,.7,.2,1) .1s">Plans</a>
+    <a href="/events" data-nav="true" style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(34px,8vw,48px);letter-spacing:-.02em;color:#2B2D42;padding:6px 0;opacity:{{ mobOp }};transform:translateY({{ mobLinkY }}px);transition:opacity .5s ease .15s,transform .6s cubic-bezier(.2,.7,.2,1) .15s">Events</a>
+    <a href="/gallery" data-nav="true" style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(34px,8vw,48px);letter-spacing:-.02em;color:#2B2D42;padding:6px 0;opacity:{{ mobOp }};transform:translateY({{ mobLinkY }}px);transition:opacity .5s ease .2s,transform .6s cubic-bezier(.2,.7,.2,1) .2s">Gallery</a>
+    <a href="/about" data-nav="true" style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(34px,8vw,48px);letter-spacing:-.02em;color:#2B2D42;padding:6px 0;opacity:{{ mobOp }};transform:translateY({{ mobLinkY }}px);transition:opacity .5s ease .25s,transform .6s cubic-bezier(.2,.7,.2,1) .25s">About</a>
+    <a href="/contact" data-nav="true" style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(34px,8vw,48px);letter-spacing:-.02em;color:#2B2D42;padding:6px 0;opacity:{{ mobOp }};transform:translateY({{ mobLinkY }}px);transition:opacity .5s ease .3s,transform .6s cubic-bezier(.2,.7,.2,1) .3s">Contact</a>
+  </nav>
+  <div style="display:flex;flex-direction:column;gap:12px;margin-top:40px">
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <a href="/book" data-nav="true" style="background:#2B2D42;color:#FFFFFF;padding:14px 22px;border-radius:12px;font-weight:700;flex:1;text-align:center" style-hover="color:#FFFFFF;background:#1E2030">Reserve a spot</a>
+      <a href="/member-portal" data-nav="true" style="border:1.5px solid #2B2D42;color:#2B2D42;padding:14px 22px;border-radius:12px;font-weight:700;flex:1;text-align:center">Member login</a>
+    </div>
+    <div style="font-size:15px;line-height:1.7;border-top:1px solid rgba(43,45,66,.2);padding-top:16px">
+      ICGC Christ Temple East, Teshie Rasta Rd, Tse Addo, Accra<br>Mon–Fri, 8am–5pm<br>
+      <a href="tel:+233256071000" style="font-weight:700">+233 25 607 1000</a> · <a href="mailto:info@thehivegh.com" style="font-weight:700">info@thehivegh.com</a> · <a href="https://www.instagram.com/thehive.gh" target="_blank" rel="noreferrer" style="font-weight:700">@thehive.gh</a>
+    </div>
+  </div>
+</div>
+
+<main>
+
+  <!-- 1 HERO -->
+  <section data-screen-label="Hero" style="background:#D49516;color:#2B2D42;position:relative;overflow:hidden;min-height:100vh;display:flex;flex-direction:column">
+    <div style="position:absolute;inset:0;opacity:.5;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 66L0 50L0 16L28 0L56 16L56 50Z' fill='none' stroke='%232B2D42' stroke-opacity='.14'/%3E%3Cpath d='M28 0L28 34L0 50L0 84L28 100L56 84L56 50L28 34' fill='none' stroke='%232B2D42' stroke-opacity='.14'/%3E%3C/svg%3E&quot;);mask-image:linear-gradient(to left,rgba(0,0,0,1),rgba(0,0,0,0) 60%);-webkit-mask-image:linear-gradient(to left,rgba(0,0,0,1),rgba(0,0,0,0) 60%)"></div>
+    <div data-hero-grid="true" style="max-width:1320px;width:100%;margin:auto;padding:140px 28px 96px;position:relative;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:56px 64px;align-items:center" data-hero-grid="true">
+      <div style="min-width:0">
+        <div data-load="0" style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;margin-bottom:24px;opacity:0;transform:translateY(16px)">Coworking in Tse Addo, Accra</div>
+        <h1 style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(44px,min(6.6vw,112px),112px);line-height:.94;letter-spacing:-.03em;margin:0 0 28px;text-wrap:balance">
+          <span style="display:block;overflow:hidden;padding-bottom:.06em"><span data-hero-line="true" style="display:block;transform:translateY(110%)">Work Better.</span></span>
+          <span style="display:block;overflow:hidden;padding-bottom:.06em"><span data-hero-line="true" style="display:block;transform:translateY(110%)">Together.</span></span>
+        </h1>
+        <p data-load="1" style="font-size:20px;max-width:46ch;margin:0 0 36px;line-height:1.55;opacity:0;transform:translateY(16px)">A calm, professional workspace in Tse Addo, built for focus and surrounded by people who are going somewhere.</p>
+        <div data-load="2" style="display:flex;gap:14px;flex-wrap:wrap;opacity:0;transform:translateY(16px)">
+          <a href="/book" data-nav="true" style="background:#9B6A6C;color:#FFFFFF;padding:15px 28px;border-radius:12px;font-weight:700;font-size:17px;display:inline-flex;align-items:center;gap:10px;transition:background .2s" style-hover="background:#7E5456;color:#FFFFFF">Reserve a spot <span aria-hidden="true">→</span></a>
+          <a href="/workspaces" data-nav="true" style="border:1.5px solid #2B2D42;color:#2B2D42;padding:14px 28px;border-radius:12px;font-weight:700;font-size:17px;display:inline-flex;align-items:center;transition:background .2s,color .2s" style-hover="background:#2B2D42;color:#F5F5F5">Explore workspaces</a>
+        </div>
+      </div>
+      <div data-load="3" data-hero-cols="true" style="position:relative;width:100%;height:min(78vh,720px);justify-self:stretch;opacity:0;transform:translateY(16px);overflow:hidden;mask-image:linear-gradient(to bottom,transparent,#000 8%,#000 92%,transparent);-webkit-mask-image:linear-gradient(to bottom,transparent,#000 8%,#000 92%,transparent)">
+        <div style="display:flex;gap:18px;align-items:flex-start;position:absolute;left:0;right:0;top:0"><div data-col="-1" style="display:flex;flex-direction:column;width:calc((100% - 36px)/3);will-change:transform"><div data-col-set="true" style="display:flex;flex-direction:column;gap:18px"><div style="flex:none;width:100%;aspect-ratio:0.78;border-radius:22px 22px 999px 999px;overflow:hidden;box-shadow:0 18px 44px rgba(43,45,66,.16);background:#B9770E"><video data-src="https://www.pexels.com/download/video/9464653/?w=640" poster="https://images.pexels.com/videos/9464653/pexels-photo-9464653.jpeg?auto=compress&w=640" muted loop playsinline disablepictureinpicture controlslist="nodownload noplaybackrate nofullscreen" preload="none" tabindex="-1" aria-label="Members brainstorming at the office" style="width:100%;height:100%;object-fit:cover;display:block"></video></div><div style="flex:none;width:100%;aspect-ratio:0.64;border-radius:999px;overflow:hidden;box-shadow:0 18px 44px rgba(43,45,66,.16);background:#B9770E"><video data-src="https://www.pexels.com/download/video/9365653/?w=640" poster="https://images.pexels.com/videos/9365653/pexels-photo-9365653.jpeg?auto=compress&w=640" muted loop playsinline disablepictureinpicture controlslist="nodownload noplaybackrate nofullscreen" preload="none" tabindex="-1" aria-label="Two colleagues working on a laptop" style="width:100%;height:100%;object-fit:cover;display:block"></video></div><div style="flex:none;width:100%;aspect-ratio:0.78;border-radius:999px 999px 22px 22px;overflow:hidden;box-shadow:0 18px 44px rgba(43,45,66,.16);background:#B9770E"><video data-src="https://www.pexels.com/download/video/9365450/?w=640" poster="https://images.pexels.com/videos/9365450/pexels-photo-9365450.jpeg?auto=compress&w=640" muted loop playsinline disablepictureinpicture controlslist="nodownload noplaybackrate nofullscreen" preload="none" tabindex="-1" aria-label="A member browsing on his laptop" style="width:100%;height:100%;object-fit:cover;display:block"></video></div></div><div aria-hidden="true" style="display:flex;flex-direction:column;gap:18px;margin-top:18px"><div style="flex:none;width:100%;aspect-ratio:0.78;border-radius:22px 22px 999px 999px;overflow:hidden;box-shadow:0 18px 44px rgba(43,45,66,.16);background:#B9770E"><video data-src="https://www.pexels.com/download/video/9464653/?w=640" poster="https://images.pexels.com/videos/9464653/pexels-photo-9464653.jpeg?auto=compress&w=640" muted loop playsinline disablepictureinpicture controlslist="nodownload noplaybackrate nofullscreen" preload="none" tabindex="-1" aria-label="Members brainstorming at the office" style="width:100%;height:100%;object-fit:cover;display:block"></video></div><div style="flex:none;width:100%;aspect-ratio:0.64;border-radius:999px;overflow:hidden;box-shadow:0 18px 44px rgba(43,45,66,.16);background:#B9770E"><video data-src="https://www.pexels.com/download/video/9365653/?w=640" poster="https://images.pexels.com/videos/9365653/pexels-photo-9365653.jpeg?auto=compress&w=640" muted loop playsinline disablepictureinpicture controlslist="nodownload noplaybackrate nofullscreen" preload="none" tabindex="-1" aria-label="Two colleagues working on a laptop" style="width:100%;height:100%;object-fit:cover;display:block"></video></div><div style="flex:none;width:100%;aspect-ratio:0.78;border-radius:999px 999px 22px 22px;overflow:hidden;box-shadow:0 18px 44px rgba(43,45,66,.16);background:#B9770E"><video data-src="https://www.pexels.com/download/video/9365450/?w=640" poster="https://images.pexels.com/videos/9365450/pexels-photo-9365450.jpeg?auto=compress&w=640" muted loop playsinline disablepictureinpicture controlslist="nodownload noplaybackrate nofullscreen" preload="none" tabindex="-1" aria-label="A member browsing on his laptop" style="width:100%;height:100%;object-fit:cover;display:block"></video></div></div></div><div data-col="1" style="display:flex;flex-direction:column;width:calc((100% - 36px)/3);will-change:transform"><div data-col-set="true" style="display:flex;flex-direction:column;gap:18px"><div style="flex:none;width:100%;aspect-ratio:0.72;border-radius:999px 999px 22px 22px;overflow:hidden;box-shadow:0 18px 44px rgba(43,45,66,.16);background:#B9770E"><video data-src="https://www.pexels.com/download/video/9464643/?w=640" poster="https://images.pexels.com/videos/9464643/pexels-photo-9464643.jpeg?auto=compress&w=640" muted loop playsinline disablepictureinpicture controlslist="nodownload noplaybackrate nofullscreen" preload="none" tabindex="-1" aria-label="A team meeting" style="width:100%;height:100%;object-fit:cover;display:block"></video></div><div style="flex:none;width:100%;aspect-ratio:0.6;border-radius:999px;overflow:hidden;box-shadow:0 18px 44px rgba(43,45,66,.16);background:#B9770E"><video data-src="https://www.pexels.com/download/video/9365386/?w=640" poster="https://images.pexels.com/videos/9365386/pexels-photo-9365386.jpeg?auto=compress&w=640" muted loop playsinline disablepictureinpicture controlslist="nodownload noplaybackrate nofullscreen" preload="none" tabindex="-1" aria-label="A team having a meeting" style="width:100%;height:100%;object-fit:cover;display:block"></video></div><div style="flex:none;width:100%;aspect-ratio:0.8;border-radius:22px 22px 999px 999px;overflow:hidden;box-shadow:0 18px 44px rgba(43,45,66,.16);background:#B9770E"><video data-src="https://www.pexels.com/download/video/9464877/?h=720" poster="https://images.pexels.com/videos/9464877/pexels-photo-9464877.jpeg?auto=compress&w=640" muted loop playsinline disablepictureinpicture controlslist="nodownload noplaybackrate nofullscreen" preload="none" tabindex="-1" aria-label="Colleagues in conversation at the office" style="width:100%;height:100%;object-fit:cover;display:block"></video></div><div style="flex:none;width:100%;aspect-ratio:0.9;border-radius:22px;overflow:hidden;box-shadow:0 18px 44px rgba(43,45,66,.16);background:#B9770E"><video data-src="https://www.pexels.com/download/video/9365167/?w=640" poster="https://images.pexels.com/videos/9365167/pexels-photo-9365167.jpeg?auto=compress&w=640" muted loop playsinline disablepictureinpicture controlslist="nodownload noplaybackrate nofullscreen" preload="none" tabindex="-1" aria-label="A man and a woman reviewing work on a laptop" style="width:100%;height:100%;object-fit:cover;display:block"></video></div></div><div aria-hidden="true" style="display:flex;flex-direction:column;gap:18px;margin-top:18px"><div style="flex:none;width:100%;aspect-ratio:0.72;border-radius:999px 999px 22px 22px;overflow:hidden;box-shadow:0 18px 44px rgba(43,45,66,.16);background:#B9770E"><video data-src="https://www.pexels.com/download/video/9464643/?w=640" poster="https://images.pexels.com/videos/9464643/pexels-photo-9464643.jpeg?auto=compress&w=640" muted loop playsinline disablepictureinpicture controlslist="nodownload noplaybackrate nofullscreen" preload="none" tabindex="-1" aria-label="A team meeting" style="width:100%;height:100%;object-fit:cover;display:block"></video></div><div style="flex:none;width:100%;aspect-ratio:0.6;border-radius:999px;overflow:hidden;box-shadow:0 18px 44px rgba(43,45,66,.16);background:#B9770E"><video data-src="https://www.pexels.com/download/video/9365386/?w=640" poster="https://images.pexels.com/videos/9365386/pexels-photo-9365386.jpeg?auto=compress&w=640" muted loop playsinline disablepictureinpicture controlslist="nodownload noplaybackrate nofullscreen" preload="none" tabindex="-1" aria-label="A team having a meeting" style="width:100%;height:100%;object-fit:cover;display:block"></video></div><div style="flex:none;width:100%;aspect-ratio:0.8;border-radius:22px 22px 999px 999px;overflow:hidden;box-shadow:0 18px 44px rgba(43,45,66,.16);background:#B9770E"><video data-src="https://www.pexels.com/download/video/9464877/?h=720" poster="https://images.pexels.com/videos/9464877/pexels-photo-9464877.jpeg?auto=compress&w=640" muted loop playsinline disablepictureinpicture controlslist="nodownload noplaybackrate nofullscreen" preload="none" tabindex="-1" aria-label="Colleagues in conversation at the office" style="width:100%;height:100%;object-fit:cover;display:block"></video></div><div style="flex:none;width:100%;aspect-ratio:0.9;border-radius:22px;overflow:hidden;box-shadow:0 18px 44px rgba(43,45,66,.16);background:#B9770E"><video data-src="https://www.pexels.com/download/video/9365167/?w=640" poster="https://images.pexels.com/videos/9365167/pexels-photo-9365167.jpeg?auto=compress&w=640" muted loop playsinline disablepictureinpicture controlslist="nodownload noplaybackrate nofullscreen" preload="none" tabindex="-1" aria-label="A man and a woman reviewing work on a laptop" style="width:100%;height:100%;object-fit:cover;display:block"></video></div></div></div><div data-col="-1" style="display:flex;flex-direction:column;width:calc((100% - 36px)/3);will-change:transform"><div data-col-set="true" style="display:flex;flex-direction:column;gap:18px"><div style="flex:none;width:100%;aspect-ratio:0.62;border-radius:999px;overflow:hidden;box-shadow:0 18px 44px rgba(43,45,66,.16);background:#B9770E"><video data-src="https://www.pexels.com/download/video/9365445/?w=640" poster="https://images.pexels.com/videos/9365445/pexels-photo-9365445.jpeg?auto=compress&w=640" muted loop playsinline disablepictureinpicture controlslist="nodownload noplaybackrate nofullscreen" preload="none" tabindex="-1" aria-label="Members at computers and laptops" style="width:100%;height:100%;object-fit:cover;display:block"></video></div><div style="flex:none;width:100%;aspect-ratio:0.9;border-radius:22px;overflow:hidden;box-shadow:0 18px 44px rgba(43,45,66,.16);background:#B9770E"><video data-src="https://www.pexels.com/download/video/8685430/?w=640" poster="https://images.pexels.com/videos/8685430/pexels-photo-8685430.jpeg?auto=compress&w=640" muted loop playsinline disablepictureinpicture controlslist="nodownload noplaybackrate nofullscreen" preload="none" tabindex="-1" aria-label="Colleagues in conversation at the office" style="width:100%;height:100%;object-fit:cover;display:block"></video></div><div style="flex:none;width:100%;aspect-ratio:0.76;border-radius:999px 999px 22px 22px;overflow:hidden;box-shadow:0 18px 44px rgba(43,45,66,.16);background:#B9770E"><video data-src="https://www.pexels.com/download/video/8731297/?h=720" poster="https://images.pexels.com/videos/8731297/pexels-photo-8731297.jpeg?auto=compress&w=640" muted loop playsinline disablepictureinpicture controlslist="nodownload noplaybackrate nofullscreen" preload="none" tabindex="-1" aria-label="A member deep in thought at his desk" style="width:100%;height:100%;object-fit:cover;display:block"></video></div></div><div aria-hidden="true" style="display:flex;flex-direction:column;gap:18px;margin-top:18px"><div style="flex:none;width:100%;aspect-ratio:0.62;border-radius:999px;overflow:hidden;box-shadow:0 18px 44px rgba(43,45,66,.16);background:#B9770E"><video data-src="https://www.pexels.com/download/video/9365445/?w=640" poster="https://images.pexels.com/videos/9365445/pexels-photo-9365445.jpeg?auto=compress&w=640" muted loop playsinline disablepictureinpicture controlslist="nodownload noplaybackrate nofullscreen" preload="none" tabindex="-1" aria-label="Members at computers and laptops" style="width:100%;height:100%;object-fit:cover;display:block"></video></div><div style="flex:none;width:100%;aspect-ratio:0.9;border-radius:22px;overflow:hidden;box-shadow:0 18px 44px rgba(43,45,66,.16);background:#B9770E"><video data-src="https://www.pexels.com/download/video/8685430/?w=640" poster="https://images.pexels.com/videos/8685430/pexels-photo-8685430.jpeg?auto=compress&w=640" muted loop playsinline disablepictureinpicture controlslist="nodownload noplaybackrate nofullscreen" preload="none" tabindex="-1" aria-label="Colleagues in conversation at the office" style="width:100%;height:100%;object-fit:cover;display:block"></video></div><div style="flex:none;width:100%;aspect-ratio:0.76;border-radius:999px 999px 22px 22px;overflow:hidden;box-shadow:0 18px 44px rgba(43,45,66,.16);background:#B9770E"><video data-src="https://www.pexels.com/download/video/8731297/?h=720" poster="https://images.pexels.com/videos/8731297/pexels-photo-8731297.jpeg?auto=compress&w=640" muted loop playsinline disablepictureinpicture controlslist="nodownload noplaybackrate nofullscreen" preload="none" tabindex="-1" aria-label="A member deep in thought at his desk" style="width:100%;height:100%;object-fit:cover;display:block"></video></div></div></div></div>
+        
+      </div>
+    </div>
+    <div style="position:absolute;left:50%;bottom:24px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;opacity:.8">
+      <span>Scroll</span>
+      <span style="width:1px;height:36px;background:rgba(43,45,66,.45);position:relative;overflow:hidden;display:block"><span style="position:absolute;left:-2px;top:12px;width:5px;height:5px;border-radius:50%;background:#2B2D42;animation:hive-cue 1.8s ease-in-out infinite"></span></span>
+    </div>
+  </section>
+
+  <!-- 2 MARQUEE -->
+  <section data-screen-label="Marquee" aria-hidden="true" style="background:#2B2D42;color:#F5F5F5;overflow:hidden;padding:28px 0;white-space:nowrap">
+    <div ref="{{ marqueeRef }}" data-marquee="true" style="display:inline-flex;will-change:transform">
+      <span style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(56px,9vw,132px);letter-spacing:-.03em;line-height:1;padding:0 36px;color:transparent;-webkit-text-stroke:1.5px #F5F5F5">Work Better. Together.</span><span style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(56px,9vw,132px);letter-spacing:-.03em;line-height:1;padding:0 36px;color:#D49516">Work Better. Together.</span><span style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(56px,9vw,132px);letter-spacing:-.03em;line-height:1;padding:0 36px;color:transparent;-webkit-text-stroke:1.5px #F5F5F5">Work Better. Together.</span><span style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(56px,9vw,132px);letter-spacing:-.03em;line-height:1;padding:0 36px;color:#D49516">Work Better. Together.</span><span style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(56px,9vw,132px);letter-spacing:-.03em;line-height:1;padding:0 36px;color:transparent;-webkit-text-stroke:1.5px #F5F5F5">Work Better. Together.</span><span style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(56px,9vw,132px);letter-spacing:-.03em;line-height:1;padding:0 36px;color:#D49516">Work Better. Together.</span>
+    </div>
+  </section>
+
+  <!-- 3 A SPACE BUILT FOR YOU -->
+  <section data-screen-label="A space built for you" style="background:#F5F5F5;overflow:hidden">
+    <div style="max-width:1320px;margin:0 auto;padding:120px 28px 96px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr));gap:64px 72px;align-items:center">
+      <div>
+        <div data-reveal="rise" style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#9B6A6C;margin-bottom:20px">A space built for you</div>
+        <h2 data-reveal="rise" style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(28px,3vw,42px);line-height:1.12;letter-spacing:-.02em;margin:0 0 24px;text-wrap:pretty">We created this hub for innovators, creators, and professionals in Accra, located in the vibrant Tse Addo neighborhood.</h2>
+        <p data-reveal="rise" style="font-size:18px;color:#5A5C72;max-width:52ch;margin:0 0 32px">Fast internet, steady power and full air conditioning, inside a secure campus with parking. Come for the desk; stay for the people.</p>
+        <a data-reveal="rise" href="/about" data-nav="true" style="color:#2B2D42;font-weight:700;display:inline-flex;align-items:center;gap:10px;padding:12px 0;border-bottom:2px solid #D49516;transition:gap .2s,color .2s" style-hover="gap:16px;color:#9B6A6C">Our story <span aria-hidden="true">→</span></a>
+      </div>
+      <div style="position:relative;width:100%;aspect-ratio:1/0.95">
+        <div data-reveal="clip" style="position:absolute;left:0;top:0;width:66%;aspect-ratio:4/5;border-radius:16px;overflow:hidden;box-shadow:0 1px 2px rgba(43,45,66,.06),0 24px 60px rgba(43,45,66,.14)">
+          <img data-px="0.08" src="/assets/photos/kitchen-bar.webp" alt="The kitchen bar at The Hive" style="width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.12);will-change:transform">
+        </div>
+        <div data-reveal="clip" style="position:absolute;right:0;bottom:0;width:52%;aspect-ratio:4/3;border-radius:16px;overflow:hidden;border:8px solid #F5F5F5;box-shadow:0 1px 2px rgba(43,45,66,.06),0 24px 60px rgba(43,45,66,.18)">
+          <img data-px="-0.1" src="/assets/photos/chesterfield-lounge.webp" alt="A quiet lounge corner" style="width:100%;height:100%;object-fit:cover;display:block;transform:scale(1.15);will-change:transform">
+        </div>
+        <div style="position:absolute;right:8%;top:6%;width:64px;height:72px;background:#D49516;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></div>
+      </div>
+    </div>
+    <div style="max-width:1320px;margin:0 auto;padding:0 28px 120px">
+      <div data-reveal="stagger" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1px;background:#E6E6EA;border-radius:16px;overflow:hidden;border:1px solid #E6E6EA">
+        <div data-reveal-item="true" style="background:#FFFFFF;padding:32px 28px"><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:56px;letter-spacing:-.03em;line-height:1"><span data-count="4.9" data-decimals="1">0.0</span></div><div style="font-weight:700;margin-top:10px">Google rating</div><div style="font-size:14px;color:#5A5C72">Out of 5 stars</div></div>
+        <div data-reveal-item="true" style="background:#FFFFFF;padding:32px 28px"><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:56px;letter-spacing:-.03em;line-height:1"><span data-count="72">0</span></div><div style="font-weight:700;margin-top:10px">Reviews</div><div style="font-size:14px;color:#5A5C72">From members and guests</div></div>
+        <div data-reveal-item="true" style="background:#FFFFFF;padding:32px 28px"><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:56px;letter-spacing:-.03em;line-height:1"><span data-count="8">0</span><span style="font-size:28px">am</span> <span style="font-size:28px;color:#9B6A6C">to</span> 5<span style="font-size:28px">pm</span></div><div style="font-weight:700;margin-top:10px">Mon to Fri</div><div style="font-size:14px;color:#5A5C72">Closed weekends</div></div>
+        <div data-reveal-item="true" style="background:#FFFFFF;padding:32px 28px"><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:56px;letter-spacing:-.03em;line-height:1"><span data-count="4">0</span></div><div style="font-weight:700;margin-top:10px">Ways to work</div><div style="font-size:14px;color:#5A5C72">Desks, pods, rooms, offices</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 WAYS TO WORK -->
+  <section data-screen-label="Ways to work" ref="{{ hsOuterRef }}" data-hs-outer="true" style="background:#FFFFFF;height:340vh;position:relative">
+    <div ref="{{ hsInnerRef }}" data-hs-inner="true" style="position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;gap:40px">
+      <div style="max-width:1320px;width:100%;margin:0 auto;padding:0 28px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
+        <div><div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#9B6A6C;margin-bottom:14px">Ways to work</div><h2 style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(34px,4.2vw,56px);line-height:1.04;letter-spacing:-.02em;margin:0">Pick the room that fits the day.</h2></div>
+        <a href="/workspaces" data-nav="true" style="color:#2B2D42;font-weight:700;display:inline-flex;align-items:center;gap:10px;padding:12px 0;border-bottom:2px solid #D49516;transition:gap .2s,color .2s" style-hover="gap:16px;color:#9B6A6C">All workspaces <span aria-hidden="true">→</span></a>
+      </div>
+      <div ref="{{ hsTrackRef }}" data-hs-track="true" style="display:flex;gap:24px;padding:0 28px 0 max(28px,calc((100vw - 1320px)/2 + 28px));will-change:transform;align-items:stretch">
+        <a data-tilt="true" href="/coworking-desks" data-nav="true" style="flex:none;width:min(520px,78vw);display:block;background:#F5F5F5;border-radius:16px;overflow:hidden;color:#2B2D42;box-shadow:0 1px 2px rgba(43,45,66,.06),0 12px 32px rgba(43,45,66,.08);transition:transform .4s ease,box-shadow .4s ease" style-hover="box-shadow:0 2px 4px rgba(43,45,66,.06),0 28px 60px rgba(43,45,66,.16);color:#2B2D42">
+          <div style="overflow:hidden;aspect-ratio:16/10"><img src="https://img.magnific.com/free-photo/couple-black-guys-work-modern-office_641386-717.jpg?w=1400&q=80" alt="Coworking desks" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s cubic-bezier(.2,.7,.2,1)"></div>
+          <div style="padding:24px 26px 26px"><div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#9B6A6C;margin-bottom:8px">01</div><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:28px;letter-spacing:-.02em;line-height:1.15">Coworking Desks</div><p style="margin:10px 0 18px;color:#5A5C72;font-size:16px;max-width:40ch">Open desks in a calm room with fast internet, steady power and free coffee. Come for a day or make it your base.</p><div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #E6E6EA;padding-top:14px"><span style="font-weight:700">From GHS 180/day</span><span style="color:#9B6A6C;font-weight:700">Explore →</span></div></div>
+        </a>
+        <a data-tilt="true" href="/private-pods" data-nav="true" style="flex:none;width:min(520px,78vw);display:block;background:#F5F5F5;border-radius:16px;overflow:hidden;color:#2B2D42;box-shadow:0 1px 2px rgba(43,45,66,.06),0 12px 32px rgba(43,45,66,.08);transition:transform .4s ease,box-shadow .4s ease" style-hover="box-shadow:0 2px 4px rgba(43,45,66,.06),0 28px 60px rgba(43,45,66,.16);color:#2B2D42">
+          <div style="overflow:hidden;aspect-ratio:16/10"><img src="https://img.magnific.com/free-photo/african-american-businessman-having-remote-conversation-with-team-discussing-marketing-strategy-online-videocall-meeting-diverse-coworkers-working-company-growth-report-office_482257-66320.jpg?w=1400&q=80" alt="Private pod" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s cubic-bezier(.2,.7,.2,1)"></div>
+          <div style="padding:24px 26px 26px"><div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#9B6A6C;margin-bottom:8px">02</div><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:28px;letter-spacing:-.02em;line-height:1.15">Private Pods</div><p style="margin:10px 0 18px;color:#5A5C72;font-size:16px;max-width:40ch">Quiet, enclosed pods for calls, interviews and deep focus. Book by the hour when you need the door closed.</p><div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #E6E6EA;padding-top:14px"><span style="font-weight:700">From GHS 60/hr</span><span style="color:#9B6A6C;font-weight:700">Explore →</span></div></div>
+        </a>
+        <a data-tilt="true" href="/meeting-rooms" data-nav="true" style="flex:none;width:min(520px,78vw);display:block;background:#F5F5F5;border-radius:16px;overflow:hidden;color:#2B2D42;box-shadow:0 1px 2px rgba(43,45,66,.06),0 12px 32px rgba(43,45,66,.08);transition:transform .4s ease,box-shadow .4s ease" style-hover="box-shadow:0 2px 4px rgba(43,45,66,.06),0 28px 60px rgba(43,45,66,.16);color:#2B2D42">
+          <div style="overflow:hidden;aspect-ratio:16/10"><img src="https://img.magnific.com/free-photo/african-american-team-collaborates-financial-project-business-space_482257-119790.jpg?w=1400&q=80" alt="Meeting room" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s cubic-bezier(.2,.7,.2,1)"></div>
+          <div style="padding:24px 26px 26px"><div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#9B6A6C;margin-bottom:8px">03</div><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:28px;letter-spacing:-.02em;line-height:1.15">Meeting Rooms</div><p style="margin:10px 0 18px;color:#5A5C72;font-size:16px;max-width:40ch">Air-conditioned rooms for your team, your clients or your board. Screen, whiteboard and coffee included.</p><div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #E6E6EA;padding-top:14px"><span style="font-weight:700">From GHS 250/hr</span><span style="color:#9B6A6C;font-weight:700">Explore →</span></div></div>
+        </a>
+        <a data-tilt="true" href="/private-offices" data-nav="true" style="flex:none;width:min(520px,78vw);display:block;background:#F5F5F5;border-radius:16px;overflow:hidden;color:#2B2D42;box-shadow:0 1px 2px rgba(43,45,66,.06),0 12px 32px rgba(43,45,66,.08);transition:transform .4s ease,box-shadow .4s ease" style-hover="box-shadow:0 2px 4px rgba(43,45,66,.06),0 28px 60px rgba(43,45,66,.16);color:#2B2D42">
+          <div style="overflow:hidden;aspect-ratio:16/10"><img src="https://img.magnific.com/free-photo/black-corporate-team-collaborate-global-investment-strategy_482257-119871.jpg?w=1400&q=80" alt="Private office" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s cubic-bezier(.2,.7,.2,1)"></div>
+          <div style="padding:24px 26px 26px"><div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#9B6A6C;margin-bottom:8px">04</div><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:28px;letter-spacing:-.02em;line-height:1.15">Private Offices</div><p style="margin:10px 0 18px;color:#5A5C72;font-size:16px;max-width:40ch">Lockable offices for growing teams, with everything in the building at your door. Move in and get to work.</p><div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #E6E6EA;padding-top:14px"><span style="font-weight:700">From GHS 6,500/month</span><span style="color:#9B6A6C;font-weight:700">Explore →</span></div></div>
+        </a>
+      </div>
+      <div ref="{{ hsDotsRef }}" data-hs-dots="true" style="max-width:1320px;width:100%;margin:0 auto;padding:0 28px;display:flex;gap:8px;align-items:center">
+        <span style="display:block;height:8px;width:32px;border-radius:4px;background:#D49516;transition:width .4s cubic-bezier(.2,.7,.2,1),background .3s"></span><span style="display:block;height:8px;width:8px;border-radius:4px;background:#B9BAC6;transition:width .4s cubic-bezier(.2,.7,.2,1),background .3s"></span><span style="display:block;height:8px;width:8px;border-radius:4px;background:#B9BAC6;transition:width .4s cubic-bezier(.2,.7,.2,1),background .3s"></span><span style="display:block;height:8px;width:8px;border-radius:4px;background:#B9BAC6;transition:width .4s cubic-bezier(.2,.7,.2,1),background .3s"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 WHY THE HIVE -->
+  <section data-screen-label="Why The Hive" style="background:#2B2D42;color:#F5F5F5;position:relative;overflow:hidden">
+    <div style="position:absolute;inset:0;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 66L0 50L0 16L28 0L56 16L56 50Z' fill='none' stroke='%23F5F5F5' stroke-opacity='.1'/%3E%3Cpath d='M28 0L28 34L0 50L0 84L28 100L56 84L56 50L28 34' fill='none' stroke='%23F5F5F5' stroke-opacity='.1'/%3E%3C/svg%3E&quot;);mask-image:radial-gradient(ellipse at 0% 100%,rgba(0,0,0,1),rgba(0,0,0,0) 60%);-webkit-mask-image:radial-gradient(ellipse at 0% 100%,rgba(0,0,0,1),rgba(0,0,0,0) 60%)"></div>
+    <div style="max-width:1320px;margin:0 auto;padding:120px 28px;position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:56px;align-items:center">
+      <div>
+        <div data-reveal="rise" style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#D49516;margin-bottom:20px">Why The Hive</div>
+        <h2 data-reveal="rise" style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(34px,4.2vw,56px);line-height:1.04;letter-spacing:-.02em;margin:0 0 24px;text-wrap:pretty">Everything that gets in the way of good work, handled.</h2>
+        <p data-reveal="rise" style="font-size:18px;color:#B9BAC6;max-width:46ch;margin:0 0 32px">The basics are not basic in Accra. We take care of them so you only have to think about the work.</p>
+        <a data-reveal="rise" href="/gallery" data-nav="true" style="border:1.5px solid #F5F5F5;color:#F5F5F5;padding:13px 26px;border-radius:12px;font-weight:700;display:inline-flex;align-items:center;gap:10px;transition:background .2s,color .2s" style-hover="background:#F5F5F5;color:#2B2D42">Take the virtual tour <span aria-hidden="true">→</span></a>
+      </div>
+      <div data-reveal="stagger" data-hexgrid="true" style="--hw:168px;--hg:10px;display:flex;flex-direction:column;align-items:center;justify-self:center;width:100%;max-width:540px;padding:4px">
+          <div style="display:flex;gap:var(--hg);justify-content:center;width:100%;"><div data-reveal-item="true" style="width:var(--hw);aspect-ratio:1/1.12;flex:none;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);background:rgba(255,255,255,.07);color:#F5F5F5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:0 22px;font-size:14px;font-weight:700;line-height:1.3;cursor:default;transition:background .35s,color .35s" style-hover="background:#D49516;color:#2B2D42"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><ellipse cx="12" cy="12" rx="4" ry="9"></ellipse><line x1="3" y1="12" x2="21" y2="12"></line></svg>Fast, reliable internet</div><div data-reveal-item="true" style="width:var(--hw);aspect-ratio:1/1.12;flex:none;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);background:rgba(255,255,255,.07);color:#F5F5F5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:0 22px;font-size:14px;font-weight:700;line-height:1.3;cursor:default;transition:background .35s,color .35s" style-hover="background:#D49516;color:#2B2D42"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><polygon points="13 2 5 14 12 14 11 22 19 10 12 10"></polygon></svg>Steady power</div><div data-reveal-item="true" style="width:var(--hw);aspect-ratio:1/1.12;flex:none;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);background:rgba(255,255,255,.07);color:#F5F5F5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:0 22px;font-size:14px;font-weight:700;line-height:1.3;cursor:default;transition:background .35s,color .35s" style-hover="background:#D49516;color:#2B2D42"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="12" y1="2" x2="12" y2="22"></line><line x1="3.3" y1="7" x2="20.7" y2="17"></line><line x1="3.3" y1="17" x2="20.7" y2="7"></line><circle cx="12" cy="12" r="3"></circle></svg>Fully air-conditioned</div></div>
+          <div style="margin-top:calc(var(--hw)*-0.27);display:flex;gap:var(--hg);justify-content:center;width:100%"><div data-reveal-item="true" style="width:var(--hw);aspect-ratio:1/1.12;flex:none;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);background:rgba(255,255,255,.07);color:#F5F5F5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:0 22px;font-size:14px;font-weight:700;line-height:1.3;cursor:default;transition:background .35s,color .35s" style-hover="background:#D49516;color:#2B2D42"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="4" y="9" width="12" height="10" rx="3"></rect><circle cx="17.5" cy="13" r="2.5"></circle><line x1="8" y1="3" x2="8" y2="6"></line><line x1="12" y1="3" x2="12" y2="6"></line></svg>Free coffee</div><div data-reveal-item="true" style="width:var(--hw);aspect-ratio:1/1.12;flex:none;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);background:rgba(255,255,255,.07);color:#F5F5F5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:0 22px;font-size:14px;font-weight:700;line-height:1.3;cursor:default;transition:background .35s,color .35s" style-hover="background:#D49516;color:#2B2D42"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"></rect><circle cx="8" cy="12" r="1.6"></circle><circle cx="12" cy="12" r="1.6"></circle><circle cx="16" cy="12" r="1.6"></circle></svg>Bookable meeting rooms</div></div>
+          <div style="margin-top:calc(var(--hw)*-0.27);display:flex;gap:var(--hg);justify-content:center;width:100%"><div data-reveal-item="true" style="width:var(--hw);aspect-ratio:1/1.12;flex:none;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);background:rgba(255,255,255,.07);color:#F5F5F5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:0 22px;font-size:14px;font-weight:700;line-height:1.3;cursor:default;transition:background .35s,color .35s" style-hover="background:#D49516;color:#2B2D42"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="3" width="14" height="18" rx="2"></rect><circle cx="14.5" cy="12" r="1.2"></circle></svg>Private pods</div><div data-reveal-item="true" style="width:var(--hw);aspect-ratio:1/1.12;flex:none;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);background:rgba(255,255,255,.07);color:#F5F5F5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:0 22px;font-size:14px;font-weight:700;line-height:1.3;cursor:default;transition:background .35s,color .35s" style-hover="background:#D49516;color:#2B2D42"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><rect x="5" y="10" width="14" height="11" rx="2"></rect><circle cx="12" cy="6" r="3"></circle><line x1="12" y1="14" x2="12" y2="17"></line></svg>Secure church campus with parking</div><div data-reveal-item="true" style="width:var(--hw);aspect-ratio:1/1.12;flex:none;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);background:rgba(255,255,255,.07);color:#F5F5F5;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:0 22px;font-size:14px;font-weight:700;line-height:1.3;cursor:default;transition:background .35s,color .35s" style-hover="background:#D49516;color:#2B2D42"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="5" r="2.5"></circle><circle cx="5" cy="18" r="2.5"></circle><circle cx="19" cy="18" r="2.5"></circle><line x1="12" y1="7.5" x2="5" y2="15.5"></line><line x1="12" y1="7.5" x2="19" y2="15.5"></line><line x1="7.5" y1="18" x2="16.5" y2="18"></line></svg>Networking and events</div></div>
+        </div>
+    </div>
+  </section>
+
+  <!-- 6 PLANS PREVIEW -->
+  <section data-screen-label="Plans preview" style="background:#F5F5F5">
+    <div style="max-width:1320px;margin:0 auto;padding:120px 28px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:48px">
+        <div><div data-reveal="rise" style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#9B6A6C;margin-bottom:14px">Plans</div><h2 data-reveal="rise" style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(34px,4.2vw,56px);line-height:1.04;letter-spacing:-.02em;margin:0;max-width:20ch;text-wrap:balance">Pay for the days you actually work.</h2></div>
+        <p data-reveal="rise" style="margin:0;color:#5A5C72;max-width:36ch">Prices in Ghana cedis. Every pass includes internet, power, AC and coffee.</p>
+      </div>
+      <div data-reveal="stagger" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:20px;align-items:stretch">
+        <div data-reveal-item="true" data-tilt="true" style="background:#FFFFFF;border-radius:16px;padding:36px 32px;box-shadow:0 1px 2px rgba(43,45,66,.06),0 12px 32px rgba(43,45,66,.08);display:flex;flex-direction:column;gap:24px;transition:transform .4s ease">
+          <div><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:24px;letter-spacing:-.02em">Single Day Pass</div><div style="font-size:14px;color:#5A5C72;margin-top:4px">Try us for a day</div></div>
+          <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:48px;letter-spacing:-.03em;line-height:1"><span style="font-size:20px;letter-spacing:0;vertical-align:top;margin-right:4px">GHS</span>180</div>
+          <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;font-size:16px"><li style="display:flex;gap:12px;align-items:flex-start"><span style="flex:none;width:12px;height:14px;margin-top:7px;background:#D49516;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span>Any open desk, 8am to 5pm</li><li style="display:flex;gap:12px;align-items:flex-start"><span style="flex:none;width:12px;height:14px;margin-top:7px;background:#D49516;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span>Fast internet and free coffee</li><li style="display:flex;gap:12px;align-items:flex-start"><span style="flex:none;width:12px;height:14px;margin-top:7px;background:#D49516;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span>Secure parking on campus</li></ul>
+          <a href="/book?plan=day" data-nav="true" style="margin-top:auto;border:1.5px solid #2B2D42;color:#2B2D42;padding:13px 24px;border-radius:12px;font-weight:700;text-align:center;display:block;transition:background .2s,color .2s" style-hover="background:#2B2D42;color:#F5F5F5">Choose Day Pass</a>
+        </div>
+        <div data-reveal-item="true" data-tilt="true" style="background:#FFFFFF;border-radius:16px;padding:36px 32px;box-shadow:0 1px 2px rgba(43,45,66,.06),0 12px 32px rgba(43,45,66,.08);display:flex;flex-direction:column;gap:24px;transition:transform .4s ease;position:relative">
+          <div style="position:absolute;top:20px;right:20px;background:#FBF1DC;color:#A8750F;font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;padding:6px 12px;border-radius:999px">Most flexible</div>
+          <div><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:24px;letter-spacing:-.02em">10-Day Flex Pass</div><div style="font-size:14px;color:#5A5C72;margin-top:4px">Any 10 days within 30</div></div>
+          <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:48px;letter-spacing:-.03em;line-height:1"><span style="font-size:20px;letter-spacing:0;vertical-align:top;margin-right:4px">GHS</span>1,350</div>
+          <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;font-size:16px"><li style="display:flex;gap:12px;align-items:flex-start"><span style="flex:none;width:12px;height:14px;margin-top:7px;background:#D49516;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span>Save GHS 450 against day passes</li><li style="display:flex;gap:12px;align-items:flex-start"><span style="flex:none;width:12px;height:14px;margin-top:7px;background:#D49516;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span>Come in on the days you choose</li><li style="display:flex;gap:12px;align-items:flex-start"><span style="flex:none;width:12px;height:14px;margin-top:7px;background:#D49516;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span>Member rates on meeting rooms</li></ul>
+          <a href="/book?plan=flex10" data-nav="true" style="margin-top:auto;background:#9B6A6C;color:#FFFFFF;padding:14px 24px;border-radius:12px;font-weight:700;text-align:center;display:block;transition:background .2s" style-hover="background:#7E5456;color:#FFFFFF">Choose Flex Pass</a>
+        </div>
+        <div data-reveal-item="true" data-tilt="true" style="background:#2B2D42;color:#F5F5F5;border-radius:16px;padding:36px 32px;box-shadow:0 1px 2px rgba(43,45,66,.06),0 12px 32px rgba(43,45,66,.16);display:flex;flex-direction:column;gap:24px;transition:transform .4s ease;position:relative">
+          <div style="position:absolute;top:20px;right:20px;background:#D49516;color:#2B2D42;font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;padding:6px 12px;border-radius:999px">Best value</div>
+          <div><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:24px;letter-spacing:-.02em">All-Access Pass</div><div style="font-size:14px;color:#B9BAC6;margin-top:4px">Your desk, every weekday</div></div>
+          <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:48px;letter-spacing:-.03em;line-height:1"><span style="font-size:20px;letter-spacing:0;vertical-align:top;margin-right:4px">GHS</span>2,650<span style="font-size:18px;letter-spacing:0;color:#B9BAC6;font-weight:400;font-family:'Pontano Sans',sans-serif">/month</span></div>
+          <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;font-size:16px"><li style="display:flex;gap:12px;align-items:flex-start"><span style="flex:none;width:12px;height:14px;margin-top:7px;background:#D49516;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span>Unlimited weekdays, 8am to 5pm</li><li style="display:flex;gap:12px;align-items:flex-start"><span style="flex:none;width:12px;height:14px;margin-top:7px;background:#D49516;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span>Priority booking for pods and rooms</li><li style="display:flex;gap:12px;align-items:flex-start"><span style="flex:none;width:12px;height:14px;margin-top:7px;background:#D49516;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span>Invitations to every member event</li></ul>
+          <a href="/book?plan=all" data-nav="true" style="margin-top:auto;background:#D49516;color:#2B2D42;padding:14px 24px;border-radius:12px;font-weight:700;text-align:center;display:block;transition:background .2s" style-hover="background:#E5B45A;color:#2B2D42">Choose All-Access</a>
+        </div>
+      </div>
+      <div style="display:flex;justify-content:center;margin-top:40px"><a href="/plans" data-nav="true" style="color:#2B2D42;font-weight:700;display:inline-flex;align-items:center;gap:10px;padding:12px 0;border-bottom:2px solid #D49516;transition:gap .2s,color .2s" style-hover="gap:16px;color:#9B6A6C">Compare all plans <span aria-hidden="true">→</span></a></div>
+    </div>
+  </section>
+
+  <!-- 7 WHAT MEMBERS SAY -->
+  <section data-screen-label="What members say" style="background:#FFFFFF;overflow:hidden">
+    <div style="max-width:1320px;margin:0 auto;padding:120px 28px;display:flex;flex-wrap:wrap;gap:56px 72px;align-items:center">
+      <div data-reveal="rise" style="flex:1 1 260px">
+        <div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#9B6A6C;margin-bottom:20px">What members say</div>
+        <div style="display:flex;align-items:baseline;gap:14px"><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:96px;letter-spacing:-.04em;line-height:1">4.9</div><div style="display:flex;gap:2px;color:#D49516;font-size:22px;letter-spacing:2px" aria-label="4.9 stars">★★★★★</div></div>
+        <div style="font-size:18px;color:#5A5C72;margin:8px 0 28px">from 72 Google reviews</div>
+        <a href="/about#reviews" data-nav="true" style="color:#2B2D42;font-weight:700;display:inline-flex;align-items:center;gap:10px;padding:12px 0;border-bottom:2px solid #D49516;transition:gap .2s,color .2s" style-hover="gap:16px;color:#9B6A6C">Read all reviews <span aria-hidden="true">→</span></a>
+      </div>
+      <div data-reveal="rise" style="flex:2 1 520px;min-width:0">
+        <div onPointerDown="{{ qDown }}" onPointerMove="{{ qMove }}" onPointerUp="{{ qUp }}" onPointerCancel="{{ qUp }}" style="overflow:hidden;cursor:grab;user-select:none;-webkit-user-select:none;touch-action:pan-y">
+          <div style="display:flex;transform:{{ qTx }};transition:{{ qTrans }};will-change:transform">
+            <sc-for list="{{ quotes }}" as="q" hint-placeholder-count="4">
+              <figure style="flex:0 0 100%;margin:0;padding:0 4px;min-width:0">
+                <blockquote style="margin:0;font-family:Epilogue,sans-serif;font-weight:500;font-size:clamp(24px,3vw,40px);line-height:1.3;letter-spacing:-.02em;text-wrap:pretty"><span style="color:#D49516">“</span>{{ q }}<span style="color:#D49516">”</span></blockquote>
+                <figcaption style="margin-top:24px;display:flex;align-items:center;gap:12px;font-size:14px;color:#5A5C72"><span style="width:12px;height:14px;background:#D49516;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);display:inline-block"></span>Google review</figcaption>
+              </figure>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:20px;margin-top:36px">
+          <div style="flex:1;height:2px;background:#E6E6EA;position:relative;overflow:hidden"><div ref="{{ qBarRef }}" data-qbar="true" style="position:absolute;left:0;top:0;bottom:0;width:0;background:#D49516"></div></div>
+          <div style="font-size:14px;color:#5A5C72;font-variant-numeric:tabular-nums">{{ qNum }} / 4</div>
+          <div style="display:flex;gap:8px">
+            <button type="button" onClick="{{ qPrev }}" aria-label="Previous review" style="width:44px;height:44px;border-radius:50%;border:1.5px solid #2B2D42;background:transparent;color:#2B2D42;cursor:pointer;display:grid;place-items:center;transition:background .2s,color .2s" style-hover="background:#2B2D42;color:#F5F5F5"><span style="display:block;width:9px;height:9px;border-left:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translate(2px,-2px)"></span></button>
+            <button type="button" onClick="{{ qNext }}" aria-label="Next review" style="width:44px;height:44px;border-radius:50%;border:1.5px solid #2B2D42;background:transparent;color:#2B2D42;cursor:pointer;display:grid;place-items:center;transition:background .2s,color .2s" style-hover="background:#2B2D42;color:#F5F5F5"><span style="display:block;width:9px;height:9px;border-right:1.5px solid currentColor;border-top:1.5px solid currentColor;transform:rotate(45deg) translate(-2px,2px)"></span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 YOUR HOST -->
+  <section data-screen-label="Your host" style="background:#FBF1DC">
+    <div style="max-width:1320px;margin:0 auto;padding:120px 28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:56px 80px;align-items:center">
+      <div data-reveal="hex" style="justify-self:center;width:min(100%,420px);aspect-ratio:0.88;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);background:#D49516;display:grid;place-items:center;text-align:center;padding:14px">
+        <div style="width:100%;height:100%;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%);background:#2B2D42;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:#F5F5F5">
+          <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="#D49516" stroke-width="1.3" stroke-linecap="round"><circle cx="12" cy="8.5" r="4"></circle><path d="M4 20c0-3.6 3.6-6 8-6s8 2.4 8 6"></path></svg>
+          <div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:20px;letter-spacing:-.02em">Doreen</div>
+          <div style="font-size:13px;color:#B9BAC6">Community Manager</div>
+        </div>
+      </div>
+      <div>
+        <div data-reveal="rise" style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#9B6A6C;margin-bottom:20px">Your host</div>
+        <h2 data-reveal="rise" style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(34px,4.2vw,56px);line-height:1.04;letter-spacing:-.02em;margin:0 0 20px;text-wrap:pretty">Meet Doreen, Community Manager.</h2>
+        <p data-reveal="rise" style="font-size:22px;font-family:Epilogue,sans-serif;font-weight:500;letter-spacing:-.02em;line-height:1.35;margin:0 0 20px;max-width:30ch;text-wrap:pretty">The first face you'll see, and the reason so many members come back.</p>
+        <p data-reveal="rise" style="font-size:17px;color:#5A5C72;max-width:50ch;margin:0 0 36px">Doreen runs the room: she'll show you around, find you the right desk and introduce you to the people you should know. Reviews mention her by name for a reason.</p>
+        <a data-reveal="rise" href="/contact" data-nav="true" style="background:#9B6A6C;color:#FFFFFF;padding:15px 28px;border-radius:12px;font-weight:700;display:inline-flex;align-items:center;gap:10px;transition:background .2s" style-hover="background:#7E5456;color:#FFFFFF">Book a free visit <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 EVENTS -->
+  <section data-screen-label="Events and community" style="background:#F5F5F5">
+    <div style="max-width:1320px;margin:0 auto;padding:120px 28px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:48px">
+        <div><div data-reveal="rise" style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#9B6A6C;margin-bottom:14px">Events and community</div><h2 data-reveal="rise" style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(34px,4.2vw,56px);line-height:1.04;letter-spacing:-.02em;margin:0;max-width:22ch;text-wrap:balance">Good things happen when good people share a room.</h2></div>
+        <a data-reveal="rise" href="/events" data-nav="true" style="color:#2B2D42;font-weight:700;display:inline-flex;align-items:center;gap:10px;padding:12px 0;border-bottom:2px solid #D49516;transition:gap .2s,color .2s" style-hover="gap:16px;color:#9B6A6C">See all events <span aria-hidden="true">→</span></a>
+      </div>
+      <div data-reveal="stagger" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:20px">
+        <a data-reveal-item="true" data-tilt="true" href="/events" data-nav="true" style="display:block;background:#FFFFFF;border-radius:16px;overflow:hidden;color:#2B2D42;box-shadow:0 1px 2px rgba(43,45,66,.06),0 12px 32px rgba(43,45,66,.08);transition:transform .4s ease,box-shadow .4s ease" style-hover="box-shadow:0 2px 4px rgba(43,45,66,.06),0 28px 60px rgba(43,45,66,.16);color:#2B2D42">
+          <div style="overflow:hidden;aspect-ratio:16/10;position:relative"><img src="https://img.magnific.com/free-photo/group-afro-americans-working-together_1303-8970.jpg?w=1400&q=80" alt="" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s cubic-bezier(.2,.7,.2,1)"><span style="position:absolute;top:14px;left:14px;background:rgba(43,45,66,.8);color:#F5F5F5;font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;padding:6px 10px;border-radius:999px;backdrop-filter:blur(8px)">Sample event</span></div>
+          <div style="padding:22px 24px 24px"><div style="display:inline-block;background:#FBF1DC;color:#A8750F;font-size:13px;font-weight:700;padding:6px 12px;border-radius:999px;margin-bottom:14px">Fri 6 Nov · 8:00am</div><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:24px;letter-spacing:-.02em;line-height:1.2">Members' Breakfast</div><p style="margin:8px 0 0;color:#5A5C72;font-size:15px">Coffee, pastries and the people down the hall you haven't met yet.</p></div>
+        </a>
+        <a data-reveal-item="true" data-tilt="true" href="/events" data-nav="true" style="display:block;background:#FFFFFF;border-radius:16px;overflow:hidden;color:#2B2D42;box-shadow:0 1px 2px rgba(43,45,66,.06),0 12px 32px rgba(43,45,66,.08);transition:transform .4s ease,box-shadow .4s ease" style-hover="box-shadow:0 2px 4px rgba(43,45,66,.06),0 28px 60px rgba(43,45,66,.16);color:#2B2D42">
+          <div style="overflow:hidden;aspect-ratio:16/10;position:relative"><img src="https://img.magnific.com/free-photo/black-corporate-team-collaborate-global-investment-strategy_482257-119871.jpg?w=1400&q=80" alt="" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s cubic-bezier(.2,.7,.2,1)"><span style="position:absolute;top:14px;left:14px;background:rgba(43,45,66,.8);color:#F5F5F5;font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;padding:6px 10px;border-radius:999px;backdrop-filter:blur(8px)">Sample event</span></div>
+          <div style="padding:22px 24px 24px"><div style="display:inline-block;background:#FBF1DC;color:#A8750F;font-size:13px;font-weight:700;padding:6px 12px;border-radius:999px;margin-bottom:14px">Thu 19 Nov · 4:00pm</div><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:24px;letter-spacing:-.02em;line-height:1.2">Founders' Roundtable</div><p style="margin:8px 0 0;color:#5A5C72;font-size:15px">Twelve seats, one honest conversation about building in Accra.</p></div>
+        </a>
+        <a data-reveal-item="true" data-tilt="true" href="/events" data-nav="true" style="display:block;background:#FFFFFF;border-radius:16px;overflow:hidden;color:#2B2D42;box-shadow:0 1px 2px rgba(43,45,66,.06),0 12px 32px rgba(43,45,66,.08);transition:transform .4s ease,box-shadow .4s ease" style-hover="box-shadow:0 2px 4px rgba(43,45,66,.06),0 28px 60px rgba(43,45,66,.16);color:#2B2D42">
+          <div style="overflow:hidden;aspect-ratio:16/10;position:relative"><img src="https://img.magnific.com/free-photo/couple-black-guys-work-modern-office_641386-717.jpg?w=1400&q=80" alt="" style="width:100%;height:100%;object-fit:cover;display:block;transition:transform .7s cubic-bezier(.2,.7,.2,1)"><span style="position:absolute;top:14px;left:14px;background:rgba(43,45,66,.8);color:#F5F5F5;font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;padding:6px 10px;border-radius:999px;backdrop-filter:blur(8px)">Sample event</span></div>
+          <div style="padding:22px 24px 24px"><div style="display:inline-block;background:#FBF1DC;color:#A8750F;font-size:13px;font-weight:700;padding:6px 12px;border-radius:999px;margin-bottom:14px">Sat 28 Nov · 10:00am</div><div style="font-family:Epilogue,sans-serif;font-weight:700;font-size:24px;letter-spacing:-.02em;line-height:1.2">Digital Skills Workshop</div><p style="margin:8px 0 0;color:#5A5C72;font-size:15px">Hands-on sessions on the tools that make small teams look big.</p></div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 VISIT US -->
+  <section data-screen-label="Visit us" style="background:#FFFFFF">
+    <div style="max-width:1320px;margin:0 auto;padding:120px 28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));gap:56px 72px;align-items:center">
+      <div data-reveal="clip" style="position:relative;aspect-ratio:4/3;border-radius:16px;overflow:hidden;background:#E9E4D6;box-shadow:0 1px 2px rgba(43,45,66,.06),0 24px 60px rgba(43,45,66,.18)">
+        <iframe title="Map of The Hive, ICGC Christ Temple East, Tse Addo" src="https://maps.google.com/maps?q=HVJ9%2B6J%2C%20Tse%20Addo%2C%20Accra&z=16&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe>
+        <a href="https://maps.app.goo.gl/yGtXRa84B5EEi823A" target="_blank" rel="noreferrer" style="position:absolute;left:16px;bottom:16px;background:#2B2D42;color:#F5F5F5;padding:10px 14px;border-radius:10px;font-weight:700;font-size:14px;display:inline-flex;align-items:center;gap:8px;box-shadow:0 8px 24px rgba(43,45,66,.25)" style-hover="background:#1E2030;color:#F5F5F5">Open in Google Maps <span aria-hidden="true">↗</span></a>
+      </div>
+      <div>
+        <div data-reveal="rise" style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#9B6A6C;margin-bottom:20px">Visit us</div>
+        <h2 data-reveal="rise" style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(34px,4.2vw,56px);line-height:1.04;letter-spacing:-.02em;margin:0 0 32px;text-wrap:pretty">Come and see it for yourself.</h2>
+        <div data-reveal="stagger" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:24px 32px;margin-bottom:36px">
+          <div data-reveal-item="true"><div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#9B6A6C;margin-bottom:6px">Address</div><div style="line-height:1.5">ICGC Christ Temple East,<br>Teshie Rasta Rd, Tse Addo, Accra</div></div>
+          <div data-reveal-item="true"><div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#9B6A6C;margin-bottom:6px">Hours</div><div style="line-height:1.5">Monday to Friday, 8am to 5pm<br><span style="color:#5A5C72">Closed weekends</span></div></div>
+          <div data-reveal-item="true"><div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#9B6A6C;margin-bottom:6px">Phone</div><a href="tel:+233256071000" style="font-weight:700">+233 25 607 1000</a></div>
+          <div data-reveal-item="true"><div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#9B6A6C;margin-bottom:6px">Email</div><a href="mailto:info@thehivegh.com" style="font-weight:700">info@thehivegh.com</a></div>
+        </div>
+        <div data-reveal="rise" style="display:flex;gap:14px;flex-wrap:wrap">
+          <a href="https://maps.app.goo.gl/yGtXRa84B5EEi823A" target="_blank" rel="noreferrer" style="border:1.5px solid #2B2D42;color:#2B2D42;padding:13px 26px;border-radius:12px;font-weight:700;display:inline-flex;align-items:center;gap:10px;transition:background .2s,color .2s" style-hover="background:#2B2D42;color:#F5F5F5">Get directions <span aria-hidden="true">↗</span></a>
+          <a href="https://wa.me/233256071000" target="_blank" rel="noreferrer" style="background:#25D366;color:#2B2D42;padding:14px 26px;border-radius:12px;font-weight:700;display:inline-flex;align-items:center;gap:10px;transition:background .2s" style-hover="background:#1EBE5A;color:#2B2D42"><span style="width:10px;height:10px;border-radius:50%;background:#2B2D42;display:inline-block"></span>Chat on WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 FINAL CTA -->
+  <section data-screen-label="Final CTA" style="background:#D49516;color:#2B2D42;position:relative;overflow:hidden">
+    <div style="position:absolute;inset:-30% 0">
+      <div data-px="0.18" style="position:absolute;inset:0;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='84' height='150' viewBox='0 0 56 100'%3E%3Cpath d='M28 66L0 50L0 16L28 0L56 16L56 50Z' fill='none' stroke='%232B2D42' stroke-opacity='.16'/%3E%3Cpath d='M28 0L28 34L0 50L0 84L28 100L56 84L56 50L28 34' fill='none' stroke='%232B2D42' stroke-opacity='.16'/%3E%3C/svg%3E&quot;);mask-image:radial-gradient(ellipse at 50% 50%,rgba(0,0,0,1),rgba(0,0,0,0) 75%);-webkit-mask-image:radial-gradient(ellipse at 50% 50%,rgba(0,0,0,1),rgba(0,0,0,0) 75%);will-change:transform"></div>
+    </div>
+    <div style="max-width:1320px;margin:0 auto;padding:140px 28px;position:relative;text-align:center;display:flex;flex-direction:column;align-items:center;gap:36px">
+      <h2 data-reveal="rise" style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(48px,8vw,112px);line-height:.96;letter-spacing:-.03em;margin:0;text-wrap:pretty">Your desk is waiting.</h2>
+      <p data-reveal="rise" style="margin:0;font-size:20px;max-width:40ch">Reserve online in two minutes, or come by for a free visit and let Doreen show you around.</p>
+      <div data-reveal="rise" style="display:flex;gap:14px;flex-wrap:wrap;justify-content:center">
+        <a href="/book" data-nav="true" style="background:#9B6A6C;color:#FFFFFF;padding:16px 30px;border-radius:12px;font-weight:700;font-size:18px;display:inline-flex;align-items:center;gap:10px;transition:background .2s" style-hover="background:#7E5456;color:#FFFFFF">Reserve a spot <span aria-hidden="true">→</span></a>
+        <a href="/contact" data-nav="true" style="border:1.5px solid #2B2D42;color:#2B2D42;padding:15px 30px;border-radius:12px;font-weight:700;font-size:18px;display:inline-flex;align-items:center;transition:background .2s,color .2s" style-hover="background:#2B2D42;color:#F5F5F5">Book a free visit</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- FOOTER -->
+<footer data-screen-label="Footer" style="background:#2B2D42;color:#F5F5F5;position:relative;overflow:hidden">
+  <div style="position:absolute;inset:0;background-image:url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 66L0 50L0 16L28 0L56 16L56 50Z' fill='none' stroke='%23F5F5F5' stroke-opacity='.08'/%3E%3Cpath d='M28 0L28 34L0 50L0 84L28 100L56 84L56 50L28 34' fill='none' stroke='%23F5F5F5' stroke-opacity='.08'/%3E%3C/svg%3E&quot;);mask-image:radial-gradient(ellipse at 100% 0%,rgba(0,0,0,1),rgba(0,0,0,0) 60%);-webkit-mask-image:radial-gradient(ellipse at 100% 0%,rgba(0,0,0,1),rgba(0,0,0,0) 60%)"></div>
+  <div style="max-width:1320px;margin:0 auto;padding:88px 28px 40px;position:relative">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap;border-bottom:1px solid rgba(255,255,255,.12);padding-bottom:48px">
+      <div data-reveal="rise" style="font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(40px,7vw,96px);line-height:.96;letter-spacing:-.025em;max-width:12ch">Work Better.<br><span style="color:#D49516">Together.</span></div>
+      <img src="https://images.squarespace-cdn.com/content/v1/688633ab5eb7735480a9622d/6c140487-9cba-4324-9f2c-23180ca56305/The+Hive_Primary+Identity_Reverse.png?format=1500w" alt="The Hive" style="height:56px">
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:40px 24px;padding:56px 0 48px">
+      <div style="display:flex;flex-direction:column;gap:12px"><div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#D49516">Workspaces</div><a href="/coworking-desks" data-nav="true" style="color:#F5F5F5" style-hover="color:#D49516">Coworking Desks</a><a href="/private-pods" data-nav="true" style="color:#F5F5F5" style-hover="color:#D49516">Private Pods</a><a href="/meeting-rooms" data-nav="true" style="color:#F5F5F5" style-hover="color:#D49516">Meeting Rooms</a><a href="/private-offices" data-nav="true" style="color:#F5F5F5" style-hover="color:#D49516">Private Offices</a></div>
+      <div style="display:flex;flex-direction:column;gap:12px"><div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#D49516">Company</div><a href="/about" data-nav="true" style="color:#F5F5F5" style-hover="color:#D49516">About</a><a href="/events" data-nav="true" style="color:#F5F5F5" style-hover="color:#D49516">Events</a><a href="/gallery" data-nav="true" style="color:#F5F5F5" style-hover="color:#D49516">Gallery</a><a href="/contact" data-nav="true" style="color:#F5F5F5" style-hover="color:#D49516">Contact</a></div>
+      <div style="display:flex;flex-direction:column;gap:12px"><div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#D49516">Members</div><a href="/member-portal" data-nav="true" style="color:#F5F5F5" style-hover="color:#D49516">Member login</a><a href="/book" data-nav="true" style="color:#F5F5F5" style-hover="color:#D49516">Book a spot</a><a href="/plans" data-nav="true" style="color:#F5F5F5" style-hover="color:#D49516">Plans</a></div>
+      <div style="display:flex;flex-direction:column;gap:12px"><div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#D49516">Visit</div><a href="https://maps.app.goo.gl/yGtXRa84B5EEi823A" target="_blank" rel="noreferrer" style="color:#F5F5F5;line-height:1.5" style-hover="color:#D49516">ICGC Christ Temple East, Teshie Rasta Rd, Tse Addo, Accra<br><span style="color:#B9BAC6;font-size:14px">Plus code HVJ9+6J · Get directions</span></a><div style="color:#B9BAC6">Mon–Fri, 8am–5pm · Closed weekends</div><a href="tel:+233256071000" style="color:#F5F5F5" style-hover="color:#D49516">+233 25 607 1000</a><a href="mailto:info@thehivegh.com" style="color:#F5F5F5" style-hover="color:#D49516">info@thehivegh.com</a><a href="https://www.instagram.com/thehive.gh" target="_blank" rel="noreferrer" style="color:#F5F5F5" style-hover="color:#D49516">Instagram @thehive.gh</a></div>
+      <div style="display:flex;flex-direction:column;gap:12px;min-width:240px"><div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#D49516">Newsletter</div><sc-if value="{{ nlDone }}" hint-placeholder-val="{{ false }}"><div style="background:rgba(212,149,22,.15);border:1px solid #D49516;border-radius:12px;padding:16px;display:flex;gap:12px;align-items:flex-start"><span style="flex:none;width:12px;height:14px;margin-top:5px;background:#D49516;clip-path:polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)"></span><div><div style="font-weight:700">You’re on the list.</div><div style="font-size:14px;color:#B9BAC6">We’ll send events and news to {{ nlEmail }}.</div></div></div></sc-if><sc-if value="{{ nlIdle }}" hint-placeholder-val="{{ true }}"><form onSubmit="{{ submitNl }}" style="display:flex;flex-direction:column;gap:10px"><label for="nl-email" style="font-size:14px;color:#B9BAC6">Events, news and member offers. No spam.</label><div style="display:flex;gap:8px"><input id="nl-email" type="email" required placeholder="you@company.com" value="{{ nlEmail }}" onChange="{{ setNlEmail }}" style="flex:1;min-width:0;height:48px;border:1.5px solid rgba(255,255,255,.2);border-radius:12px;padding:0 14px;font:inherit;font-size:15px;color:#F5F5F5;background:rgba(255,255,255,.06);outline:none;transition:border-color .2s" style-focus="border-color:#D49516"><button type="submit" style="background:#D49516;color:#2B2D42;border:0;padding:0 18px;border-radius:12px;font-weight:700;cursor:pointer;transition:background .2s" style-hover="background:#E5B45A">Join</button></div></form></sc-if></div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,.12);padding-top:24px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:14px;color:#B9BAC6">
+      <div>© 2026 The Hive. All rights reserved.</div>
+      <div style="display:flex;gap:16px;flex-wrap:wrap;align-items:center"><span>For The Hive team:</span><a href="/staff-app" data-nav="true" style="color:#B9BAC6;text-decoration:underline;text-underline-offset:3px" style-hover="color:#D49516">Staff App</a><a href="/manager-dashboard" data-nav="true" style="color:#B9BAC6;text-decoration:underline;text-underline-offset:3px" style-hover="color:#D49516">Manager Dashboard</a></div>
+    </div>
+  </div>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;smoothScroll&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Motion&quot;},&quot;quoteSeconds&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:6,&quot;min&quot;:3,&quot;max&quot;:12,&quot;step&quot;:1,&quot;unit&quot;:&quot;s&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Reviews&quot;}}">
+class Component extends DCLogic {
+  state = { megaOpen: false, mobileOpen: false, nlEmail: '', nlDone: false, qi: 0, drag: 0, dragging: false };
+  progressRef = React.createRef(); wipeRef = React.createRef(); headerRef = React.createRef(); headerBarRef = React.createRef(); headerInnerRef = React.createRef(); logoRef = React.createRef();
+  marqueeRef = React.createRef(); hsOuterRef = React.createRef(); hsInnerRef = React.createRef(); hsTrackRef = React.createRef(); hsDotsRef = React.createRef(); qBarRef = React.createRef();
+  quotes = [
+    'The internet is fast and reliable, power is steady, and the overall setup is very comfortable for long work sessions.',
+    'Very serene and refreshing ambience. The customer service was superb.',
+    'A really nice environment, very clean, tidy and well maintained with really good WiFi.',
+    'Perfect space for work with complimentary coffee and great networking opportunities.'
+  ];
+  mx = 0; mvel = 0; tm = { x: 0, y: 0 }; cm = { x: 0, y: 0 }; qStart = 0;
+
+  componentDidMount() {
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const fine = matchMedia('(pointer: fine)').matches;
+    this.reduced = reduced; this.fine = fine;
+    this._c = [];
+    const on = (t, e, f, o) => { t.addEventListener(e, f, o); this._c.push(() => t.removeEventListener(e, f, o)); };
+    const ease = 'cubic-bezier(.2,.7,.2,1)';
+
+    let lastY = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY, h = this.headerRef.current || document.querySelector('header'), p = this.progressRef.current || document.querySelector('[data-progress]');
+      this.mvel = y - lastY;
+      if (p) { const max = document.documentElement.scrollHeight - innerHeight; p.style.width = (max > 0 ? (y / max) * 100 : 0) + '%'; }
+      if (h) {
+        const shrink = y > 40, bar = this.headerBarRef.current || h.firstElementChild, inner = this.headerInnerRef.current || (bar && bar.firstElementChild), logo = this.logoRef.current || h.querySelector('img');
+        if (inner) inner.style.padding = shrink ? '10px 28px' : '18px 28px';
+        if (logo) logo.style.height = shrink ? '34px' : '42px';
+        if (bar) bar.style.background = shrink ? 'rgba(43,45,66,.92)' : 'rgba(43,45,66,.78)';
+        const hide = y > lastY + 4 && y > 200 && !this.state.megaOpen;
+        h.style.transform = hide ? 'translateY(-100%)' : 'translateY(0)';
+        if (hide && this.state.megaOpen) this.setState({ megaOpen: false });
+      }
+      lastY = y;
+    };
+    on(window, 'scroll', onScroll, { passive: true }); onScroll();
+
+    if ((this.props.smoothScroll ?? true) && fine && !reduced) {
+      let target = window.scrollY, cur = target, raf = 0, lastSet = -1;
+      const loop = () => {
+        // someone else (anchor, programmatic scroll) moved the page: let go
+        if (lastSet >= 0 && Math.abs(window.scrollY - lastSet) > 2) { raf = 0; lastSet = -1; return; }
+        cur += (target - cur) * 0.11;
+        if (Math.abs(target - cur) < 0.5) { cur = target; window.scrollTo(0, cur); raf = 0; lastSet = -1; return; }
+        window.scrollTo(0, cur); lastSet = Math.round(window.scrollY); raf = requestAnimationFrame(loop);
+      };
+      let broken = false, checks = 0;
+      on(window, 'wheel', (e) => {
+        if (broken || e.ctrlKey || this.state.mobileOpen) return;
+        const max = document.documentElement.scrollHeight - innerHeight;
+        if (max <= 0) return;
+        e.preventDefault();
+        if (!raf) { cur = window.scrollY; target = cur; }
+        target = Math.max(0, Math.min(max, target + e.deltaY));
+        if (!raf) raf = requestAnimationFrame(loop);
+        // if the window never moves after we ask it to, hand scrolling back to the browser
+        if (checks < 3) { const before = window.scrollY; setTimeout(() => { checks++; if (Math.abs(target - before) > 2 && window.scrollY === before) broken = true; }, 120); }
+      }, { passive: false });
+      this._c.push(() => cancelAnimationFrame(raf));
+    }
+
+
+    if (fine && !reduced) {
+      on(document, 'mousemove', (e) => {
+        this.tm = { x: e.clientX / innerWidth * 2 - 1, y: e.clientY / innerHeight * 2 - 1 };
+                const card = e.target.closest && e.target.closest('[data-tilt]');
+        if (card) {
+          const r = card.getBoundingClientRect(), px = (e.clientX - r.left) / r.width - 0.5, py = (e.clientY - r.top) / r.height - 0.5;
+          card.style.transform = `perspective(900px) rotateX(${-py * 6}deg) rotateY(${px * 6}deg) translateY(-4px)`;
+          const img = card.querySelector('img'); if (img && !img.style.clipPath) img.style.transform = 'scale(1.06)';
+        }
+      });
+      on(document, 'mouseout', (e) => {
+        const card = e.target.closest && e.target.closest('[data-tilt]');
+        if (card && !card.contains(e.relatedTarget)) { card.style.transform = ''; const img = card.querySelector('img'); if (img) img.style.transform = ''; }
+      });
+    }
+
+    const io = new IntersectionObserver((entries) => entries.forEach((en) => {
+      if (!en.isIntersecting) return; const el = en.target; io.unobserve(el);
+      if (el.dataset.count !== undefined) return this.countUp(el);
+      if (el.dataset.reveal === 'stagger') { el.querySelectorAll('[data-reveal-item]').forEach((it, i) => setTimeout(() => { it.style.opacity = '1'; it.style.transform = 'translateY(0)'; }, i * 110)); return; }
+      if (el.dataset.reveal === 'hex') { el.style.clipPath = 'polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)'; return; }
+      if (el.dataset.reveal === 'clip') { el.style.clipPath = 'inset(0 0 0 0 round 16px)'; return; }
+      el.style.opacity = '1'; el.style.transform = 'translateY(0)';
+    }), { threshold: 0.15 });
+    this.io = io;
+    const prep = (el) => {
+      const r = el.getBoundingClientRect(); const below = r.top > innerHeight * 0.9;
+      if (el.dataset.count !== undefined) { if (below) io.observe(el); else this.countUp(el); return; }
+      if (reduced || !below) return;
+      if (el.dataset.reveal === 'stagger') { el.querySelectorAll('[data-reveal-item]').forEach((it) => { it.style.opacity = '0'; it.style.transform = 'translateY(28px)'; it.style.transition = `opacity .7s ${ease},transform .9s ${ease}`; }); }
+      else if (el.dataset.reveal === 'hex') { el.style.clipPath = 'polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%)'; el.style.transition = `clip-path 1.1s ${ease}`; }
+      else if (el.dataset.reveal === 'clip') { el.style.clipPath = 'inset(0 0 100% 0 round 16px)'; el.style.transition = `clip-path 1.1s ${ease}`; }
+      else { el.style.opacity = '0'; el.style.transform = 'translateY(28px)'; el.style.transition = `opacity .8s ${ease},transform 1s ${ease}`; }
+      io.observe(el);
+    };
+    document.querySelectorAll('[data-reveal],[data-count]').forEach(prep);
+    // safety net: anything hidden by a reveal that is already on screen gets opened (covers hot-reloads / missed observer callbacks)
+    const sweep = () => document.querySelectorAll('[data-reveal]').forEach((el) => {
+      const r = el.getBoundingClientRect(); if (r.bottom < 0 || r.top > innerHeight) return;
+      const hidden = el.style.opacity === '0' || /100%|50% 50%/.test(el.style.clipPath || '') || (el.dataset.reveal === 'stagger' && [...el.querySelectorAll('[data-reveal-item]')].some((i) => i.style.opacity === '0'));
+      if (!hidden) return; io.unobserve(el);
+      if (el.dataset.reveal === 'stagger') el.querySelectorAll('[data-reveal-item]').forEach((it, i) => setTimeout(() => { it.style.opacity = '1'; it.style.transform = 'translateY(0)'; }, i * 110));
+      else if (el.dataset.reveal === 'hex') el.style.clipPath = 'polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)';
+      else if (el.dataset.reveal === 'clip') el.style.clipPath = 'inset(0 0 0 0 round 16px)';
+      else { el.style.opacity = '1'; el.style.transform = 'translateY(0)'; }
+    });
+    this._sweep = setInterval(sweep, 700); this._c.push(() => clearInterval(this._sweep));
+    setTimeout(sweep, 300);
+
+    // hero load-in
+    const lines = document.querySelectorAll('[data-hero-line]'), loads = document.querySelectorAll('[data-load]');
+    const heroIn = () => { if (reduced) { lines.forEach((l) => { l.style.transform = 'none'; }); loads.forEach((l) => { l.style.opacity = '1'; l.style.transform = 'none'; }); }
+    else requestAnimationFrame(() => requestAnimationFrame(() => {
+      lines.forEach((l, i) => { l.style.transition = `transform 1.1s ${ease} ${0.15 + i * 0.12}s`; l.style.transform = 'translateY(0)'; });
+      loads.forEach((l) => { const n = parseInt(l.dataset.load, 10); l.style.transition = `opacity .8s ${ease} ${0.6 + n * 0.12}s,transform 1s ${ease} ${0.6 + n * 0.12}s`; l.style.opacity = '1'; l.style.transform = 'translateY(0)'; });
+    })); };
+    let seen = false; try { seen = sessionStorage.getItem('hive-intro') === '1'; sessionStorage.setItem('hive-intro', '1'); } catch (e) {}
+    if (reduced || seen || this.props.showIntro === false) heroIn(); else this.intro(heroIn);
+
+    on(document, 'click', (e) => {
+      const a = e.target.closest && e.target.closest('a[data-nav]');
+      if (!a || e.metaKey || e.ctrlKey || e.button !== 0) return;
+      e.preventDefault(); const href = a.getAttribute('href');
+      if (reduced) { location.href = href; return; }
+      this.wipe(true).then(() => { location.href = href; });
+    });
+    on(document, 'keydown', (e) => { if (e.key === 'Escape') this.setState({ megaOpen: false, mobileOpen: false }); });
+
+    this.qStart = performance.now();
+    // hero videos: load one at a time (small renditions), the clone column mirrors the first via captureStream-free approach: just plays its own copy
+    const hero = document.querySelector('[data-hero-cols]');
+    if (hero) {
+      const vids = [...hero.querySelectorAll('video')];
+      let i = 0;
+      const next = () => { const v = vids[i++]; if (!v) return; v.src = v.dataset.src; v.load(); const go = () => { v.play().catch(() => {}); next(); }; v.addEventListener('loadeddata', go, { once: true }); v.addEventListener('error', () => { if (!v.dataset.fb) { v.dataset.fb = '1'; v.src = v.dataset.src.replace(/\?w=\d+/, '?h=720'); v.load(); v.addEventListener('loadeddata', () => v.play().catch(() => {}), { once: true }); } next(); }, { once: true }); setTimeout(() => { if (v.readyState < 2) { v.load(); setTimeout(() => { if (v.readyState < 2) next(); }, 6000); } }, 5000); };
+      next(); next(); // two in flight
+      const vio = new IntersectionObserver(([en]) => vids.forEach((v) => { if (en.isIntersecting) { if (v.src) v.play().catch(() => {}); } else v.pause(); })); vio.observe(hero); this._c.push(() => vio.disconnect());
+      this._vk = setInterval(() => { if (hero.getBoundingClientRect().bottom > 0) vids.forEach((v) => { if (v.src && v.paused && v.readyState >= 2) v.play().catch(() => {}); }); }, 3000); this._c.push(() => clearInterval(this._vk));
+    }
+    this.raf = requestAnimationFrame(() => this.loop());
+  }
+  componentWillUnmount() { (this._c || []).forEach((f) => f()); if (this.io) this.io.disconnect(); cancelAnimationFrame(this.raf); document.body.style.overflow = ''; }
+  componentDidUpdate() { const mo = this.state.mobileOpen; if (this._lastMobile !== mo) { this._lastMobile = mo; document.body.style.overflow = mo ? 'hidden' : ''; } }
+
+  loop() {
+    const now = performance.now(), reduced = this.reduced;
+    const q = (s) => document.querySelector(s);
+    const m = this.marqueeRef.current || q('[data-marquee]');
+    if (m) {
+      this.mvel *= 0.9;
+      this.mx -= reduced ? 0 : 0.9 + Math.min(Math.abs(this.mvel) * 0.12, 14);
+      const half = m.scrollWidth / 2; if (half && this.mx <= -half) this.mx += half;
+      m.style.transform = `translate3d(${this.mx}px,0,0)`;
+    }
+    this.cm.x += (this.tm.x - this.cm.x) * 0.05; this.cm.y += (this.tm.y - this.cm.y) * 0.05;
+    if (!reduced) document.querySelectorAll('[data-px]').forEach((el) => {
+      const p = el.parentElement.getBoundingClientRect(); if (p.bottom < -200 || p.top > innerHeight + 200) return;
+      const off = (p.top + p.height / 2 - innerHeight / 2) * parseFloat(el.dataset.px), mf = parseFloat(el.dataset.mouse || '0');
+      const base = el.tagName === 'IMG' ? ' scale(1.14)' : '';
+      el.style.transform = `translate3d(${(this.cm.x * mf).toFixed(2)}px,${(off + this.cm.y * mf).toFixed(2)}px,0)${base}`;
+    });
+    const hc = q('[data-hero-cols]');
+    if (hc) {
+      const hr = hc.getBoundingClientRect();
+      if (hr.bottom > 0 && hr.top < innerHeight) {
+        if (this.heroT === undefined) this.heroT = now;
+        const t = reduced ? 0 : (now - this.heroT) / 1000;
+        hc.querySelectorAll('[data-col]').forEach((c, i) => {
+          const set = c.firstElementChild; if (!set) return;
+          const span = set.offsetHeight + 18; if (!span) return;
+          const dir = parseFloat(c.dataset.col), speed = [26, 20, 32][i], start = [0.15, 0.45, 0.7][i] * span;
+          let y = (start + dir * t * speed) % span; if (y > 0) y -= span; // keep within [-span, 0]
+          c.style.transform = `translate3d(0,${y.toFixed(1)}px,0)`;
+        });
+      }
+    }
+    const o = this.hsOuterRef.current || q('[data-hs-outer]'), t = this.hsTrackRef.current || q('[data-hs-track]'), d = this.hsDotsRef.current || q('[data-hs-dots]');
+    if (o && t) {
+      if (innerWidth > 900) {
+        const r = o.getBoundingClientRect(), p = Math.max(0, Math.min(1, -r.top / (r.height - innerHeight)));
+        const max = Math.max(0, t.scrollWidth - innerWidth);
+        t.style.transform = `translate3d(${(-p * max).toFixed(1)}px,0,0)`;
+        if (d) { const a = Math.min(3, Math.floor(p * 4)); Array.from(d.children).forEach((s, i) => { s.style.width = i === a ? '32px' : '8px'; s.style.background = i === a ? '#D49516' : '#B9BAC6'; }); }
+      } else t.style.transform = '';
+    }
+    const bar = this.qBarRef.current || q('[data-qbar]'), dur = (this.props.quoteSeconds ?? 6) * 1000;
+    if (bar) {
+      if (this.state.dragging) { this.qStart = now - parseFloat(bar.style.width || '0') / 100 * dur; }
+      else { const p = Math.min(1, (now - this.qStart) / dur); bar.style.width = (p * 100) + '%'; if (p >= 1 && !reduced) this.goQuote(this.state.qi + 1); }
+    }
+    this.raf = requestAnimationFrame(() => this.loop());
+  }
+  goQuote(i) { const n = this.quotes.length; this.qStart = performance.now(); this.setState({ qi: ((i % n) + n) % n, drag: 0, dragging: false }); }
+  countUp(el) {
+    const end = parseFloat(el.dataset.count), dec = parseInt(el.dataset.decimals || '0', 10), group = el.dataset.group !== undefined, dur = this.reduced ? 1 : 1400, t0 = performance.now();
+    const fmt = (v) => group ? Math.round(v).toLocaleString('en-GB') : v.toFixed(dec);
+    const step = (t) => { const p = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - p, 3); el.textContent = fmt(end * e); if (p < 1) requestAnimationFrame(step); else el.textContent = fmt(end); };
+    requestAnimationFrame(step);
+  }
+  intro(done) {
+    const LOGO = 'https://images.squarespace-cdn.com/content/v1/688633ab5eb7735480a9622d/6c140487-9cba-4324-9f2c-23180ca56305/The+Hive_Primary+Identity_Reverse.png?format=1500w';
+    const HEXP = 'polygon(50% 0%, 93% 25%, 93% 75%, 50% 100%, 7% 75%, 7% 25%)';
+    const mk = (css, tag) => { const e = document.createElement(tag || 'div'); e.style.cssText = css; return e; };
+    const ov = mk('position:fixed;inset:0;z-index:1100;background:#2B2D42;display:grid;place-items:center;overflow:hidden;cursor:default');
+    ov.setAttribute('aria-hidden', 'true');
+    const stage = mk('position:relative;width:0;height:0');
+    const comb = mk('position:absolute;left:0;top:0');
+    const w = Math.min(54, innerWidth / 9), hh = w * 1.155, gx = w * 1.08, gy = hh * 0.75 * 1.08;
+    const cells = [];
+    for (let r = -2; r <= 2; r++) for (let q = -2; q <= 2; q++) { if (Math.abs(q + r) > 2) continue;
+      const x = gx * (q + r / 2), y = gy * r;
+      const c = mk(`position:absolute;left:${x - w / 2}px;top:${y - hh / 2}px;width:${w}px;height:${hh}px;clip-path:${HEXP};background:rgba(245,245,245,.08);opacity:0`);
+      comb.appendChild(c); cells.push({ c, x, y, d: Math.hypot(q, r, q + r) }); }
+    stage.appendChild(comb);
+    const logo = mk('position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);height:min(96px,16vw);width:auto;max-width:none;opacity:0', 'img'); logo.src = LOGO; logo.alt = '';
+    const tag = mk('position:absolute;left:50%;top:calc(50% + min(78px,13vw));transform:translateX(-50%);white-space:nowrap;font-family:Epilogue,sans-serif;font-weight:700;font-size:clamp(16px,2.4vw,22px);letter-spacing:-.01em;color:#F5F5F5;opacity:0');
+    tag.textContent = 'Work Better. Together.';
+    stage.appendChild(logo); stage.appendChild(tag); ov.appendChild(stage); document.body.appendChild(ov);
+    document.body.style.overflow = 'hidden';
+    const E = 'cubic-bezier(.2,.7,.2,1)', fill = 'both';
+    cells.forEach((o) => o.c.animate([{ opacity: 0, transform: 'scale(.6)' }, { opacity: 1, transform: 'scale(1)' }], { duration: 500, delay: o.d * 90, easing: E, fill }));
+    const order = cells.map((o, i) => i).sort(() => Math.random() - 0.5);
+    order.forEach((i, k) => { const o = cells[i], delay = 350 + k * 60;
+      const a = Math.random() * Math.PI * 2, R = Math.max(innerWidth, innerHeight) * 0.7;
+      const dot = mk('position:absolute;left:-5px;top:-5px;width:10px;height:10px;border-radius:50%;background:#D49516;box-shadow:0 0 14px rgba(212,149,22,.8)');
+      stage.appendChild(dot);
+      dot.animate([{ transform: `translate(${Math.cos(a) * R}px,${Math.sin(a) * R}px) scale(.6)`, opacity: 0 }, { opacity: 1, offset: .3 }, { transform: `translate(${o.x}px,${o.y}px) scale(1)`, opacity: 1 }, { transform: `translate(${o.x}px,${o.y}px) scale(2.4)`, opacity: 0 }], { duration: 900, delay, easing: 'cubic-bezier(.5,0,.2,1)', fill });
+      o.c.animate([{ background: 'rgba(245,245,245,.08)' }, { background: '#D49516' }], { duration: 260, delay: delay + 700, easing: 'ease-out', fill });
+    });
+    const tLogo = 350 + cells.length * 60 + 900;
+    comb.animate([{ transform: 'scale(1)', opacity: 1 }, { transform: 'scale(.82)', opacity: .14 }], { duration: 700, delay: tLogo, easing: E, fill });
+    logo.animate([{ opacity: 0, transform: 'translate(-50%,-50%) scale(.92)' }, { opacity: 1, transform: 'translate(-50%,-50%) scale(1)' }], { duration: 700, delay: tLogo + 100, easing: E, fill });
+    tag.animate([{ opacity: 0, transform: 'translate(-50%,10px)' }, { opacity: 1, transform: 'translate(-50%,0)' }], { duration: 600, delay: tLogo + 350, easing: E, fill });
+    let ended = false;
+    const end = () => { if (ended) return; ended = true; clearTimeout(this._introT);
+      const an = ov.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(-100%)' }], { duration: 850, easing: 'cubic-bezier(.7,0,.2,1)', fill });
+      setTimeout(() => { document.body.style.overflow = ''; done(); }, 300);
+      an.onfinish = () => ov.remove(); };
+    this._introT = setTimeout(end, tLogo + 1500);
+    ov.addEventListener('click', end);
+    (this._c || (this._c = [])).push(() => { clearTimeout(this._introT); ov.remove(); });
+  }
+  wipe(stay) {
+    const w = this.wipeRef.current || document.querySelector('[data-wipe]'); if (!w) return Promise.resolve();
+    w.style.transition = 'transform .55s cubic-bezier(.7,0,.2,1)'; w.style.transform = 'translateX(0)';
+    return new Promise((res) => setTimeout(() => {
+      if (stay) return res();
+      w.style.transform = 'translateX(101%)';
+      setTimeout(() => { w.style.transition = 'none'; w.style.transform = 'translateX(-101%)'; res(); }, 600);
+    }, 650));
+  }
+  renderVals() {
+    const s = this.state;
+    return {
+      quotes: this.quotes,
+      megaOpen: s.megaOpen, megaClosed: !s.megaOpen, megaOp: s.megaOpen ? 1 : 0, megaY: s.megaOpen ? 0 : -12, megaPe: s.megaOpen ? 'auto' : 'none',
+      mobileClosed: !s.mobileOpen, mobOp: s.mobileOpen ? 1 : 0, mobPe: s.mobileOpen ? 'auto' : 'none', mobY: s.mobileOpen ? 0 : -20, mobLinkY: s.mobileOpen ? 0 : 30,
+      openMega: () => !s.megaOpen && this.setState({ megaOpen: true }), closeMega: () => s.megaOpen && this.setState({ megaOpen: false }),
+      toggleMega: () => this.setState({ megaOpen: !s.megaOpen }),
+      openMobile: () => this.setState({ mobileOpen: true }), closeMobile: () => this.setState({ mobileOpen: false }),
+      nlEmail: s.nlEmail, nlDone: s.nlDone, nlIdle: !s.nlDone,
+      setNlEmail: (e) => this.setState({ nlEmail: e.target.value }),
+      submitNl: (e) => { e.preventDefault(); this.setState({ nlDone: true }); },
+      qTx: `translateX(calc(${-s.qi * 100}% + ${s.drag}px))`, qTrans: s.dragging ? 'none' : 'transform .7s cubic-bezier(.2,.7,.2,1)', qNum: s.qi + 1,
+      qPrev: () => this.goQuote(s.qi - 1), qNext: () => this.goQuote(s.qi + 1),
+      qDown: (e) => { this.dx0 = e.clientX; e.currentTarget.setPointerCapture(e.pointerId); this.setState({ dragging: true, drag: 0 }); },
+      qMove: (e) => { if (s.dragging) this.setState({ drag: e.clientX - this.dx0 }); },
+      qUp: () => { if (!s.dragging) return; if (s.drag < -60) this.goQuote(s.qi + 1); else if (s.drag > 60) this.goQuote(s.qi - 1); else this.setState({ dragging: false, drag: 0 }); },
+    };
+  }
+}
+</script>
