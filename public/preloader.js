@@ -1,4 +1,4 @@
-// The Hive preloader: plays the honeycomb intro on every page load and lifts once the page is ready.
+// The Hive preloader: plays the honeycomb intro on the first page load of a visit and lifts once the page is ready.
 // Exposes window.__hivePreloader (resolves as the overlay starts lifting) and window.__hiveAfter(fn).
 (function () {
   var ov = document.getElementById('hive-pre');
@@ -24,6 +24,28 @@
       if (ov) ov.remove();
       document.documentElement.classList.add('hive-pre-done');
       resolveLift();
+    });
+    return;
+  }
+
+  // The full intro plays once per visit. After that, page changes use the gold page transition:
+  // a plain gold screen with the logo holds until the page has rendered, then fades away.
+  var seen = false;
+  try { seen = sessionStorage.getItem('hive-intro') === '1'; sessionStorage.setItem('hive-intro', '1'); } catch (e) {}
+  if (seen) {
+    ov.style.background = '#D49516';
+    var mark = document.createElement('img');
+    mark.src = 'https://images.squarespace-cdn.com/content/v1/688633ab5eb7735480a9622d/6c140487-9cba-4324-9f2c-23180ca56305/The+Hive_Primary+Identity_Reverse.png?format=750w';
+    mark.alt = '';
+    mark.style.cssText = 'height:72px;width:auto;max-width:70vw';
+    ov.appendChild(mark);
+    whenReady(function () {
+      requestAnimationFrame(function () {
+        var an = ov.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 320, easing: 'ease-out', fill: 'both' });
+        an.onfinish = function () { ov.remove(); };
+        document.documentElement.classList.add('hive-pre-done');
+        resolveLift();
+      });
     });
     return;
   }
